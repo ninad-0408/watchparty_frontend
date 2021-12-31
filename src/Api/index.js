@@ -17,12 +17,12 @@ export const signup = (formData) => API.post('/user/signup',formData).then((res)
     const data=res.data;
     localStorage.setItem('profile', JSON.stringify(data));
 }).catch((err)=>{
-    console.log(err);
+    console.log(err.response);
 });
 
 export const login = (formData) => API.post('/user/login',formData).then((res)=>{
     const data=res.data;
     localStorage.setItem('profile', JSON.stringify(data));
 }).catch((err)=>{
-    console.log(err);
+    console.log(err.response);
 });
