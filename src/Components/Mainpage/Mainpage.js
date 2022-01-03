@@ -6,11 +6,12 @@ import Grid from "@mui/material/Grid";
 import ReactPlayer from "react-player/lazy";
 import Button from "@mui/material/Button";
 import Chat from "./Chat";
-import People from './People';
-import Setting from './Setting';
+import People from "./People";
+import Setting from "./Setting";
 
 const Mainpage = () => {
   const [loading, setLoading] = useState(false);
+  const [url, seturl] = useState("https://www.youtube.com/watch?v=jNC7hJUMmHU");
 
   const handleClick = () => {
     setLoading(true);
@@ -20,13 +21,11 @@ const Mainpage = () => {
     seturl(e.target.value);
   };
 
-	const [url, seturl] = useState("");
-
   return (
     <>
-      <Box style={{minHeight: "100vh", minWidth: "100vw"}}>
-        <Box spacing={2}>
-          <Box item style={{ display: "flex" }}>
+      <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
+        <Grid container spacing={1}>
+          <Grid item style={{ display: "flex" }}>
             <TextField
               label="Video Url"
               sx={{
@@ -44,11 +43,12 @@ const Mainpage = () => {
             >
               Send
             </LoadingButton>
-          </Box>
-          <Box item xs={12}>
-            <ReactPlayer url={url} style={{ width: "100%", height: "100%" }} />
-          </Box>
-            <Grid item>
+          </Grid>
+          <Grid container item margin={1}>
+            <Grid item xs={12} lg={9} padding={1} style={{height: "100%"}}>
+              <ReactPlayer url={url} height={"100%"} width={"100%"} />
+            </Grid>
+            <Grid item lg={3}>
               <div
                 style={{
                   width: "95%",
@@ -74,7 +74,8 @@ const Mainpage = () => {
               </Grid>
               <Chat />
             </Grid>
-        </Box>
+          </Grid>
+        </Grid>
       </Box>
     </>
   );
