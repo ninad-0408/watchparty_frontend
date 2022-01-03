@@ -5,8 +5,9 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import ReactPlayer from "react-player/lazy";
 import Button from "@mui/material/Button";
-import Chat from "./Chat.js";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Chat from "./Chat";
+import People from './People';
+import Setting from './Setting';
 
 const Mainpage = () => {
   const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ const Mainpage = () => {
     seturl(e.target.value);
   };
 
-  const [url, seturl] = useState("");
+	const [url, seturl] = useState("");
 
   return (
     <>
