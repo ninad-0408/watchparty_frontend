@@ -63,7 +63,7 @@ const Chat = () => {
 						value={value}
 						sx={{
 							width: "20vw",
-							backgroundColor: "rgb(167,149,96)",
+							backgroundColor: "rgba(20,20,35,0.4)",
 							margin: "10px",
 						}}
 					></TextField>
