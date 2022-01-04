@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
@@ -44,6 +43,8 @@ const Chat = () => {
 					margin: "10px",
 					height: "60vh",
 					padding: "0px",
+					overflowY: "scroll",
+					whitespace: "nowrap"
 				}}
 			>
 				<Item>user: Hello</Item>
@@ -53,8 +54,6 @@ const Chat = () => {
 					<></>
 				)}
 			</Stack>
-			<Grid container>
-				<Grid item>
 					<TextField
 						name="message"
 						label="Message"
@@ -62,13 +61,11 @@ const Chat = () => {
 						onKeyPress={handleChange}
 						value={value}
 						sx={{
-							width: "20vw",
+							width: "90%",
 							backgroundColor: "rgba(20,20,35,0.4)",
 							margin: "10px",
 						}}
 					></TextField>
-				</Grid>
-			</Grid>
 		</div>
 	);
 };
