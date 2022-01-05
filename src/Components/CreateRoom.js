@@ -1,34 +1,31 @@
 import React, { useState } from "react";
 import {
   Avatar,
-  Button,
   Container,
   Grid,
   Paper,
   Typography,
   Box,
-// } from "@material-ui/core";
 } from "@mui/material";
 
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import AddIcon from '@mui/icons-material/Add';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import AddIcon from "@mui/icons-material/Add";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import Input from "./Input";
 import { login } from "../Api/index";
 
 import useStyles from "./styles";
 
-const initialState = { username: "", password: "" };
 
-const CreateRoom = (props) => {
+const CreateRoom = () => {
   const classes = useStyles();
   const history = useHistory();
 
   const [showPassword, setshowPassword] = useState(false);
-  const [formData, setformData] = useState(initialState);
+  const [formData, setformData] = useState({});
   const [processing, setprocessing] = useState(false);
 
   const handleShowPassword = () => setshowPassword((e) => !e);
@@ -46,6 +43,7 @@ const CreateRoom = (props) => {
   };
 
   const [fields, setFields] = useState([{ value: null }]);
+
   function handleAdd() {
     const values = [...fields];
     values.push({ value: null });
@@ -62,16 +60,21 @@ const CreateRoom = (props) => {
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <VideocamIcon />
         </Avatar>
         <Typography variant="h5">Create Room</Typography>
-        <form className={classes.form} onSubmit={handleSubmit} style={{"border-radius":"20px"}}>
-          <Grid container spacing={2} >
+        <form
+          className={classes.form}
+          onSubmit={handleSubmit}
+          style={{ "border-radius": "20px" }}
+        >
+          <Grid container spacing={2}>
             <Input
-              name="Roomname"
+              name="name"
               label="RoomName"
-              type="text" value={props.user}
+              type="text"
               handleChange={handleChange}
+              required
             />
             <Input
               name="password"
@@ -81,18 +84,17 @@ const CreateRoom = (props) => {
               handleChange={handleChange}
             />
             <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-around',
-          bgcolor: 'background.paper',
-        }}
-      >
-            <AddIcon onClick={handleAdd} />
-            <RemoveCircleOutlineIcon onClick={handleRemove} />
-        </Box>
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+                bgcolor: "background.paper",
+              }}
+            >
+              <AddIcon onClick={handleAdd} />
+              <RemoveCircleOutlineIcon onClick={handleRemove} />
+            </Box>
             {fields.map((field, id) => {
               return (
-                // <div key={`${field}-${id}`}>
                 <>
                   <Input
                     name="allowed"
@@ -102,7 +104,6 @@ const CreateRoom = (props) => {
                     key={field.id}
                   />
                 </>
-                //  </div>
               );
             })}
           </Grid>

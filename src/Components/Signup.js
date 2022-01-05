@@ -43,11 +43,11 @@ const Auth = () => {
                 <Typography variant='h5'>Sign Up</Typography>
                 <form className={classes.form} onSubmit={handleSubmit} >
                     <Grid container spacing={2}>
-                        <Input name='name' label='Name' type='text' handleChange={handleChange} autoFocus />
-                        <Input name='email' label='Email Address' type='email' handleChange={handleChange} />
-                        <Input name='username' label='UserName' type='text' handleChange={handleChange} />
-                        <Input name='password' label='Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} />
-                        <Input name='confirmpassword' label='Confirm Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} />
+                        <Input name='name' label='Name' type='text' handleChange={handleChange} autoFocus required />
+                        <Input name='email' label='Email Address' type='email' handleChange={handleChange} required />
+                        <Input name='username' label='UserName' type='text' handleChange={handleChange} required />
+                        <Input name='password' label='Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required />
+                        <Input name='confirmpassword' label='Confirm Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required />
                     </Grid>
                     <Box marginTop={3}>
                         <LoadingButton type='submit' color='primary' className={classes.submit} loading={processing} variant="contained" fullWidth>
