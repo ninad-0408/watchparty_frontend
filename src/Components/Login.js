@@ -43,8 +43,8 @@ const Login = () => {
                 <Typography variant='h5'>Login</Typography>
                 <form className={classes.form} onSubmit={handleSubmit} >
                     <Grid container spacing={2}>
-                        <Input name='username' label='UserName' type='text' handleChange={handleChange} />
-                        <Input name='password' label='Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} />
+                        <Input name='username' label='UserName' type='text' handleChange={handleChange} required/>
+                        <Input name='password' label='Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required />
                     </Grid>
                     <Box marginTop={3}>
                         <LoadingButton type='submit' color='primary' className={classes.submit} loading={processing} variant="contained" fullWidth>

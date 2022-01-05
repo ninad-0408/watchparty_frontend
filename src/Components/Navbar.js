@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import CreateRoom from "./CreateRoom";
-import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-
+import JoinRoom from "./JoinRoom";
 
 function Navbar() {
   const user = JSON.parse(localStorage.getItem("profile"))?.user?.username;
@@ -15,9 +14,11 @@ function Navbar() {
     window.location.reload();
   };
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open1, setOpen1] = useState(false);
+  const handleOpen1 = () => setOpen1(!open1);
+  const [open2, setOpen2] = useState(false);
+  const handleOpen2 = () => setOpen2(!open2);
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -53,13 +54,19 @@ function Navbar() {
           </button>
 
           <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto" style={{"font-family": "'Baloo Tammudu 2', cursive", "font-size":"20px"}}>
+            <ul
+              class="navbar-nav ml-auto"
+              style={{
+                "font-family": "'Baloo Tammudu 2', cursive",
+                "font-size": "20px",
+              }}
+            >
               {user ? (
                 <>
                   <li class="nav-item mx-0 mx-lg-1">
                     <div>
                       <Link
-                        onClick={handleOpen}
+                        onClick={handleOpen1}
                         class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
                         style={{
                           color: "white",
@@ -72,17 +79,13 @@ function Navbar() {
                       <Modal
                         aria-labelledby="transition-modal-title"
                         aria-describedby="transition-modal-description"
-                        open={open}
-                        onClose={handleClose}
+                        open={open1}
+                        onClose={handleOpen1}
                         closeAfterTransition
-                        BackdropComponent={Backdrop}
-                        BackdropProps={{
-                          timeout: 500,
-                        }}
                       >
-                        <Fade in={open}>
+                        <Fade in={open1}>
                           <Box sx={style}>
-                            <CreateRoom props={user}/>
+                            <CreateRoom />
                           </Box>
                         </Fade>
                       </Modal>
@@ -90,12 +93,25 @@ function Navbar() {
                   </li>
                   <li class="nav-item mx-0 mx-lg-1">
                     <Link
+                      onClick={handleOpen2}
                       class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                      to="/signup"
                       style={{ color: "white" }}
                     >
                       Join Room
                     </Link>
+                    <Modal
+                      aria-labelledby="transition-modal-title"
+                      aria-describedby="transition-modal-description"
+                      open={open2}
+                      onClose={handleOpen2}
+                      closeAfterTransition
+                    >
+                      <Fade in={open2}>
+                        <Box sx={style}>
+                          <JoinRoom />
+                        </Box>
+                      </Fade>
+                    </Modal>
                   </li>
                   <li class="nav-item mx-0 mx-lg-1">
                     <a
@@ -107,13 +123,13 @@ function Navbar() {
                     </a>
                   </li>
                   <li class="nav-item mx-0 mx-lg-1">
-                    <a
+                    <Link
                       class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
                       onClick={handleLogout}
                       style={{ color: "white" }}
                     >
                       Logout
-                    </a>
+                    </Link>
                   </li>
                 </>
               ) : (
