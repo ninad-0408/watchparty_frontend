@@ -21,7 +21,7 @@ const People = () => {
 	const arr=[{name:'john'},{name:'john john'},{name:'john john john'},{name:'john john john john'},{name:'john'}, {name:'john'}, {name:'john'} ,{name:'john'}]
 
 	return (
-		<div>
+		<div style={{overflowY: "auto", whitespace: "nowrap",}}>
 			{arr.map((data)=>{
 				return <Item>{Cards({name:data.name})}</Item>
 			})}
