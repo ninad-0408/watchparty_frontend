@@ -26,3 +26,15 @@ export const login = (formData) => API.post('/user/login',formData).then((res)=>
 }).catch((err)=>{
     console.log(err.response);
 });
+
+export const CreateNewRoom = (formData) => API.post('/room/create',formData).then((res)=>{
+    
+}).catch((err)=>{
+    console.log(err.response);
+});
+
+export const getRooms = () => API.get('/room').then((res)=>{
+    return res.data.rooms
+}).catch((err)=>{
+    console.log(err.response);
+});
