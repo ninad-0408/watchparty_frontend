@@ -23,14 +23,14 @@ const Chat = () => {
 
   function handleChange(e) {
     if (e.charCode === 13) {
-	setMessage((msg) => {
-		return [...msg, { message: "Hi", username: "username" }];
-	});
-      const { name, value } = e.target;
-	  if(value!=="")
       setMessage((msg) => {
-        return [...msg, { [name]: value, username: username }];
+        return [...msg, { message: "Hi", username: "username" }];
       });
+      const { name, value } = e.target;
+      if (value !== "")
+        setMessage((msg) => {
+          return [...msg, { [name]: value, username: username }];
+        });
       setvalue("");
     }
   }
@@ -40,14 +40,14 @@ const Chat = () => {
   };
 
   useEffect(() => {
-	stack.current.scrollTo(0, stack.current.scrollHeight);
-  }, [message])
+    stack.current.scrollTo(0, stack.current.scrollHeight);
+  }, [message]);
 
   return (
-    <div style={{height: "100%"}}>
+    <div style={{ height: "100%" }}>
       <Stack
         spacing={0.5}
-		ref={stack}
+        ref={stack}
         sx={{
           width: "95%",
           margin: "10px",
