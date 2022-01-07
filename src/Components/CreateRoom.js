@@ -15,7 +15,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useHistory } from "react-router-dom";
 
 import Input from "./Input";
-import { login } from "../Api/index";
+import { CreateNewRoom } from "../Api/index";
 
 import useStyles from "./styles";
 
@@ -33,8 +33,8 @@ const CreateRoom = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setprocessing(true);
-    login(formData)
-      .then(() => history.push("/"))
+    CreateNewRoom(formData)
+      .then(() => history.push("/main"))
       .catch((error) => console.log(error));
   };
 
