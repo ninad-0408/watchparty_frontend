@@ -57,7 +57,7 @@ const CreateRoom = () => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" style={{'max-height':'80vh',overflowX:'hidden',overflowY:'auto',whitespace: "nowrap",}}>
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
           <VideocamIcon />
