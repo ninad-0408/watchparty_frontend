@@ -10,7 +10,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Grid from "@mui/material/Grid";
 
-const People = () => {
+const People = ({arr}) => {
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -18,23 +18,11 @@ const People = () => {
     color: theme.palette.text.secondary,
   }));
 
-  const arr = [
-    { name: "john" },
-    { name: "john john" },
-    { name: "john john john" },
-    { name: "john john john john" },
-    { name: "john" },
-    { name: "john" },
-    { name: "john" },
-    { name: "john" },
-  ];
-
   return (
     <div style={{ overflowY: "auto", whitespace: "nowrap" }}>
       {arr.map((data) => {
         return <Item>{Cards({ name: data.name })}</Item>;
       })}
-      {/* <Item>{Cards({name:'hello'})}</Item> */}
     </div>
   );
 };
@@ -54,6 +42,7 @@ const Cards = (props) => {
           <Grid item xs={8}>
             <Typography variant="h5" component="span">
               {props.name + "  "}
+              {/* username, isAdmin, isHost */}
             </Typography>
           </Grid>
           <Grid item xs={4}>

@@ -10,8 +10,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 import Chat from "./Chat";
 import People from "./People";
@@ -57,11 +57,24 @@ const Mainpage = () => {
     setopen(!open);
   };
 
-  const [value, setValue] = useState('1');
+  const [value, setValue] = useState("1");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  const arr = [
+    { name: "john" },
+    { name: "john john" },
+    { name: "john john john" },
+    { name: "john john john john" },
+    { name: "john" },
+    { name: "john" },
+    { name: "john" },
+    { name: "john" },
+  ];
+
+  const [message, setMessage] = useState([]);
 
   return (
     <>
@@ -130,13 +143,17 @@ const Mainpage = () => {
               </div>
               <Divider />
               <Tabs value={value} onChange={handleChange}>
-                <Tab value="1" sx={{width: '33%'}} label="CHAT"/>
-                <Tab value="2" sx={{width: '33%'}} label="PEOPLE"/>
-                <Tab value="3" sx={{width: '33%'}} label="SETTINGS"/>
+                <Tab value="1" sx={{ width: "33%" }} label="CHAT" />
+                <Tab value="2" sx={{ width: "33%" }} label="PEOPLE" />
+                <Tab value="3" sx={{ width: "33%" }} label="SETTINGS" />
               </Tabs>
-              {
-                  value==='1' ? <Chat /> : value==='2'? <People /> : <Setting />
-              }
+              {value === "1" ? (
+                <Chat message={message} setMessage={setMessage}/>
+              ) : value === "2" ? (
+                <People arr={arr} />
+              ) : (
+                <Setting />
+              )}
             </Drawer>
           </Box>
         </Box>
