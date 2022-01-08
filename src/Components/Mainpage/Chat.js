@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 
-const Chat = () => {
+const Chat = ({message, setMessage}) => {
   const Item = styled(Paper)(({ theme, you }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -18,7 +18,6 @@ const Chat = () => {
 
   const [value, setvalue] = useState("");
 
-  const [message, setMessage] = useState([]);
   const stack = useRef(null);
 
   function handleChange(e) {
