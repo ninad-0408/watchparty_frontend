@@ -22,6 +22,9 @@ function App() {
           <Route path="/main" exact>
             <Mainpage />
           </Route>
+          <Route path="/main/:roomid" exact>
+            <Mainpage />
+          </Route>
         </Switch>
       </div>
     </BrowserRouter>

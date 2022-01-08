@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import {getRooms} from "../Api/index.js";
 import {useEffect,useState} from 'react';
+import  {Link} from 'react-router-dom'
 
 function JoinRoom() {
   const [arr,setArr] = useState([]);
@@ -36,8 +37,13 @@ function JoinRoom() {
         </Typography>
         </Grid>
         <Grid item xs={4} style={{'alignItems':'center'}}>
-<Button variant="contained" sx={{marginTop:'15px'}}>Join</Button>
-</Grid></Grid>
+    <Button variant="contained" sx={{marginTop:'15px'}}>
+        <Link to={`./main/${room._id}`} style={{color:'white'}}>
+            Join
+        </Link>
+    </Button>
+        </Grid>
+      </Grid>
       </CardContent>
     </Card>
     })}
