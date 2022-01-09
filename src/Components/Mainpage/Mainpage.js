@@ -42,7 +42,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 const Mainpage = ({ socket }) => {
   const { roomId } = useParams();
   const [loading, setLoading] = useState(false);
-  const [url, seturl] = useState("https://www.youtube.com/watch?v=mZGlcukGuTo");
+  const [url, seturl] = useState("");
   const [open, setopen] = useState(true);
 
   const [members, setmembers] = useState([]);
