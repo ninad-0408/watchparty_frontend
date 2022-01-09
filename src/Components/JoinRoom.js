@@ -38,7 +38,7 @@ function JoinRoom() {
         </Grid>
         <Grid item xs={4} style={{'alignItems':'center'}}>
     <Button variant="contained" sx={{marginTop:'15px'}}>
-        <Link to={`./main/${room._id}`} style={{color:'white'}}>
+        <Link to={`./room/${room._id}`} style={{color:'white'}}>
             Join
         </Link>
     </Button>
