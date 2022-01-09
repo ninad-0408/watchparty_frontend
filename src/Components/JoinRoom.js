@@ -5,11 +5,18 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import {getRooms} from "../Api/index.js";
+import {useEffect,useState} from 'react';
 
 function JoinRoom() {
-
-    var arr=[{name:'Room name1', host:'Room Host1'},{name:'Room name2', host:'Room Host2'},{name:'Room name3', host:'Room Host3'},{name:'Room name', host:'Room Host'},{name:'Room name', host:'Room Host'},{name:'Room name', host:'Room Host'},{name:'Room name', host:'Room Host'},{name:'Room name', host:'Room Host'},{name:'Room name', host:'Room Host'},{name:'Room name', host:'Room Host'},{name:'Room name', host:'Room Host'},]
-
+  const [arr,setArr] = useState([]);
+   useEffect(() => {
+     getRooms().then((res)=>{
+      setArr(res);
+      // console.log(arr);
+     });
+   })
+   
     return (
         <Container component="main" maxWidth="xs">
         <Typography variant="h5" component="div" sx={{textAlign:'center'}}>
@@ -25,7 +32,7 @@ function JoinRoom() {
           {room.name}
         </Typography>
         <Typography sx={{ mb: 0.3 }} color="text.secondary">
-        {room.host}
+        {room.host.name}
         </Typography>
         </Grid>
         <Grid item xs={4} style={{'alignItems':'center'}}>
