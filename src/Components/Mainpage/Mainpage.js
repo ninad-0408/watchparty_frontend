@@ -131,10 +131,10 @@ const seek=()=>{
                 height={"100%"} 
                 width={"100%"} 
                 playing={true}	
-								controls={true}
-								volume={0.9}
-								start={15}
-								rel={0}
+		controls={true}
+		volume={0.9}
+		start={15}
+		rel={0}
                 ref={player}
                 onProgress={(e)=>{
                   console.log(e.playedSeconds);
