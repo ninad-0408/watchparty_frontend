@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 
-const Chat = ({message, setMessage}) => {
+const Chat = ({ message, setMessage, socket }) => {
   const Item = styled(Paper)(({ theme, you }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -22,15 +22,14 @@ const Chat = ({message, setMessage}) => {
 
   function handleChange(e) {
     if (e.charCode === 13) {
-      setMessage((msg) => {
-        return [...msg, { message: "Hi", username: "username" }];
-      });
       const { name, value } = e.target;
-      if (value !== "")
+      if (value !== "") {
+        socket.emit("message", value);
         setMessage((msg) => {
           return [...msg, { [name]: value, username: username }];
         });
-      setvalue("");
+        setvalue("");
+      }
     }
   }
 
