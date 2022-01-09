@@ -31,9 +31,6 @@ function App() {
           <Route path="/room/:roomId">
             <Mainpage socket={socket} />
           </Route>
-          <Route path="/main/:roomid" exact>
-            <Mainpage />
-          </Route>
         </Switch>
       </div>
     </BrowserRouter>
