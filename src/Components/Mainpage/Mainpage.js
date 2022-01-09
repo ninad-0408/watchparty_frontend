@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -16,6 +16,7 @@ import Tab from "@mui/material/Tab";
 import Chat from "./Chat";
 import People from "./People";
 import Setting from "./Setting";
+import { useParams } from "react-router-dom";
 
 const drawerWidth = "360";
 
@@ -38,10 +39,14 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   })
 );
 
-const Mainpage = () => {
+const Mainpage = ({ socket }) => {
+  const { roomId } = useParams();
   const [loading, setLoading] = useState(false);
-  const [url, seturl] = useState("https://www.youtube.com/watch?v=jNC7hJUMmHU");
+  const [url, seturl] = useState("");
   const [open, setopen] = useState(true);
+
+  const [members, setmembers] = useState([]);
+  const [message, setMessage] = useState([]);
 
   const username = JSON.parse(localStorage.getItem("profile"))?.user?.username;
 
@@ -63,18 +68,20 @@ const Mainpage = () => {
     setValue(newValue);
   };
 
-  const arr = [
-    { name: "john" },
-    { name: "john john" },
-    { name: "john john john" },
-    { name: "john john john john" },
-    { name: "john" },
-    { name: "john" },
-    { name: "john" },
-    { name: "john" },
-  ];
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("connected", socket);
+      socket.emit("new-member", roomId);
+    });
 
-  const [message, setMessage] = useState([]);
+    socket.on("message", (mess) => {
+      setMessage((prev) => [...prev, mess]);
+    });
+
+    socket.on("member-connected", (member) => {
+      setmembers(() => [...member]);
+    });
+  }, [socket]);
 
   return (
     <>
@@ -148,9 +155,13 @@ const Mainpage = () => {
                 <Tab value="3" sx={{ width: "33%" }} label="SETTINGS" />
               </Tabs>
               {value === "1" ? (
-                <Chat message={message} setMessage={setMessage}/>
+                <Chat
+                  message={message}
+                  setMessage={setMessage}
+                  socket={socket}
+                />
               ) : value === "2" ? (
-                <People arr={arr} />
+                <People members={members} />
               ) : (
                 <Setting />
               )}

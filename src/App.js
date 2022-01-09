@@ -4,6 +4,15 @@ import Signup from "./Components/Signup";
 import Mainpage from "./Components/Mainpage/Mainpage";
 import "./App.css";
 import Home from "./Components/Home";
+import { io } from "socket.io-client";
+import { baseUrl } from "./Constants/baseUrl";
+
+const token = JSON.parse(localStorage.getItem("profile"))?.token;
+var socket = io(baseUrl, {
+  extraHeaders: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
 function App() {
   return (
@@ -19,8 +28,8 @@ function App() {
           <Route path="/signup" exact>
             <Signup />
           </Route>
-          <Route path="/main" exact>
-            <Mainpage />
+          <Route path="/room/:roomId">
+            <Mainpage socket={socket} />
           </Route>
           <Route path="/main/:roomid" exact>
             <Mainpage />
