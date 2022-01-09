@@ -48,6 +48,10 @@ const Mainpage = ({ socket }) => {
   const [members, setmembers] = useState([]);
   const [message, setMessage] = useState([]);
 
+  const [progress, setProgress] = useState();
+  const [playing, setplaying] = useState(true);
+  const player=useRef(null);
+
   const username = JSON.parse(localStorage.getItem("profile"))?.user?.username;
 
   const handleClick = () => {
@@ -81,15 +85,33 @@ const Mainpage = ({ socket }) => {
     socket.on("member-connected", (member) => {
       setmembers(() => [...member]);
     });
+
+    socket.on("seek", (data) => {
+      console.log(data.seek,'hello')
+      if(data.pause)
+      {setProgress(data.seek);
+    player.current.seekTo(data.seek,'seconds');
+    setplaying(false);}
+    else
+    setplaying(true);
+  
+    });
+
   }, [socket]);
 
-  const [progress, setProgress] = useState();
-  const player=useRef(null);
-
 const seek=()=>{
+  socket.emit('seek',{username:'admin', seek:progress,pause:false});
   player.current.seekTo(progress,'seconds');
 }
 
+const pause=()=>{
+  var currentTime = player.current.getCurrentTime();
+  socket.emit('seek',{username:'admin', seek:currentTime,pause:true});
+}
+const play=()=>{
+   var currentTime = player.current.getCurrentTime();
+  socket.emit('seek',{username:'admin', seek:progress,pause:false});
+}
 
   return (
     <>
@@ -130,14 +152,17 @@ const seek=()=>{
                 url={url} 
                 height={"100%"} 
                 width={"100%"} 
-                playing={true}	
-		controls={true}
-		volume={0.9}
-		start={15}
-		rel={0}
+                playing={playing}	
+                controls={true}
+                volume={0.9}
+                start={15}
+                rel={0}
                 ref={player}
+                onPause={pause}
+                onPlay={()=>play()}
+                onSeek={pause}
                 onProgress={(e)=>{
-                  console.log(e.playedSeconds);
+                  console.log(progress);
                   setProgress(e.playedSeconds);
                 }}/>
             </Main>
