@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useRef} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -84,12 +84,11 @@ const Mainpage = ({ socket }) => {
   }, [socket]);
 
   const [progress, setProgress] = useState();
-  const player=useRef(null);
+  const player = useRef(null);
 
-const seek=()=>{
-  player.current.seekTo(progress,'seconds');
-}
-
+  const seek = () => {
+    player.current.seekTo(progress, "seconds");
+  };
 
   return (
     <>
@@ -126,20 +125,21 @@ const seek=()=>{
           </Box>
           <Box spacing={1}>
             <Main open={open}>
-              <ReactPlayer 
-                url={url} 
-                height={"100%"} 
-                width={"100%"} 
-                playing={true}	
-		controls={true}
-		volume={0.9}
-		start={15}
-		rel={0}
+              <ReactPlayer
+                url={url}
+                height={"100%"}
+                width={"100%"}
+                playing={true}
+                controls={true}
+                volume={0.9}
+                start={15}
+                rel={0}
                 ref={player}
-                onProgress={(e)=>{
+                onProgress={(e) => {
                   console.log(e.playedSeconds);
                   setProgress(e.playedSeconds);
-                }}/>
+                }}
+              />
             </Main>
             <Drawer
               sx={{

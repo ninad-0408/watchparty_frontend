@@ -3,8 +3,11 @@ import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
+import { useParams } from "react-router-dom";
 
 const Chat = ({ message, setMessage, socket }) => {
+  const { roomId } = useParams();
+  // console.log(roomId);
   const Item = styled(Paper)(({ theme, you }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -24,7 +27,7 @@ const Chat = ({ message, setMessage, socket }) => {
     if (e.charCode === 13) {
       const { name, value } = e.target;
       if (value !== "") {
-        socket.emit("message", value);
+        socket.emit("message", ({value,roomId}));
         setMessage((msg) => {
           return [...msg, { [name]: value, username: username }];
         });
