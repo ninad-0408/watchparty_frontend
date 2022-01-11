@@ -59,6 +59,7 @@ const Mainpage = ({ socket }) => {
   };
 
   const onchange = (e) => {
+    socket.emit("url", e.target.value);
     seturl(e.target.value);
   };
 
@@ -86,8 +87,12 @@ const Mainpage = ({ socket }) => {
       setmembers(() => [...member]);
     });
 
+    socket.on("url", (url) => {
+      seturl(url);
+    });
+
     socket.on("seek", (data) => {
-      console.log(data.seek,'hello')
+      // console.log(data.seek,'hello')
       if(data.pause)
       {setProgress(data.seek);
     player.current.seekTo(data.seek,'seconds');
@@ -126,6 +131,7 @@ const play=()=>{
                 backgroundColor: "rgba(20,20,35,0.4)",
               }}
               onChange={onchange}
+              value={url}
             />
             <LoadingButton
               onClick={seek}
