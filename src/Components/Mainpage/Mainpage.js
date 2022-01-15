@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-
+import { getRoom } from "../../Api/index.js";
 import Chat from "./Chat";
 import People from "./People";
 import Setting from "./Setting";
@@ -44,13 +44,13 @@ const Mainpage = ({ socket }) => {
   const [loading, setLoading] = useState(false);
   const [url, seturl] = useState("");
   const [open, setopen] = useState(true);
-
+  const [room, setRoom] = useState({});
   const [members, setmembers] = useState([]);
   const [message, setMessage] = useState([]);
 
   const [progress, setProgress] = useState();
-	const [playing, setplaying] = useState(true);
-	const player = useRef(null);
+  const [playing, setplaying] = useState(true);
+  const player = useRef(null);
 
   const username = JSON.parse(localStorage.getItem("profile"))?.user?.username;
 
@@ -59,7 +59,7 @@ const Mainpage = ({ socket }) => {
   };
 
   const onchange = (e) => {
-    socket.emit("url", {roomId, url: e.target.value});
+    socket.emit("url", { roomId, url: e.target.value });
     seturl(e.target.value);
   };
 
@@ -74,9 +74,15 @@ const Mainpage = ({ socket }) => {
   };
 
   const [streaming, setStreaming] = useState();
-	const myVideo = useRef();
-	const userVideo = useRef();
+  const myVideo = useRef();
+  const userVideo = useRef();
 
+  useEffect(() => {
+    getRoom(roomId).then((res) => {
+      // console.log(res.name);
+      setRoom(res);
+    });
+  });
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected", socket);
@@ -92,78 +98,96 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("url", (url) => {
-			seturl(url);
-		});
+      seturl(url);
+    });
 
-		socket.on("seek", (data) => {
-			if (data.pause) {
-				setProgress(data.seek);
-				player.current.seekTo(data.seek, "seconds");
-				setplaying(false);
-			} else setplaying(true);
-		});
+    socket.on("seek", (data) => {
+      if (data.pause) {
+        setProgress(data.seek);
+        player.current.seekTo(data.seek, "seconds");
+        setplaying(false);
+      } else setplaying(true);
+    });
 
-		socket.on("stream", (stream) => {
-				myVideo.current.srcObject = stream;
-			});
-
+    socket.on("stream", (stream) => {
+      myVideo.current.srcObject = stream;
+    });
   }, [socket]);
 
   // const [progress, setProgress] = useState();
   // const player = useRef(null);
 
   const seek = () => {
-		socket.emit("seek", {
+    socket.emit("seek", {
       roomId: roomId,
-			seek: progress,
-			pause: false,
-		});
-		player.current.seekTo(progress, "seconds");
-	};
+      seek: progress,
+      pause: false,
+    });
+    player.current.seekTo(progress, "seconds");
+  };
 
   const pause = () => {
-		var currentTime = player.current.getCurrentTime();
-		socket.emit("seek", {
-			roomId: roomId,
-			seek: currentTime,
-			pause: true,
-		});
-	};
-	const play = () => {
-		var currentTime = player.current.getCurrentTime();
-		socket.emit("seek", {
-			roomId: roomId,
-			seek: progress,
-			pause: false,
-		});
-	};
+    var currentTime = player.current.getCurrentTime();
+    socket.emit("seek", {
+      roomId: roomId,
+      seek: currentTime,
+      pause: true,
+    });
+  };
+  const play = () => {
+    var currentTime = player.current.getCurrentTime();
+    socket.emit("seek", {
+      roomId: roomId,
+      seek: progress,
+      pause: false,
+    });
+  };
 
+  const [file, setfile] = useState(null);
+  const [media, setmedia] = useState(null);
 
-	const [file, setfile] = useState(null);
-	const [media, setmedia] = useState(null);
+  const upload = (e) => {
+    seturl(URL.createObjectURL(e.target.files[0]));
+    player.current.play();
+  };
 
-	const upload = (e) => {
-		seturl(URL.createObjectURL(e.target.files[0]));
-		player.current.play();
-	};
+  const mediastream = () => {
+    navigator.mediaDevices
+      .getDisplayMedia({ audio: true, video: true })
+      .then((currentStream) => {
+        setStreaming(currentStream);
+        myVideo.current.srcObject = currentStream;
+        socket.emit("stream", { currentStream });
+      });
+  };
 
-  const mediastream = ()=>{navigator.mediaDevices.getDisplayMedia({audio:true,video:true}).then((currentStream) => {
-    setStreaming(currentStream);
-    myVideo.current.srcObject = currentStream;
-    socket.emit("stream", {currentStream})
-  })}
-
-const camstream = ()=>{navigator.mediaDevices.getUserMedia({audio:true,video:true}).then((currentStream) => {
-    setStreaming(currentStream);
-    myVideo.current.srcObject = currentStream;
-    socket.emit("stream",currentStream)
-  })}
+  const camstream = () => {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: true })
+      .then((currentStream) => {
+        setStreaming(currentStream);
+        myVideo.current.srcObject = currentStream;
+        socket.emit("stream", currentStream);
+      });
+  };
 
   return (
     <>
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
+            <div
+              style={{
+                width: "10vw",
+                margin: "10px",
+                backgroundColor: "rgba(20,20,35,0.4)",
+                padding: "10px",
+                fontFamily: "'Baloo Tammudu 2', cursive",
+                fontSize: "1.5em",
+              }}
+            >
+              {room.name}
+            </div>
             <TextField
               label="Video Url"
               sx={{
@@ -200,18 +224,18 @@ const camstream = ()=>{navigator.mediaDevices.getUserMedia({audio:true,video:tru
                 height={"100%"}
                 width={"100%"}
                 playing={playing}
-								controls={true}
-								volume={0.9}
-								start={15}
-								rel={0}
-								ref={player}
-								onPause={pause}
-								onPlay={() => play()}
-								onSeek={pause}
-								onProgress={(e) => {
-									// console.log(progress);
-									setProgress(e.playedSeconds);
-								}}
+                controls={true}
+                volume={0.9}
+                start={15}
+                rel={0}
+                ref={player}
+                onPause={pause}
+                onPlay={() => play()}
+                onSeek={pause}
+                onProgress={(e) => {
+                  // console.log(progress);
+                  setProgress(e.playedSeconds);
+                }}
               />
             </Main>
             <Drawer
@@ -263,12 +287,11 @@ const camstream = ()=>{navigator.mediaDevices.getUserMedia({audio:true,video:tru
           </Box>
         </Box>
       </Box>
-      <Button onClick = {()=>mediastream()}>screen-share</Button>
-			<Button onClick = {()=>camstream()}>Camera</Button>
-			<input type="file" accept='video/*' id="myfile" onChange={upload} />
-			<video playsInline muted ref={myVideo} autoPlay  />
-			<video playsInline muted ref={userVideo} autoPlay />
-
+      <Button onClick={() => mediastream()}>screen-share</Button>
+      <Button onClick={() => camstream()}>Camera</Button>
+      <input type="file" accept="video/*" id="myfile" onChange={upload} />
+      <video playsInline muted ref={myVideo} autoPlay />
+      <video playsInline muted ref={userVideo} autoPlay />
     </>
   );
 };

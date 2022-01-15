@@ -9,6 +9,8 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 
 const People = ({members}) => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -36,6 +38,9 @@ const Cards = (props) => {
     setAlignment(newAlignment);
     setSelected(!selected);
   };
+  const handleClick = ()=>{
+    console.log("Hi");
+  }
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
@@ -58,7 +63,14 @@ const Cards = (props) => {
                 <AdminPanelSettingsIcon />
               </ToggleButton>
               <ToggleButton value="ios">
-                <CancelPresentationIcon />
+              {/* <Button> */}
+              <IconButton
+                onClick={handleClick}
+              >
+                  <CancelPresentationIcon  />
+              </IconButton>
+            {/* </Button> */}
+              
               </ToggleButton>
             </ToggleButtonGroup>
           </Grid>
