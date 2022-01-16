@@ -38,3 +38,9 @@ export const getRooms = () => API.get('/room').then((res)=>{
 }).catch((err)=>{
     console.log(err.response);
 });
+
+export const getRoom = (roomId) => API.get(`/room/${roomId}`).then((res)=>{
+    return res.data.room;
+}).catch((err)=>{
+    console.log(err.response);
+});

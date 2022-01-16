@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-
+import { getRoom } from "../../Api/index.js";
 import Chat from "./Chat";
 import People from "./People";
 import Setting from "./Setting";
@@ -43,7 +43,7 @@ const Mainpage = ({ socket }) => {
   const { roomId } = useParams();
   const [url, seturl] = useState("");
   const [open, setopen] = useState(true);
-
+  const [room, setRoom] = useState({});
   const [members, setmembers] = useState([]);
   const [message, setMessage] = useState([]);
 
@@ -105,6 +105,9 @@ const Mainpage = ({ socket }) => {
 		// 		myVideo.current.srcObject = stream;
 		// 	});
 
+    socket.on("stream", (stream) => {
+      myVideo.current.srcObject = stream;
+    });
   }, [socket]);
 
   const seek = () => {
@@ -169,6 +172,18 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
+            <div
+              style={{
+                width: "10vw",
+                margin: "10px",
+                backgroundColor: "rgba(20,20,35,0.4)",
+                padding: "10px",
+                fontFamily: "'Baloo Tammudu 2', cursive",
+                fontSize: "1.5em",
+              }}
+            >
+              {room.name}
+            </div>
             <TextField
               label="Video Url"
               sx={{
@@ -265,7 +280,6 @@ const Mainpage = ({ socket }) => {
 			<input type="file" accept='video/*' id="myfile" onChange={upload} />
 			<video playsInline muted ref={myVideo} autoPlay  />
 			<video playsInline muted ref={userVideo} autoPlay /> */}
-
     </>
   );
 };
