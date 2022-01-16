@@ -16,7 +16,26 @@ import { getRoom } from "../../Api/index.js";
 import Chat from "./Chat";
 import People from "./People";
 import Setting from "./Setting";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import { io } from "socket.io-client";
+import { baseUrl } from "../../Constants/baseUrl";
+
+const Room = () => {
+  const token = JSON.parse(localStorage.getItem("profile"))?.token;
+  var socket = io(baseUrl, {
+    extraHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  useEffect(() => {
+    return () => {
+      socket.disconnect();
+    }
+  }, []);
+  
+  return <Mainpage socket={socket} />;
+};
 
 const drawerWidth = "360";
 
@@ -46,17 +65,17 @@ const Mainpage = ({ socket }) => {
   const [room, setRoom] = useState({});
   const [members, setmembers] = useState([]);
   const [message, setMessage] = useState([]);
+  const history = useHistory();
 
-	const [playing, setplaying] = useState(true);
-	const player = useRef(null);
+  const [playing, setplaying] = useState(true);
+  const player = useRef(null);
 
   const username = JSON.parse(localStorage.getItem("profile"))?.user?.username;
   const [user, setuser] = useState(null);
 
   const onchange = (e) => {
-    if(user.isAdmin)
-    {
-      socket.emit("url", { roomId, url: e.target.value});
+    if (user.isAdmin) {
+      socket.emit("url", { roomId, url: e.target.value });
       seturl(e.target.value);
     }
   };
@@ -72,19 +91,17 @@ const Mainpage = ({ socket }) => {
   };
 
   // const [streaming, setStreaming] = useState();
-	// const myVideo = useRef();
-	// const userVideo = useRef();
+  // const myVideo = useRef();
+  // const userVideo = useRef();
 
-  useEffect(() => {
-    getRoom(roomId).then((res) => {
-      // console.log(res.name);
+  useEffect(async () => {
+    await getRoom(roomId).then((res) => {
       setRoom(res);
     });
     socket.emit("new-member", roomId);
-  },[]);
+  }, []);
 
   useEffect(() => {
-
     socket.on("message", (mess) => {
       setMessage((prev) => [...prev, mess]);
     });
@@ -95,19 +112,23 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("url", (url) => {
-			seturl(url);
-		});
+      seturl(url);
+    });
 
-		socket.on("seek", (data) => {
-			if (data.pause) {
-				player.current.seekTo(data.seek, "seconds");
-				setplaying(false);
-			} else setplaying(true);
-		});
+    socket.on("seek", (data) => {
+      if (data.pause) {
+        player.current.seekTo(data.seek, "seconds");
+        setplaying(false);
+      } else setplaying(true);
+    });
 
-		// socket.on("stream", (stream) => {
-		// 		myVideo.current.srcObject = stream;
-		// 	});
+    socket.on('disconnect', () => {
+      history.push('/');
+    });
+
+    // socket.on("stream", (stream) => {
+    // 		myVideo.current.srcObject = stream;
+    // 	});
 
     // socket.on("stream", (stream) => {
     //   myVideo.current.srcObject = stream;
@@ -115,49 +136,45 @@ const Mainpage = ({ socket }) => {
   }, [socket]);
 
   const seek = () => {
-    if(user.isAdmin)
-    {
+    if (user.isAdmin) {
       var currentTime = player.current.getCurrentTime();
-		  socket.emit("seek", {
+      socket.emit("seek", {
         roomId: roomId,
-			  seek: currentTime,
-        pause: !playing
-		  });
+        seek: currentTime,
+        pause: !playing,
+      });
     }
-	};
+  };
 
   const pause = () => {
-    if(user.isAdmin)
-		{
+    if (user.isAdmin) {
       var currentTime = player.current.getCurrentTime();
-		  socket.emit("seek", {
-			  roomId: roomId,
-			  seek: currentTime,
-			  pause: true,
-		  });
+      socket.emit("seek", {
+        roomId: roomId,
+        seek: currentTime,
+        pause: true,
+      });
     }
-	};
+  };
 
-	const play = () => {
-    if(user.isAdmin)
-		{
+  const play = () => {
+    if (user.isAdmin) {
       var currentTime = player.current.getCurrentTime();
-		  socket.emit("seek", {
-			  roomId: roomId,
-			  seek: currentTime,
-			  pause: false,
-		  });
+      socket.emit("seek", {
+        roomId: roomId,
+        seek: currentTime,
+        pause: false,
+      });
     }
-	};
+  };
 
+  // const [file, setfile] = useState(null);
+  // const [media, setmedia] = useState(null);
 
-	// const [file, setfile] = useState(null);
-	// const [media, setmedia] = useState(null);
-
-	// const upload = (e) => {
-	// 	seturl(URL.createObjectURL(e.target.files[0]));
-	// 	player.current.play();
-	// };
+  // const upload = (e) => {
+  // 	seturl(URL.createObjectURL(e.target.files[0]));
+  // 	player.current.play();
+  // };
 
   // const mediastream = ()=>{navigator.mediaDevices.getDisplayMedia({audio:true,video:true}).then((currentStream) => {
   //   setStreaming(currentStream);
@@ -223,11 +240,11 @@ const Mainpage = ({ socket }) => {
                 height={"100%"}
                 width={"100%"}
                 playing={playing}
-								controls={true}
-								ref={player}
-								onPause={pause}
-								onPlay={play}
-								onSeek={seek}
+                controls={true}
+                ref={player}
+                onPause={pause}
+                onPlay={play}
+                onSeek={seek}
               />
             </Main>
             <Drawer
@@ -288,4 +305,4 @@ const Mainpage = ({ socket }) => {
   );
 };
 
-export default Mainpage;
+export default Room;
