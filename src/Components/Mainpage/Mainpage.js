@@ -76,6 +76,7 @@ const Mainpage = ({ socket }) => {
 	// const userVideo = useRef();
 
   useEffect(() => {
+    setRoom(getRoom(roomId));
     socket.emit("new-member", roomId);
   },[]);
 
@@ -105,9 +106,9 @@ const Mainpage = ({ socket }) => {
 		// 		myVideo.current.srcObject = stream;
 		// 	});
 
-    socket.on("stream", (stream) => {
-      myVideo.current.srcObject = stream;
-    });
+    // socket.on("stream", (stream) => {
+    //   myVideo.current.srcObject = stream;
+    // });
   }, [socket]);
 
   const seek = () => {
