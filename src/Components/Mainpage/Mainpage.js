@@ -252,7 +252,7 @@ const Mainpage = ({ socket }) => {
                   socket={socket}
                 />
               ) : value === "2" ? (
-                <People members={members} />
+                <People members={members} currentuser={user} socket={socket} />
               ) : (
                 <Setting />
               )}

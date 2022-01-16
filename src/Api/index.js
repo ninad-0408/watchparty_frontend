@@ -28,7 +28,7 @@ export const login = (formData) => API.post('/user/login',formData).then((res)=>
 });
 
 export const CreateNewRoom = (formData) => API.post('/room/create',formData).then((res)=>{
-    
+    return res.data;
 }).catch((err)=>{
     console.log(err.response);
 });

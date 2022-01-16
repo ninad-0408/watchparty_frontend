@@ -30,11 +30,11 @@ const CreateRoom = () => {
 
   const handleShowPassword = () => setshowPassword((e) => !e);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
     setprocessing(true);
-    CreateNewRoom(formData)
-      .then(() => history.push("/main"))
+    e.preventDefault();
+    await CreateNewRoom(formData)
+      .then((data) => history.push(`/room/${data.room._id}`))
       .catch((error) => console.log(error));
   };
 
@@ -42,19 +42,19 @@ const CreateRoom = () => {
     setformData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const [fields, setFields] = useState([{ value: null }]);
+  // const [fields, setFields] = useState([{ value: null }]);
 
-  function handleAdd() {
-    const values = [...fields];
-    values.push({ value: null });
-    setFields(values);
-  }
+  // function handleAdd() {
+  //   const values = [...fields];
+  //   values.push({ value: null });
+  //   setFields(values);
+  // }
 
-  function handleRemove(id) {
-    const values = [...fields];
-    values.splice(id, 1);
-    setFields(values);
-  }
+  // function handleRemove(id) {
+  //   const values = [...fields];
+  //   values.splice(id, 1);
+  //   setFields(values);
+  // }
 
   return (
     <Container component="main" maxWidth="xs" style={{'max-height':'80vh',overflowX:'hidden',overflowY:'auto',whitespace: "nowrap",}}>
@@ -83,7 +83,7 @@ const CreateRoom = () => {
               handleShowPassword={handleShowPassword}
               handleChange={handleChange}
             />
-            <Box
+            {/* <Box
               sx={{
                 display: "flex",
                 justifyContent: "space-around",
@@ -105,20 +105,20 @@ const CreateRoom = () => {
                   />
                 </>
               );
-            })}
+            })} */}
           </Grid>
-          <Box marginTop={3}>
+          <Box marginTop={2} color='primary'>
             <LoadingButton
-              type="submit"
-              color="primary"
-              className={classes.submit}
+              type='submit'
               loading={processing}
-              variant="contained"
               fullWidth
+              variant='contained'
+              color='primary'
+              containedPrimary
             >
               Create
             </LoadingButton>
-          </Box>
+            </Box>
         </form>
       </Paper>
     </Container>
