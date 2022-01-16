@@ -76,7 +76,10 @@ const Mainpage = ({ socket }) => {
 	// const userVideo = useRef();
 
   useEffect(() => {
-    setRoom(getRoom(roomId));
+    getRoom(roomId).then((res) => {
+      // console.log(res.name);
+      setRoom(res);
+    });
     socket.emit("new-member", roomId);
   },[]);
 
