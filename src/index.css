@@ -1,5 +1,8 @@
 body
 {
     background-color: #5d6d88;
-    background-image: url("/public/back_image.jpg");
+    background-image: url("/public/back_image-2.jpg");
+    background-repeat: "no-repeat";
+    background-attachment: "fixed";
+    background-size: 100vw 100vh;
 }
