@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import {
-  Avatar,
-  Container,
-  Grid,
-  Paper,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Avatar, Container, Grid, Paper, Typography, Box } from "@mui/material";
 
-import VideocamIcon from '@mui/icons-material/Videocam';
+import VideocamIcon from "@mui/icons-material/Videocam";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -18,7 +11,6 @@ import Input from "./Input";
 import { CreateNewRoom } from "../Api/index";
 
 import useStyles from "./styles";
-
 
 const CreateRoom = () => {
   const classes = useStyles();
@@ -57,7 +49,16 @@ const CreateRoom = () => {
   // }
 
   return (
-    <Container component="main" maxWidth="xs" style={{'max-height':'80vh',overflowX:'hidden',overflowY:'auto',whitespace: "nowrap",}}>
+    <Container
+      component="main"
+      maxWidth="xs"
+      style={{
+        "max-height": "80vh",
+        overflowX: "hidden",
+        overflowY: "auto",
+        whitespace: "nowrap",
+      }}
+    >
       <Paper className={classes.paper} elevation={3}>
         <Avatar className={classes.avatar}>
           <VideocamIcon />
@@ -107,18 +108,11 @@ const CreateRoom = () => {
               );
             })} */}
           </Grid>
-          <Box marginTop={2} color='primary'>
-            <LoadingButton
-              type='submit'
-              loading={processing}
-              fullWidth
-              variant='contained'
-              color='primary'
-              containedPrimary
-            >
-              Create
+          <Box marginTop={2} color="primary">
+            <LoadingButton type="submit" loading={processing} fullWidth>
+              CREATE
             </LoadingButton>
-            </Box>
+          </Box>
         </form>
       </Paper>
     </Container>
