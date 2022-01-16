@@ -35,6 +35,7 @@ const People = ({ members, currentuser, socket }) => {
 
 const Cards = ({ user, currentuser, socket }) => {
   const [load, setload] = useState(false);
+  const [load1, setload1] = useState(false);
 
   const handleAdmin = () => {
     if (currentuser.isHost && !user.isHost) {
@@ -43,6 +44,14 @@ const Cards = ({ user, currentuser, socket }) => {
       else socket.emit("add-admin", user);
     }
   };
+
+  const removeMember = () => {
+    if(currentuser.isHost)
+    {
+      setload1(true);
+      socket.emit('remove-member', user);
+    }
+  }
 
   return (
     <Card sx={{ minWidth: 275 }}>
@@ -63,7 +72,7 @@ const Cards = ({ user, currentuser, socket }) => {
 
           {currentuser.isHost ? (
             <Grid item>
-              <LoadingButton>
+              <LoadingButton loading={load1} onClick={removeMember}>
                 <CancelPresentationIcon color='disabled' />
               </LoadingButton>
             </Grid>

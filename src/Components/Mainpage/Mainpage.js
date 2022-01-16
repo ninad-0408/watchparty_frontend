@@ -16,7 +16,7 @@ import { getRoom } from "../../Api/index.js";
 import Chat from "./Chat";
 import People from "./People";
 import Setting from "./Setting";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
 
@@ -65,6 +65,7 @@ const Mainpage = ({ socket }) => {
   const [room, setRoom] = useState({});
   const [members, setmembers] = useState([]);
   const [message, setMessage] = useState([]);
+  const history = useHistory();
 
   const [playing, setplaying] = useState(true);
   const player = useRef(null);
@@ -93,8 +94,8 @@ const Mainpage = ({ socket }) => {
   // const myVideo = useRef();
   // const userVideo = useRef();
 
-  useEffect(() => {
-    getRoom(roomId).then((res) => {
+  useEffect(async () => {
+    await getRoom(roomId).then((res) => {
       setRoom(res);
     });
     socket.emit("new-member", roomId);
@@ -119,6 +120,10 @@ const Mainpage = ({ socket }) => {
         player.current.seekTo(data.seek, "seconds");
         setplaying(false);
       } else setplaying(true);
+    });
+
+    socket.on('disconnect', () => {
+      history.push('/');
     });
 
     // socket.on("stream", (stream) => {
