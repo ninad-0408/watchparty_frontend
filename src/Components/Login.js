@@ -3,7 +3,7 @@ import { Avatar, Button, Container, Grid, Paper, Typography, Box } from '@materi
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Link, useHistory } from 'react-router-dom';
-
+import Alert from '@mui/material/Alert';
 import Input from './Input';
 import { login } from '../Api/index'
 
@@ -15,7 +15,7 @@ const Login = () => {
 
     const classes = useStyles();
     const history = useHistory();
-
+    const [alert, setAlert] = useState(null);
     const [showPassword, setshowPassword] = useState(false);
     const [formData, setformData] = useState(initialState);
     const [processing, setprocessing] = useState(false);
@@ -26,8 +26,27 @@ const Login = () => {
         e.preventDefault();
         setprocessing(true);
         login(formData)
-            .then(() => history.push('/'))
-            .catch((error) => console.log(error));
+            .then((data) => {
+                console.log(data);
+                if(data.err){
+                    
+                setAlert(data.err.message);
+                    setformData(initialState);
+                    setprocessing(false);
+                }
+                else
+                {
+                    
+                    console.log(data.message);
+                    history.push('/',
+                    {
+                        pathname: '/',
+                        state:{message: data.message}
+                    }
+                    )
+                }
+                })
+            .catch((error) => setAlert(error.message));
     };
 
     const handleChange = (e) => {
@@ -35,6 +54,8 @@ const Login = () => {
     };
 
     return (
+        <>
+        {alert && <Alert severity='error'  onClose={() => setAlert(null)} > { alert } </Alert>}
         <Container component='main' maxWidth='xs' >
             <Paper className={classes.paper} elevation={3}>
                 <Avatar className={classes.avatar}>
@@ -64,6 +85,7 @@ const Login = () => {
                 </form>
             </Paper>
         </Container>
+        </>
     )
 };
 

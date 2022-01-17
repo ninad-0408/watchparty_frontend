@@ -19,6 +19,7 @@ import Setting from "./Setting";
 import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
+import Alert from '@mui/material/Alert';
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
@@ -29,6 +30,7 @@ const Room = () => {
   });
 
   useEffect(() => {
+    
     return () => {
       socket.disconnect();
     }
@@ -59,6 +61,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Mainpage = ({ socket }) => {
+  
   const { roomId } = useParams();
   const [url, seturl] = useState("");
   const [open, setopen] = useState(true);
@@ -93,7 +96,7 @@ const Mainpage = ({ socket }) => {
   // const [streaming, setStreaming] = useState();
   // const myVideo = useRef();
   // const userVideo = useRef();
-
+  const [alert, setAlert] = useState(null);
   useEffect(async () => {
     await getRoom(roomId).then((res) => {
       setRoom(res);
@@ -114,7 +117,9 @@ const Mainpage = ({ socket }) => {
     socket.on("url", (url) => {
       seturl(url);
     });
-
+    socket.on("alert",(msg)=>{
+      setAlert(msg);
+    })
     socket.on("seek", (data) => {
       if (data.pause) {
         player.current.seekTo(data.seek, "seconds");
@@ -190,6 +195,7 @@ const Mainpage = ({ socket }) => {
 
   return (
     <>
+    {alert && <Alert severity='info'  onClose={() => setAlert(null)} > { alert } </Alert>}
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
