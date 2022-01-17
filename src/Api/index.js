@@ -16,15 +16,17 @@ API.interceptors.request.use((req) => {
 export const signup = (formData) => API.post('/user/signup',formData).then((res)=>{
     const data=res.data;
     localStorage.setItem('profile', JSON.stringify(data));
+    return res.data;
 }).catch((err)=>{
-    console.log(err.response);
+    return (err.response.data);
 });
 
 export const login = (formData) => API.post('/user/login',formData).then((res)=>{
     const data=res.data;
     localStorage.setItem('profile', JSON.stringify(data));
+    return res.data;
 }).catch((err)=>{
-    console.log(err.response);
+    return (err.response.data);
 });
 
 export const CreateNewRoom = (formData) => API.post('/room/create',formData).then((res)=>{
