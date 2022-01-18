@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import Alert from "@mui/material/Alert";
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import "./home.css";
 
 function Home() {
   const location = useLocation();
@@ -27,7 +28,7 @@ function Home() {
           }}
         >
           <div style={{ width: "100%", "margin-top": "30px" }}>
-            { alert && (
+            {alert && (
               <Alert
                 variant="filled"
                 severity="success"
@@ -49,24 +50,35 @@ function Home() {
                 Watch Party
               </h1>
               <p class="pre-wrap masthead-subheading font-weight-light mb-0">
-                Lorem ipsum dolor sit amet consectetur adipisicing
+                Watch youtube webseries with friends
               </p>
             </div>
             <div class="pb-5 mt-3 d-flex align-items-center justify-content-center">
-              <div class="card" style={{ width: "18rem" }}>
-                <img src="laptop.png" class="card-img-top" alt="..." />
-                <div class="card-body  bg-secondary bg-gradient">
-                  <p class="card-text text-white">
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </p>
-                  <div
-                    class="bg-success p-2"
-                    style={{ "--bs-bg-opacity": ".2" }}
-                  >
-                    This is 50% opacity success background
-                  </div>
-                </div>
+              {/* <div class="card" style={{ width: "18rem" }}> */}
+              <div className="posters" >
+                <img
+                  src="cubicles.jpg"
+                  alt=""
+                  className="img_card_1"
+                  width="36"
+                  height="11"
+                />
+                <img
+                  src="dindora.jpg"
+                  alt=""
+                  className="img_card_1"
+                  width="16"
+                  height="9"
+                />
+                <img
+                  src="aspirants.jpg"
+                  alt=""
+                  className="img_card_1"
+                  width="16"
+                  height="9"
+                />
+                {/* <img src={Poster4} alt="" className={land.img_card_1} width="16" height="9" /> */}
+                {/* </div> */}
               </div>
             </div>
           </div>

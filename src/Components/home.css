@@ -1,0 +1,76 @@
+.posters {
+    width: 50%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100%;
+    align-items: center;
+    max-width: 50%;
+    min-width: 50%;
+    max-height: 90vh;
+  }
+  
+  @keyframes postersFadeInOut {
+    0% {
+      opacity: 1;
+    }
+    16% {
+      opacity: 1;
+    }
+    25% {
+      opacity: 0;
+    }
+    96% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .posters img {
+    -webkit-transition: opacity 1s ease-in-out;
+    -moz-transition: opacity 1s ease-in-out;
+    -o-transition: opacity 1s ease-in-out;
+    transition: opacity 1s ease-in-out;
+  
+    animation-name: postersFadeInOut;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 15s;
+  }
+  
+  .posters img:nth-of-type(1) {
+    animation-delay: 0s;
+  }
+  
+  .posters img:nth-of-type(2) {
+    animation-delay: 5s;
+  }
+  
+  .posters img:nth-of-type(3) {
+    animation-delay: 10s;
+  }
+  
+  @media (max-width: 720px) {
+    .img_card_1 {
+        max-width: 100%;
+        justify-self: center;
+      }
+    .posters {
+      min-width: 90%;
+      max-width: 90%;
+    }
+    .text_1 {
+      min-width: 90%;
+      max-width: 90%;
+    }
+  }
+  .img_card_1 {
+    width: 90%;
+    height: auto;
+    opacity: 0;
+    max-width: 90%;
+    object-fit: scale-down;
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
