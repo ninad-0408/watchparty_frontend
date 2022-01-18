@@ -113,9 +113,9 @@ const Mainpage = ({ socket }) => {
       setuser(member.find((mem) => mem.username === username));
       setmembers(() => [...member]);
     });
-    socket.on("error", (msg) => {
-      console.log(msg);
-      setError(msg);
+    socket.on("error", ({message}) => {
+      // console.log(msg);
+      setError(message);
     });
     socket.on("url", (url) => {
       seturl(url);
