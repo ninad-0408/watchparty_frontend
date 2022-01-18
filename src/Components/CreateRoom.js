@@ -120,13 +120,8 @@ const CreateRoom = () => {
               );
             })} */}
           </Grid>
-<<<<<<< HEAD
-          <Box marginTop={2} >
-            <LoadingButton type="submit" variant='contained' loading={processing} color="primary" fullWidth>
-=======
           <Box marginTop={2} color="primary">
             <LoadingButton type="submit" loading={processing} fullWidth disabled={roomlen}>
->>>>>>> d2c3803195e718060ae3fcc43378be456e303d9b
               CREATE
             </LoadingButton>
           </Box>
