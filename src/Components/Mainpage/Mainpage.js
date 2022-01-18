@@ -246,7 +246,7 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
-            <Button variant="outlined" sx={{margin: "10px"}} >
+            <Button variant="outlined" sx={{margin: "10px" , background : "black", border:"2px solid grey"}} >
                 {room.name}
             </Button>
             <TextField
