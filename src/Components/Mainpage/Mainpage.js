@@ -229,19 +229,9 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
-            <div
-              style={{
-                width: "10vw",
-                margin: "10px",
-                backgroundColor: "rgba(20,20,35,0.4)",
-                padding: "10px",
-                fontFamily: "'Baloo Tammudu 2', cursive",
-                fontSize: "1.5em",
-              }}
-            >
-              {room.name}
-            </div>
-
+            <Button variant="outlined" sx={{margin: "10px"}} >
+                {room.name}
+            </Button>
             <TextField
               label="Video Url"
               sx={{

@@ -8,21 +8,33 @@ import Grid from "@mui/material/Grid";
 import { getRooms } from "../Api/index.js";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 function JoinRoom() {
   const [arr, setArr] = useState([]);
+  const [loading, setloading] = useState(true);
 
   useEffect(() => {
     getRooms().then((res) => {
       setArr(res);
+      setloading(false);
     });
   }, []);
 
   return (
     <Container component="main" maxWidth="xs">
-      <Typography variant="h5" component="div" sx={{ textAlign: "center" }}>
-        Open rooms
+      <LoadingButton
+        loading={loading}
+        loadingPosition="start"
+        // startIcon={<SaveIcon />}
+        variant="outlined"
+        sx={{width:"100%"}}
+      >
+        <Typography variant="h5" component="div" sx={{ textAlign: "center" }}>
+        {loading?"Loading":"Open rooms"}
       </Typography>
+      </LoadingButton>
+        
       <div
         style={{
           "max-height": "80vh",

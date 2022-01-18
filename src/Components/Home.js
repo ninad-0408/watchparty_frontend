@@ -7,7 +7,6 @@ import "./home.css";
 
 function Home() {
   const location = useLocation();
-
   const [alert, setAlert] = useState(null);
   const user = JSON.parse(localStorage.getItem("profile"))?.user?.username;
   useEffect(() => {
@@ -77,8 +76,6 @@ function Home() {
                   width="16"
                   height="9"
                 />
-                {/* <img src={Poster4} alt="" className={land.img_card_1} width="16" height="9" /> */}
-                {/* </div> */}
               </div>
             </div>
           </div>
