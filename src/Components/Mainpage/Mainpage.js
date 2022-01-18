@@ -30,7 +30,6 @@ const Room = () => {
   });
 
   useEffect(() => {
-    
     return () => {
       socket.disconnect();
     }
@@ -73,11 +72,11 @@ const Mainpage = ({ socket }) => {
   const [playing, setplaying] = useState(true);
   const player = useRef(null);
 
-  const username = JSON.parse(localStorage.getItem("profile"))?.user?.username;
-  const [user, setuser] = useState(null);
+  const user = JSON.parse(localStorage.getItem("profile"))?.user;
+  const [currentuser, setcurrentuser] = useState(null);
 
   const onchange = (e) => {
-    if (user.isAdmin) {
+    if (currentuser.isAdmin) {
       socket.emit("url", { roomId, url: e.target.value });
       seturl(e.target.value);
     }
@@ -97,11 +96,22 @@ const Mainpage = ({ socket }) => {
   // const myVideo = useRef();
   // const userVideo = useRef();
   const [alert, setAlert] = useState(null);
+
   useEffect(async () => {
+
     await getRoom(roomId).then((res) => {
       setRoom(res);
     });
-    socket.emit("new-member", roomId);
+
+    if(room.open)
+    socket.emit("new-member", roomId, '');
+    else
+    {
+      // model for password here.
+      
+      socket.emit("new-member", roomId, 'password');
+    }
+    
   }, []);
 
   useEffect(() => {
@@ -110,16 +120,22 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("member-connected", (member) => {
-      setuser(member.find((mem) => mem.username === username));
+      setcurrentuser(member.find((mem) => mem.username === user.username));
       setmembers(() => [...member]);
+    });
+
+    socket.on('room-update', (data) => {
+      setRoom(data);
     });
 
     socket.on("url", (url) => {
       seturl(url);
     });
+
     socket.on("alert",(msg)=>{
       setAlert(msg);
-    })
+    });
+
     socket.on("seek", (data) => {
       if (data.pause) {
         player.current.seekTo(data.seek, "seconds");
@@ -141,7 +157,7 @@ const Mainpage = ({ socket }) => {
   }, [socket]);
 
   const seek = () => {
-    if (user.isAdmin) {
+    if (currentuser.isAdmin) {
       var currentTime = player.current.getCurrentTime();
       socket.emit("seek", {
         roomId: roomId,
@@ -152,7 +168,7 @@ const Mainpage = ({ socket }) => {
   };
 
   const pause = () => {
-    if (user.isAdmin) {
+    if (currentuser.isAdmin) {
       var currentTime = player.current.getCurrentTime();
       socket.emit("seek", {
         roomId: roomId,
@@ -163,7 +179,7 @@ const Mainpage = ({ socket }) => {
   };
 
   const play = () => {
-    if (user.isAdmin) {
+    if (currentuser.isAdmin) {
       var currentTime = player.current.getCurrentTime();
       socket.emit("seek", {
         roomId: roomId,
@@ -277,9 +293,10 @@ const Mainpage = ({ socket }) => {
                   padding: "4px",
                   fontFamily: "'Baloo Tammudu 2', cursive",
                   fontSize: "1.3em",
+                  fontWeight: 1000
                 }}
               >
-                {username}
+                {user.username}
               </div>
               <Divider />
               <Tabs value={value} onChange={handleChange}>
@@ -294,9 +311,9 @@ const Mainpage = ({ socket }) => {
                   socket={socket}
                 />
               ) : value === "2" ? (
-                <People members={members} currentuser={user} socket={socket} />
+                <People members={members} currentuser={currentuser} socket={socket} />
               ) : (
-                <Setting />
+                <Setting room={room} currentuser={currentuser} socket={socket} />
               )}
             </Drawer>
           </Box>

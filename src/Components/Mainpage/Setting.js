@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import Switch from "@mui/material/Switch";
 
-function Setting() {
-  const label = { inputProps: { "aria-label": "Switch demo" } };
+const Setting = ({ room, currentuser, socket }) => {
+
+  const [loading, setloading] = useState(false);
+
+  const handleChange = () => {
+    if(currentuser.isHost)
+    {
+      setloading(true);
+      socket.emit('lock-room', room._id, !room.lock);
+    }
+  }
+
   return (
     <div>
       <Stack
@@ -19,17 +29,7 @@ function Setting() {
           }}
         >
           Lock Room
-          <Switch {...label} defaultChecked />
-        </div>
-        <div
-          sx={{
-            width: "20vw",
-            backgroundColor: "rgb(167,149,96)",
-            margin: "10px",
-          }}
-        >
-          Make Room Permanent
-          <Switch {...label} />
+          <Switch checked={room.lock} loading={loading} onClick={handleChange} />
         </div>
       </Stack>
     </div>
