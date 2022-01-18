@@ -38,7 +38,7 @@ const Login = () => {
                 {
                     
                     console.log(data.message);
-                    history.push('/',
+                    history.push(
                     {
                         pathname: '/',
                         state:{message: data.message}
