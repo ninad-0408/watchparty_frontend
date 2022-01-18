@@ -19,7 +19,8 @@ import Setting from "./Setting";
 import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
+import Typography from "@mui/material/Typography";
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
@@ -30,12 +31,11 @@ const Room = () => {
   });
 
   useEffect(() => {
-    
     return () => {
       socket.disconnect();
-    }
+    };
   }, []);
-  
+
   return <Mainpage socket={socket} />;
 };
 
@@ -61,7 +61,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Mainpage = ({ socket }) => {
-  
   const { roomId } = useParams();
   const [url, seturl] = useState("");
   const [open, setopen] = useState(true);
@@ -97,6 +96,7 @@ const Mainpage = ({ socket }) => {
   // const myVideo = useRef();
   // const userVideo = useRef();
   const [alert, setAlert] = useState(null);
+  const [alerterror, setError] = useState(null);
   useEffect(async () => {
     await getRoom(roomId).then((res) => {
       setRoom(res);
@@ -113,13 +113,16 @@ const Mainpage = ({ socket }) => {
       setuser(member.find((mem) => mem.username === username));
       setmembers(() => [...member]);
     });
-
+    socket.on("error", (msg) => {
+      console.log(msg);
+      setError(msg);
+    });
     socket.on("url", (url) => {
       seturl(url);
     });
-    socket.on("alert",(msg)=>{
+    socket.on("alert", (msg) => {
       setAlert(msg);
-    })
+    });
     socket.on("seek", (data) => {
       if (data.pause) {
         player.current.seekTo(data.seek, "seconds");
@@ -127,8 +130,8 @@ const Mainpage = ({ socket }) => {
       } else setplaying(true);
     });
 
-    socket.on('disconnect', () => {
-      history.push('/');
+    socket.on("disconnect", () => {
+      history.push("/");
     });
 
     // socket.on("stream", (stream) => {
@@ -195,7 +198,16 @@ const Mainpage = ({ socket }) => {
 
   return (
     <>
-    {alert && <Alert severity='info'  onClose={() => setAlert(null)} > { alert } </Alert>}
+      {alert && (
+        <Alert variant="filled" severity="info" onClose={() => setAlert(null)}>
+          {alert}
+        </Alert>
+      )}
+      {alerterror && (
+        <Alert variant="filled" severity="error" onClose={() => setError(null)}>
+          {alerterror}
+        </Alert>
+      )}
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
@@ -211,6 +223,7 @@ const Mainpage = ({ socket }) => {
             >
               {room.name}
             </div>
+
             <TextField
               label="Video Url"
               sx={{
