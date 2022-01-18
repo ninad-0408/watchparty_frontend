@@ -38,7 +38,7 @@ const Login = () => {
                 {
                     
                     console.log(data.message);
-                    history.push('/',
+                    history.push(
                     {
                         pathname: '/',
                         state:{message: data.message}
@@ -55,7 +55,7 @@ const Login = () => {
 
     return (
         <>
-        {alert && <Alert severity='error'  onClose={() => setAlert(null)} > { alert } </Alert>}
+        {alert && <Alert variant='filled' severity='error'  onClose={() => setAlert(null)} > { alert } </Alert>}
         <Container component='main' maxWidth='xs' >
             <Paper className={classes.paper} elevation={3}>
                 <Avatar className={classes.avatar}>
