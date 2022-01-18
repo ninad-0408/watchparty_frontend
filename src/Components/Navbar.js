@@ -21,12 +21,21 @@ function Navbar() {
 
   const style = {
     position: "absolute",
-    top: "50%",
+    top: "30%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const style1 = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 450,
+    bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
   };
@@ -77,8 +86,6 @@ function Navbar() {
                         CREATE ROOM
                       </Link>
                       <Modal
-                        aria-labelledby="transition-modal-title"
-                        aria-describedby="transition-modal-description"
                         open={open1}
                         onClose={handleOpen1}
                         closeAfterTransition
@@ -100,14 +107,12 @@ function Navbar() {
                       Join Room
                     </Link>
                     <Modal
-                      aria-labelledby="transition-modal-title"
-                      aria-describedby="transition-modal-description"
                       open={open2}
                       onClose={handleOpen2}
                       closeAfterTransition
                     >
                       <Fade in={open2}>
-                        <Box sx={style}>
+                        <Box sx={style1}>
                           <JoinRoom />
                         </Box>
                       </Fade>

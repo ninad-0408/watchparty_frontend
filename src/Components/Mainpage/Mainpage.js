@@ -19,7 +19,9 @@ import Setting from "./Setting";
 import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
+import { Fade, Modal } from "@mui/material";
+import RoomPassword from "../RoomPassword.js";
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
@@ -32,9 +34,9 @@ const Room = () => {
   useEffect(() => {
     return () => {
       socket.disconnect();
-    }
+    };
   }, []);
-  
+
   return <Mainpage socket={socket} />;
 };
 
@@ -60,7 +62,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Mainpage = ({ socket }) => {
-  
   const { roomId } = useParams();
   const [url, seturl] = useState("");
   const [open, setopen] = useState(true);
@@ -74,6 +75,18 @@ const Mainpage = ({ socket }) => {
 
   const user = JSON.parse(localStorage.getItem("profile"))?.user;
   const [currentuser, setcurrentuser] = useState(null);
+  const [open2, setOpen2] = useState(false);
+  const handleOpen = () => setOpen2(!open2);
+
+  const style = {
+    position: "absolute",
+    top: "20%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    boxShadow: 24,
+    p: 4,
+  };
 
   const onchange = (e) => {
     if (currentuser.isAdmin) {
@@ -98,20 +111,11 @@ const Mainpage = ({ socket }) => {
   const [alert, setAlert] = useState(null);
 
   useEffect(async () => {
-
     await getRoom(roomId).then((res) => {
       setRoom(res);
+      if (res.open || user._id == res.host) socket.emit("new-member", roomId, "");
+      else setOpen2(true);
     });
-
-    if(room.open)
-    socket.emit("new-member", roomId, '');
-    else
-    {
-      // model for password here.
-      
-      socket.emit("new-member", roomId, 'password');
-    }
-    
   }, []);
 
   useEffect(() => {
@@ -124,7 +128,7 @@ const Mainpage = ({ socket }) => {
       setmembers(() => [...member]);
     });
 
-    socket.on('room-update', (data) => {
+    socket.on("room-update", (data) => {
       setRoom(data);
     });
 
@@ -132,7 +136,7 @@ const Mainpage = ({ socket }) => {
       seturl(url);
     });
 
-    socket.on("alert",(msg)=>{
+    socket.on("alert", (msg) => {
       setAlert(msg);
     });
 
@@ -143,8 +147,8 @@ const Mainpage = ({ socket }) => {
       } else setplaying(true);
     });
 
-    socket.on('disconnect', () => {
-      history.push('/');
+    socket.on("disconnect", () => {
+      history.push("/");
     });
 
     // socket.on("stream", (stream) => {
@@ -211,7 +215,23 @@ const Mainpage = ({ socket }) => {
 
   return (
     <>
-    {alert && <Alert severity='info'  onClose={() => setAlert(null)} > { alert } </Alert>}
+      {alert && (
+        <Alert severity="info" onClose={() => setAlert(null)}>
+          {" "}
+          {alert}{" "}
+        </Alert>
+      )}
+      <Modal open={open2} onClose={handleOpen} closeAfterTransition>
+        <Fade in={open2}>
+          <Box sx={style}>
+            <RoomPassword
+              roomId={roomId}
+              socket={socket}
+              handleOpen={handleOpen}
+            />
+          </Box>
+        </Fade>
+      </Modal>
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
@@ -293,7 +313,7 @@ const Mainpage = ({ socket }) => {
                   padding: "4px",
                   fontFamily: "'Baloo Tammudu 2', cursive",
                   fontSize: "1.3em",
-                  fontWeight: 1000
+                  fontWeight: 1000,
                 }}
               >
                 {user.username}
@@ -311,9 +331,17 @@ const Mainpage = ({ socket }) => {
                   socket={socket}
                 />
               ) : value === "2" ? (
-                <People members={members} currentuser={currentuser} socket={socket} />
+                <People
+                  members={members}
+                  currentuser={currentuser}
+                  socket={socket}
+                />
               ) : (
-                <Setting room={room} currentuser={currentuser} socket={socket} />
+                <Setting
+                  room={room}
+                  currentuser={currentuser}
+                  socket={socket}
+                />
               )}
             </Drawer>
           </Box>
