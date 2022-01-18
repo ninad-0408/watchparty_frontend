@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Avatar, Container, Grid, Paper, Typography, Box } from "@mui/material";
-
 import VideocamIcon from "@mui/icons-material/Videocam";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+// import AddIcon from "@mui/icons-material/Add";
+// import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useHistory } from "react-router-dom";
 
@@ -72,7 +71,7 @@ const CreateRoom = () => {
       }}
     >
       <Paper className={classes.paper} elevation={3}>
-        <Avatar className={classes.avatar}>
+        <Avatar className={classes.avatar} color="secondary">
           <VideocamIcon />
         </Avatar>
         <Typography variant="h5">Create Room</Typography>
@@ -121,8 +120,13 @@ const CreateRoom = () => {
               );
             })} */}
           </Grid>
+<<<<<<< HEAD
+          <Box marginTop={2} >
+            <LoadingButton type="submit" variant='contained' loading={processing} color="primary" fullWidth>
+=======
           <Box marginTop={2} color="primary">
             <LoadingButton type="submit" loading={processing} fullWidth disabled={roomlen}>
+>>>>>>> d2c3803195e718060ae3fcc43378be456e303d9b
               CREATE
             </LoadingButton>
           </Box>
