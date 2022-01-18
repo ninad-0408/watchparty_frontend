@@ -22,6 +22,7 @@ import { baseUrl } from "../../Constants/baseUrl";
 import Alert from "@mui/material/Alert";
 import { Fade, Modal } from "@mui/material";
 import RoomPassword from "../RoomPassword.js";
+import Typography from "@mui/material/Typography";
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
@@ -109,7 +110,8 @@ const Mainpage = ({ socket }) => {
   // const myVideo = useRef();
   // const userVideo = useRef();
   const [alert, setAlert] = useState(null);
-
+  const [alerterror, setError] = useState(null);
+  
   useEffect(async () => {
     await getRoom(roomId).then((res) => {
       setRoom(res);
@@ -127,8 +129,13 @@ const Mainpage = ({ socket }) => {
       setcurrentuser(member.find((mem) => mem.username === user.username));
       setmembers(() => [...member]);
     });
-
-    socket.on("room-update", (data) => {
+    
+    socket.on("error", ({ message }) => {
+      setError(message);
+      history.push("/");
+    });
+    
+    socket.on('room-update', (data) => {
       setRoom(data);
     });
 
@@ -216,9 +223,13 @@ const Mainpage = ({ socket }) => {
   return (
     <>
       {alert && (
-        <Alert severity="info" onClose={() => setAlert(null)}>
-          {" "}
-          {alert}{" "}
+        <Alert variant="filled" severity="info" onClose={() => setAlert(null)}>
+          {alert}
+        </Alert>
+      )}
+      {alerterror && (
+        <Alert variant="filled" severity="error" onClose={() => setError(null)}>
+          {alerterror}
         </Alert>
       )}
       <Modal open={open2} onClose={handleOpen} closeAfterTransition>
@@ -235,18 +246,9 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
-            <div
-              style={{
-                width: "10vw",
-                margin: "10px",
-                backgroundColor: "rgba(20,20,35,0.4)",
-                padding: "10px",
-                fontFamily: "'Baloo Tammudu 2', cursive",
-                fontSize: "1.5em",
-              }}
-            >
-              {room.name}
-            </div>
+            <Button variant="outlined" sx={{margin: "10px"}} >
+                {room.name}
+            </Button>
             <TextField
               label="Video Url"
               sx={{

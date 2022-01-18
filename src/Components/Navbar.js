@@ -5,13 +5,19 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import JoinRoom from "./JoinRoom";
+import {useHistory } from 'react-router-dom';
 
 function Navbar() {
   const user = JSON.parse(localStorage.getItem("profile"))?.user?.username;
-
+  const history=useHistory();
   const handleLogout = () => {
     localStorage.removeItem("profile");
-    window.location.reload();
+    // setAlert("LoggedOut Successfully!")
+    history.push({
+      pathname: '/',
+      state:{message: "LoggedOut Successfully!"}
+  })
+    // window.location.reload();
   };
 
   const [open1, setOpen1] = useState(false);
@@ -162,7 +168,10 @@ function Navbar() {
             </ul>
           </div>
         </div>
+        
       </nav>
+     
+      
     </>
   );
 }

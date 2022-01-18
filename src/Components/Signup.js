@@ -47,13 +47,32 @@ const Auth = () => {
             .catch((error) => console.log(error));
     };
 
+    const [namelen, setnamelen] = useState(false);
+    const [emaillen, setemaillen] = useState(false);
+    const [userlen, setuserlen] = useState(false);
+    const [passlen, setpasslen] = useState(false);
+    const [confpasslen, setconfpasslen] = useState(false);
+
+
     const handleChange = (e) => {
-        setformData({ ...formData, [e.target.name]: e.target.value });
+        if(e.target.name==='username'|| e.target.name==='password')
+        {
+            if(e.target.value.length > 2 && e.target.value.length < 11){
+            e.target.name==='username' ? setuserlen(false) : setpasslen(false);
+            setformData({ ...formData, [e.target.name]: e.target.value });
+            }
+            else{
+                e.target.name==='password' ? setpasslen(true) : setuserlen(true);
+            }
+        }
+        else{
+            setformData({ ...formData, [e.target.name]: e.target.value });
+        }
     };
 
     return (
         <>
-        {alert && <Alert severity='error'  onClose={() => setAlert(null)} > { alert } </Alert>}
+        {alert && <Alert variant="filled" severity='error'  onClose={() => setAlert(null)} > { alert } </Alert>}
         <Container component='main' maxWidth='xs' >
             <Paper className={classes.paper} elevation={3}>
                 <Avatar className={classes.avatar}>
@@ -64,12 +83,12 @@ const Auth = () => {
                     <Grid container spacing={2}>
                         <Input name='name' label='Name' type='text' handleChange={handleChange} autoFocus required />
                         <Input name='email' label='Email Address' type='email' handleChange={handleChange} required />
-                        <Input name='username' label='UserName' type='text' handleChange={handleChange} required />
-                        <Input name='password' label='Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required />
+                        <Input name='username' label='UserName' type='text' handleChange={handleChange} required error={userlen}/>
+                        <Input name='password' label='Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required error={passlen}/>
                         <Input name='confirmpassword' label='Confirm Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required />
                     </Grid>
                     <Box marginTop={3}>
-                        <LoadingButton type='submit' color='primary' className={classes.submit} loading={processing} variant="contained" fullWidth>
+                        <LoadingButton type='submit' color='primary' className={classes.submit} loading={processing} variant="contained" fullWidth disabled={userlen || passlen}>
                             Sign Up
                         </LoadingButton>
                     </Box>

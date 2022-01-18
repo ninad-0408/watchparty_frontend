@@ -29,7 +29,19 @@ const CreateRoom = () => {
       .catch((error) => console.log(error));
   };
 
+  const [roomlen, setroomlen] = useState(false)
+
   const handleChange = (e) => {
+    if(e.target.name==="name")
+    {
+      if(e.target.value.length > 2 && e.target.value.length < 9){
+        setformData({ ...formData, [e.target.name]: e.target.value });
+        setroomlen(false);
+      }
+      else
+      setroomlen(true);
+    }
+    else
     setformData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -75,6 +87,7 @@ const CreateRoom = () => {
               type="text"
               handleChange={handleChange}
               required
+              error={roomlen}
             />
             <Input
               name="password"
@@ -107,8 +120,13 @@ const CreateRoom = () => {
               );
             })} */}
           </Grid>
+<<<<<<< HEAD
           <Box marginTop={2} >
             <LoadingButton type="submit" variant='contained' loading={processing} color="primary" fullWidth>
+=======
+          <Box marginTop={2} color="primary">
+            <LoadingButton type="submit" loading={processing} fullWidth disabled={roomlen}>
+>>>>>>> d2c3803195e718060ae3fcc43378be456e303d9b
               CREATE
             </LoadingButton>
           </Box>
