@@ -20,25 +20,26 @@ import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
 import Alert from "@mui/material/Alert";
-import { Fade, Modal } from "@mui/material";
+import { CircularProgress, Fade, Modal } from "@mui/material";
 import RoomPassword from "../RoomPassword.js";
-import Typography from "@mui/material/Typography";
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
-  var socket = io(baseUrl, {
+  const socket = io(baseUrl, {
     extraHeaders: {
       Authorization: `Bearer ${token}`,
     },
   });
-
+  
   useEffect(() => {
     return () => {
       socket.disconnect();
     };
   }, []);
 
-  return <Mainpage socket={socket} />;
+  return (
+    <>{socket !== null ? <Mainpage socket={socket} /> : <CircularProgress />}</>
+  );
 };
 
 const drawerWidth = "360";
@@ -65,13 +66,15 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 const Mainpage = ({ socket }) => {
   const { roomId } = useParams();
   const [url, seturl] = useState("");
+  const [val, setval] = useState("");
   const [open, setopen] = useState(true);
   const [room, setRoom] = useState({});
   const [members, setmembers] = useState([]);
   const [message, setMessage] = useState([]);
+  const [load, setload] = useState(false);
   const history = useHistory();
 
-  const [playing, setplaying] = useState(true);
+  const [playing, setplaying] = useState(false);
   const player = useRef(null);
 
   const user = JSON.parse(localStorage.getItem("profile"))?.user;
@@ -90,10 +93,10 @@ const Mainpage = ({ socket }) => {
   };
 
   const onchange = (e) => {
-    if (currentuser.isAdmin) {
-      socket.emit("url", { roomId, url: e.target.value });
-      seturl(e.target.value);
-    }
+    if (currentuser.isAdmin) 
+      {
+        setval(e.target.value);
+      }
   };
 
   const toggleSidebar = () => {
@@ -111,11 +114,12 @@ const Mainpage = ({ socket }) => {
   // const userVideo = useRef();
   const [alert, setAlert] = useState(null);
   const [alerterror, setError] = useState(null);
-  
+
   useEffect(async () => {
     await getRoom(roomId).then((res) => {
       setRoom(res);
-      if (res.open || user._id == res.host) socket.emit("new-member", roomId, "");
+      if (res.open || user._id == res.host)
+        socket.emit("new-member", roomId, "");
       else setOpen2(true);
     });
   }, []);
@@ -126,21 +130,23 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("member-connected", (member) => {
-      setcurrentuser(member.find((mem) => mem.username === user.username));
+      setcurrentuser(member.find((mem) => mem._id === user._id));
       setmembers(() => [...member]);
     });
-    
+
     socket.on("error", ({ message }) => {
       setError(message);
       history.push("/");
     });
-    
-    socket.on('room-update', (data) => {
+
+    socket.on("room-update", (data) => {
       setRoom(data);
     });
 
-    socket.on("url", (url) => {
-      seturl(url);
+    socket.on("url", (incurl) => {
+      seturl(incurl);
+      setval(incurl);
+      setload(false);
     });
 
     socket.on("alert", (msg) => {
@@ -148,10 +154,14 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("seek", (data) => {
+      player.current.seekTo(data.seek, "seconds");
       if (data.pause) {
-        player.current.seekTo(data.seek, "seconds");
         setplaying(false);
       } else setplaying(true);
+    });
+    
+    socket.on('seek-only', (data) => {
+      player.current.seekTo(data.seek, "seconds");
     });
 
     socket.on("disconnect", () => {
@@ -167,13 +177,32 @@ const Mainpage = ({ socket }) => {
     // });
   }, [socket]);
 
+  useEffect(async() => {
+    console.log(currentuser);
+    if(currentuser?.isHost)
+    {
+      sendUrl();        
+      setTimeout(() => {
+        seek();
+      }, 4000);
+    }
+  }, [members]);
+
+  const sendUrl = () => {
+    console.log('here2');
+    if (currentuser.isAdmin) {
+      setload(true);
+      socket.emit("url", { roomId, val });
+    }
+  };
+
   const seek = () => {
+    console.log('here3');
     if (currentuser.isAdmin) {
       var currentTime = player.current.getCurrentTime();
-      socket.emit("seek", {
+      socket.emit("seek-only", {
         roomId: roomId,
         seek: currentTime,
-        pause: !playing,
       });
     }
   };
@@ -246,33 +275,31 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
-            <Button variant="outlined" sx={{margin: "10px" , background : "black", border:"2px solid grey"}} >
-                {room.name}
+            <Button variant="contained" color="primary" sx={{ margin: "10px" }}>
+              {room.name}
             </Button>
             <TextField
               label="Video Url"
               sx={{
                 width: "70vw",
-                margin: "10px",
+                margin: "11px",
                 backgroundColor: "rgba(20,20,35,0.4)",
               }}
+              variant='outlined'
               onChange={onchange}
-              value={url}
+              value={val}
             />
             <LoadingButton
-              onClick={seek}
+              onClick={sendUrl}
+              loading={load}
               loadingPosition="end"
               variant="contained"
               sx={{ width: "23vw", margin: "10px" }}
             >
-              Play
+              Send
             </LoadingButton>
             <Button>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={toggleSidebar}
-              >
+              <IconButton color="inherit" onClick={toggleSidebar}>
                 <MenuIcon />
               </IconButton>
             </Button>
