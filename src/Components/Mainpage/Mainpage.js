@@ -151,6 +151,12 @@ const Mainpage = ({ socket }) => {
 
     socket.on("alert", (msg) => {
       setAlert(msg);
+      const timeId = setTimeout(() => {
+        setAlert(null);
+      }, 3500);
+      return () => {
+        clearTimeout(timeId);
+      };
     });
 
     socket.on("seek", (data) => {
@@ -250,9 +256,17 @@ const Mainpage = ({ socket }) => {
   return (
     <>
       {alert && (
-        <Alert variant="filled" severity="info" onClose={() => setAlert(null)}>
-          {alert}
-        </Alert>
+        <div style={{display:"flex", margin:"auto", "justify-content": "center",
+  "align-items": "center"}}>
+          <Alert
+            variant="filled"
+            severity="info"
+            sx={{ width: "300px" }}
+            onClose={() => setAlert(null)}
+          >
+            {alert}
+          </Alert>
+        </div>
       )}
       {alerterror && (
         <Alert variant="filled" severity="error" onClose={() => setError(null)}>
@@ -273,6 +287,14 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
+            <Button
+              variant="outlined"
+              sx={{
+                margin: "10px",
+                background: "black",
+                border: "2px solid grey",
+              }}
+            >
             <Button variant="contained" color="primary" sx={{ margin: "10px" }}>
               {room.name}
             </Button>
