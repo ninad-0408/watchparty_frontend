@@ -46,3 +46,10 @@ export const getRoom = (roomId) => API.get(`/room/${roomId}`).then((res)=>{
 }).catch((err)=>{
     console.log(err.response);
 });
+
+export const delRoom = (roomId) => API.delete(`/room/${roomId}`).then((res) => {
+    return res.data.message;
+})
+.catch((err)=>{
+    return (err.response.data);
+});

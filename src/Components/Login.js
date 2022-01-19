@@ -30,21 +30,17 @@ const Login = () => {
             .then((data) => {
                 console.log(data);
                 if(data.err){
-                    
-                setAlert(data.err.message);
+                    setAlert(data.err.message);
                     setformData(initialState);
                     setprocessing(false);
                 }
                 else
                 {
-                    
                     console.log(data.message);
-                    history.push(
-                    {
+                    history.push({
                         pathname: '/',
                         state:{message: data.message}
-                    }
-                    )
+                    })
                 }
                 })
             .catch((error) => setAlert(error.message));

@@ -189,7 +189,6 @@ const Mainpage = ({ socket }) => {
   }, [members]);
 
   const sendUrl = () => {
-    console.log('here2');
     if (currentuser.isAdmin) {
       setload(true);
       socket.emit("url", { roomId, val });
@@ -197,7 +196,6 @@ const Mainpage = ({ socket }) => {
   };
 
   const seek = () => {
-    console.log('here3');
     if (currentuser.isAdmin) {
       var currentTime = player.current.getCurrentTime();
       socket.emit("seek-only", {
