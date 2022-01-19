@@ -8,7 +8,8 @@ import "./home.css";
 function Home() {
   const location = useLocation();
   const [alert, setAlert] = useState(null);
-  const user = JSON.parse(localStorage.getItem("profile"))?.user?.username;
+  const user = JSON.parse(localStorage.getItem("profile"))?.user;
+
   useEffect(() => {
     setAlert(location?.state?.message);
     const timeId = setTimeout(() => {
