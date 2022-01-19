@@ -11,6 +11,13 @@ function Home() {
   const user = JSON.parse(localStorage.getItem("profile"))?.user?.username;
   useEffect(() => {
     setAlert(location?.state?.message);
+    const timeId = setTimeout(() => {
+      setAlert(null);
+    }, 3500);
+
+    return () => {
+      clearTimeout(timeId);
+    };
   }, [location.state]);
   return (
     <div className="App">
@@ -28,13 +35,23 @@ function Home() {
         >
           <div style={{ width: "100%", "margin-top": "30px" }}>
             {alert && (
-              <Alert
-                variant="filled"
-                severity="success"
-                onClose={() => setAlert(null)}
+              <div
+                style={{
+                  display: "flex",
+                  margin: "auto",
+                  "justify-content": "center",
+                  "align-items": "center",
+                }}
               >
-                {alert}
-              </Alert>
+                <Alert
+                  variant="filled"
+                  severity="success"
+                  sx={{ width: "300px" }}
+                  onClose={() => setAlert(null)}
+                >
+                  {alert}
+                </Alert>
+              </div>
             )}
           </div>
           <div class="container d-flex-row d-md-flex align-items-center justify-content-between mt-5">
@@ -54,27 +71,30 @@ function Home() {
             </div>
             <div class="pb-5 mt-3 d-flex align-items-center justify-content-center">
               {/* <div class="card" style={{ width: "18rem" }}> */}
-              <div className="posters" >
+              <div className="posters">
                 <img
                   src="cubicles.jpg"
                   alt=""
                   className="img_card_1"
-                  width="36"
-                  height="11"
+                  
                 />
                 <img
                   src="dindora.jpg"
                   alt=""
                   className="img_card_1"
-                  width="16"
-                  height="9"
+                  
                 />
                 <img
                   src="aspirants.jpg"
                   alt=""
                   className="img_card_1"
-                  width="16"
-                  height="9"
+                  
+                />
+                <img
+                  src="kota-factory.jpg"
+                  alt=""
+                  className="img_card_1"
+                  
                 />
               </div>
             </div>

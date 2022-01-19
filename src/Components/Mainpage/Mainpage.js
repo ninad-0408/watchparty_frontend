@@ -111,11 +111,12 @@ const Mainpage = ({ socket }) => {
   // const userVideo = useRef();
   const [alert, setAlert] = useState(null);
   const [alerterror, setError] = useState(null);
-  
+
   useEffect(async () => {
     await getRoom(roomId).then((res) => {
       setRoom(res);
-      if (res.open || user._id == res.host) socket.emit("new-member", roomId, "");
+      if (res.open || user._id == res.host)
+        socket.emit("new-member", roomId, "");
       else setOpen2(true);
     });
   }, []);
@@ -129,13 +130,13 @@ const Mainpage = ({ socket }) => {
       setcurrentuser(member.find((mem) => mem.username === user.username));
       setmembers(() => [...member]);
     });
-    
+
     socket.on("error", ({ message }) => {
       setError(message);
       history.push("/");
     });
-    
-    socket.on('room-update', (data) => {
+
+    socket.on("room-update", (data) => {
       setRoom(data);
     });
 
@@ -145,6 +146,12 @@ const Mainpage = ({ socket }) => {
 
     socket.on("alert", (msg) => {
       setAlert(msg);
+      const timeId = setTimeout(() => {
+        setAlert(null);
+      }, 3500);
+      return () => {
+        clearTimeout(timeId);
+      };
     });
 
     socket.on("seek", (data) => {
@@ -223,9 +230,17 @@ const Mainpage = ({ socket }) => {
   return (
     <>
       {alert && (
-        <Alert variant="filled" severity="info" onClose={() => setAlert(null)}>
-          {alert}
-        </Alert>
+        <div style={{display:"flex", margin:"auto", "justify-content": "center",
+  "align-items": "center"}}>
+          <Alert
+            variant="filled"
+            severity="info"
+            sx={{ width: "300px" }}
+            onClose={() => setAlert(null)}
+          >
+            {alert}
+          </Alert>
+        </div>
       )}
       {alerterror && (
         <Alert variant="filled" severity="error" onClose={() => setError(null)}>
@@ -246,8 +261,15 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
-            <Button variant="outlined" sx={{margin: "10px" , background : "black", border:"2px solid grey"}} >
-                {room.name}
+            <Button
+              variant="outlined"
+              sx={{
+                margin: "10px",
+                background: "black",
+                border: "2px solid grey",
+              }}
+            >
+              {room.name}
             </Button>
             <TextField
               label="Video Url"
