@@ -20,6 +20,7 @@ function Home() {
       clearTimeout(timeId);
     };
   }, [location.state]);
+
   return (
     <div className="App">
       <Navbar />
@@ -34,7 +35,13 @@ function Home() {
             "background-size": "100% 100%",
           }}
         >
-          <div style={{ width: "100%", "margin-top": "30px" }}>
+          <div
+            style={{
+              width: "100%",
+              "margin-top": "30px",
+              position: "absolute",
+            }}
+          >
             {alert && (
               <div
                 style={{
@@ -73,30 +80,10 @@ function Home() {
             <div class="pb-5 mt-3 d-flex align-items-center justify-content-center">
               {/* <div class="card" style={{ width: "18rem" }}> */}
               <div className="posters">
-                <img
-                  src="cubicles.jpg"
-                  alt=""
-                  className="img_card_1"
-                  
-                />
-                <img
-                  src="dindora.jpg"
-                  alt=""
-                  className="img_card_1"
-                  
-                />
-                <img
-                  src="aspirants.jpg"
-                  alt=""
-                  className="img_card_1"
-                  
-                />
-                <img
-                  src="kota-factory.jpg"
-                  alt=""
-                  className="img_card_1"
-                  
-                />
+                <img src="cubicles.jpg" alt="" className="img_card_1" />
+                <img src="dindora.jpg" alt="" className="img_card_1" />
+                <img src="aspirants.jpg" alt="" className="img_card_1" />
+                <img src="kota-factory.jpg" alt="" className="img_card_1" />
               </div>
             </div>
           </div>

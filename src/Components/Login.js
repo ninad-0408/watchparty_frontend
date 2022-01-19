@@ -58,16 +58,15 @@ const Login = () => {
   const [userlen, setuserlen] = useState(false);
   const [passlen, setpasslen] = useState(false);
 
-    const handleChange = (e) => {
-        if(e.target.value.length > 2 && e.target.value.length < 9){
-            e.target.name==='username' ? setuserlen(false) : setpasslen(false);
-            setformData({ ...formData, [e.target.name]: e.target.value });
-        }
-        else{
-            e.target.name==='password' ? setpasslen(true) : setuserlen(true);
-            setformData({ ...formData, [e.target.name]: e.target.value });
-        }
-    };
+  const handleChange = (e) => {
+    if (e.target.value.length > 2 && e.target.value.length < 9) {
+      e.target.name === "username" ? setuserlen(false) : setpasslen(false);
+      setformData({ ...formData, [e.target.name]: e.target.value });
+    } else {
+      e.target.name === "password" ? setpasslen(true) : setuserlen(true);
+      setformData({ ...formData, [e.target.name]: e.target.value });
+    }
+  };
 
   return (
     <>
@@ -78,6 +77,7 @@ const Login = () => {
             margin: "auto",
             "justify-content": "center",
             "align-items": "center",
+            position: "absolute",
           }}
         >
           <Alert
@@ -90,22 +90,48 @@ const Login = () => {
           </Alert>
         </div>
       )}
-        <Container component='main' maxWidth='xs' >
-            <Paper className={classes.paper} elevation={3}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography variant='h5'>Login</Typography>
-                <form className={classes.form} onSubmit={handleSubmit} >
-                    <Grid container spacing={2}>
-                        <Input name='username' label='UserName' type='text' handleChange={handleChange} required error={userlen} value={formData.username} autoFocus/>
-                        <Input name='password' label='Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required error={passlen} value={formData.password}/>
-                    </Grid>
-                    <Box marginTop={3}>
-                        <LoadingButton type='submit' color='primary' className={classes.submit} loading={processing} variant="contained" fullWidth disabled={userlen || passlen}>
-                            Login
-                        </LoadingButton>
-                    </Box>
+      <Container component="main" maxWidth="xs">
+        <Paper className={classes.paper} elevation={3}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography variant="h5">Login</Typography>
+          <form className={classes.form} onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Input
+                name="username"
+                label="UserName"
+                type="text"
+                handleChange={handleChange}
+                required
+                error={userlen}
+                value={formData.username}
+                autoFocus
+              />
+              <Input
+                name="password"
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                handleShowPassword={handleShowPassword}
+                handleChange={handleChange}
+                required
+                error={passlen}
+                value={formData.password}
+              />
+            </Grid>
+            <Box marginTop={3}>
+              <LoadingButton
+                type="submit"
+                color="primary"
+                className={classes.submit}
+                loading={processing}
+                variant="contained"
+                fullWidth
+                disabled={userlen || passlen}
+              >
+                Login
+              </LoadingButton>
+            </Box>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Button color="secondary">
