@@ -30,7 +30,7 @@ const Room = () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  
+
   useEffect(() => {
     return () => {
       socket.disconnect();
@@ -93,10 +93,9 @@ const Mainpage = ({ socket }) => {
   };
 
   const onchange = (e) => {
-    if (currentuser.isAdmin) 
-      {
-        setval(e.target.value);
-      }
+    if (currentuser.isAdmin) {
+      setval(e.target.value);
+    }
   };
 
   const toggleSidebar = () => {
@@ -165,8 +164,8 @@ const Mainpage = ({ socket }) => {
         setplaying(false);
       } else setplaying(true);
     });
-    
-    socket.on('seek-only', (data) => {
+
+    socket.on("seek-only", (data) => {
       player.current.seekTo(data.seek, "seconds");
     });
 
@@ -183,11 +182,10 @@ const Mainpage = ({ socket }) => {
     // });
   }, [socket]);
 
-  useEffect(async() => {
+  useEffect(async () => {
     console.log(currentuser);
-    if(currentuser?.isHost)
-    {
-      sendUrl();        
+    if (currentuser?.isHost) {
+      sendUrl();
       setTimeout(() => {
         seek();
       }, 4000);
@@ -256,8 +254,15 @@ const Mainpage = ({ socket }) => {
   return (
     <>
       {alert && (
-        <div style={{display:"flex", margin:"auto", "justify-content": "center",
-  "align-items": "center"}}>
+        <div
+          style={{
+            display: "flex",
+            margin: "auto",
+            "justify-content": "center",
+            "align-items": "center",
+            position: "absolute",
+          }}
+        >
           <Alert
             variant="filled"
             severity="info"
@@ -287,14 +292,6 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
-            <Button
-              variant="outlined"
-              sx={{
-                margin: "10px",
-                background: "black",
-                border: "2px solid grey",
-              }}
-            >
             <Button variant="contained" color="primary" sx={{ margin: "10px" }}>
               {room.name}
             </Button>
@@ -305,7 +302,7 @@ const Mainpage = ({ socket }) => {
                 margin: "11px",
                 backgroundColor: "rgba(20,20,35,0.4)",
               }}
-              variant='outlined'
+              variant="outlined"
               onChange={onchange}
               value={val}
             />
@@ -335,7 +332,7 @@ const Mainpage = ({ socket }) => {
                 ref={player}
                 onPause={pause}
                 onPlay={play}
-                onSeek={seek}
+                // onSeek={seek}
               />
             </Main>
             <Drawer
