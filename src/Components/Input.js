@@ -4,7 +4,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import FormHelperText from '@mui/material/FormHelperText';
 
-const Input = ({ name, autoFocus, half, label, type, handleChange, handleShowPassword, required , error}) => {
+const Input = ({ name, autoFocus, half, label, value, type, handleChange, handleShowPassword, required , error}) => {
 
     return (
         <Grid item xs={12} sm={half ? 6 : 12}>
@@ -12,6 +12,7 @@ const Input = ({ name, autoFocus, half, label, type, handleChange, handleShowPas
                 name={name}
                 onChange={handleChange}
                 autoFocus={autoFocus}
+                value={value}
                 label={label}
                 type={type}
                 variant='outlined'
@@ -28,7 +29,7 @@ const Input = ({ name, autoFocus, half, label, type, handleChange, handleShowPas
                     ),
                 }}
             />
-            {error?<FormHelperText id="component-error-text">{name} should be in between 3 to 8 characters</FormHelperText>:<></>}
+            {error? <FormHelperText id="component-error-text">{name} should be in between 3 to 8 characters</FormHelperText>:<></>}
         </Grid>
     )
 };

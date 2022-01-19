@@ -47,14 +47,12 @@ const Auth = () => {
             .catch((error) => console.log(error));
     };
 
-    const [namelen, setnamelen] = useState(false);
-    const [emaillen, setemaillen] = useState(false);
     const [userlen, setuserlen] = useState(false);
     const [passlen, setpasslen] = useState(false);
-    const [confpasslen, setconfpasslen] = useState(false);
 
 
     const handleChange = (e) => {
+        console.log(e.target);
         if(e.target.name==='username'|| e.target.name==='password')
         {
             if(e.target.value.length > 2 && e.target.value.length < 11){
@@ -63,6 +61,7 @@ const Auth = () => {
             }
             else{
                 e.target.name==='password' ? setpasslen(true) : setuserlen(true);
+                setformData({ ...formData, [e.target.name]: e.target.value });
             }
         }
         else{
@@ -81,11 +80,11 @@ const Auth = () => {
                 <Typography variant='h5'>Sign Up</Typography>
                 <form className={classes.form} onSubmit={handleSubmit} >
                     <Grid container spacing={2}>
-                        <Input name='name' label='Name' type='text' handleChange={handleChange} autoFocus required />
-                        <Input name='email' label='Email Address' type='email' handleChange={handleChange} required />
-                        <Input name='username' label='UserName' type='text' handleChange={handleChange} required error={userlen}/>
-                        <Input name='password' label='Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required error={passlen}/>
-                        <Input name='confirmpassword' label='Confirm Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required />
+                        <Input name='name' label='Name' type='text' handleChange={handleChange} autoFocus required value={formData.name} />
+                        <Input name='email' label='Email Address' type='email' handleChange={handleChange} required value={formData.email} />
+                        <Input name='username' label='UserName' type='text' handleChange={handleChange} required error={userlen} value={formData.username} />
+                        <Input name='password' label='Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required error={passlen} value={formData.password} />
+                        <Input name='confirmPassword' label='Confirm Password' type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} handleChange={handleChange} required error={passlen} value={formData.confirmPassword} />
                     </Grid>
                     <Box marginTop={3}>
                         <LoadingButton type='submit' color='primary' className={classes.submit} loading={processing} variant="contained" fullWidth disabled={userlen || passlen}>
