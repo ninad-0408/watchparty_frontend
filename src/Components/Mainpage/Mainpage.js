@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { getRoom } from "../../Api/index.js";
+import { getRoom, ytSearch } from "../../Api/index.js";
 import Chat from "./Chat";
 import People from "./People";
 import Setting from "./Setting";
@@ -183,7 +183,7 @@ const Mainpage = ({ socket }) => {
   }, [socket]);
 
   useEffect(async () => {
-    console.log(currentuser);
+    // console.log(currentuser);
     if (currentuser?.isHost) {
       sendUrl();
       setTimeout(() => {
@@ -193,6 +193,7 @@ const Mainpage = ({ socket }) => {
   }, [members]);
 
   const sendUrl = () => {
+    ytSearch({word:val}).then((data)=>{console.log(data?.videoList[0]?.url);seturl(data?.videoList[0]?.url);setval(data?.videoList[0]?.url);});
     if (currentuser.isAdmin) {
       setload(true);
       socket.emit("url", { roomId, val });
