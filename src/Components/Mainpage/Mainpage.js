@@ -20,8 +20,19 @@ import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
 import Alert from "@mui/material/Alert";
-import { CircularProgress, Fade, Modal } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Fade,
+  Modal,
+  Typography,
+} from "@mui/material";
 import RoomPassword from "../RoomPassword.js";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
@@ -72,6 +83,10 @@ const Mainpage = ({ socket }) => {
   const [members, setmembers] = useState([]);
   const [message, setMessage] = useState([]);
   const [load, setload] = useState(false);
+  const [load2, setload2] = useState(false);
+  const [anchorEl, setanchorEl] = useState(null);
+  const open3 = Boolean(anchorEl);
+  const [videolist, setvideolist] = useState([]);
   const history = useHistory();
 
   const [playing, setplaying] = useState(false);
@@ -90,6 +105,24 @@ const Mainpage = ({ socket }) => {
     width: 400,
     boxShadow: 24,
     p: 4,
+  };
+
+  const textfield = useRef(null);
+
+  const chooseVideo = (vid) => {
+    setval(vid.url);
+    setanchorEl(null);
+  };
+
+  const handleSearch = () => {
+    if (currentuser.isAdmin && val !== "") {
+      setload2(true);
+      ytSearch({ word: val }).then((data) => {
+        setanchorEl(textfield.current);
+        setvideolist(() => [...data?.videoList]);
+        setload2(false);
+      });
+    }
   };
 
   const onchange = (e) => {
@@ -159,14 +192,10 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("seek", (data) => {
-      player.current.seekTo(data.seek, "seconds");
       if (data.pause) {
+        player.current.seekTo(data.seek, "seconds");
         setplaying(false);
       } else setplaying(true);
-    });
-
-    socket.on("seek-only", (data) => {
-      player.current.seekTo(data.seek, "seconds");
     });
 
     socket.on("disconnect", () => {
@@ -183,30 +212,21 @@ const Mainpage = ({ socket }) => {
   }, [socket]);
 
   useEffect(async () => {
-    // console.log(currentuser);
     if (currentuser?.isHost) {
       sendUrl();
       setTimeout(() => {
-        seek();
+        pause();
       }, 4000);
+      setTimeout(() => {
+        play();
+      }, 5000);
     }
-  }, [members]);
+  }, [members.length]);
 
   const sendUrl = () => {
-    ytSearch({word:val}).then((data)=>{console.log(data?.videoList[0]?.url);seturl(data?.videoList[0]?.url);setval(data?.videoList[0]?.url);});
     if (currentuser.isAdmin) {
       setload(true);
       socket.emit("url", { roomId, val });
-    }
-  };
-
-  const seek = () => {
-    if (currentuser.isAdmin) {
-      var currentTime = player.current.getCurrentTime();
-      socket.emit("seek-only", {
-        roomId: roomId,
-        seek: currentTime,
-      });
     }
   };
 
@@ -223,10 +243,8 @@ const Mainpage = ({ socket }) => {
 
   const play = () => {
     if (currentuser.isAdmin) {
-      var currentTime = player.current.getCurrentTime();
       socket.emit("seek", {
         roomId: roomId,
-        seek: currentTime,
         pause: false,
       });
     }
@@ -254,32 +272,46 @@ const Mainpage = ({ socket }) => {
 
   return (
     <>
-      {alert && (
-        <div
-          style={{
-            display: "flex",
-            margin: "auto",
-            "justify-content": "center",
-            "align-items": "center",
-            position: "absolute",
-          }}
-        >
+      <div
+        style={{
+          width: "100%",
+          "margin-top": "30px",
+          position: "absolute",
+          left: '35%',
+          zIndex: '10000'
+        }}
+      >
+        {alert && (
+          <div
+            style={{
+              display: "flex",
+              margin: "auto",
+              "justify-content": "center",
+              "align-items": "center",
+              position: "absolute",
+            }}
+          >
+            <Alert
+              variant="filled"
+              severity="info"
+              sx={{ width: "300px" }}
+              onClose={() => setAlert(null)}
+            >
+              {alert}
+            </Alert>
+          </div>
+        )}
+        {alerterror && (
           <Alert
             variant="filled"
-            severity="info"
-            sx={{ width: "300px" }}
-            onClose={() => setAlert(null)}
+            severity="error"
+            onClose={() => setError(null)}
           >
-            {alert}
+            {alerterror}
           </Alert>
-        </div>
-      )}
-      {alerterror && (
-        <Alert variant="filled" severity="error" onClose={() => setError(null)}>
-          {alerterror}
-        </Alert>
-      )}
-      <Modal open={open2} onClose={handleOpen} closeAfterTransition>
+        )}
+      </div>
+      <Modal open={open2} closeAfterTransition>
         <Fade in={open2}>
           <Box sx={style}>
             <RoomPassword
@@ -297,7 +329,7 @@ const Mainpage = ({ socket }) => {
               {room.name}
             </Button>
             <TextField
-              label="Video Url"
+              label="Search or Paste Video Url"
               sx={{
                 width: "70vw",
                 margin: "11px",
@@ -306,13 +338,69 @@ const Mainpage = ({ socket }) => {
               variant="outlined"
               onChange={onchange}
               value={val}
+              aria-haspopup="true"
+              id="textfield"
+              ref={textfield}
             />
+            <Menu
+              id="basic-menu"
+              open={open3}
+              onClose={() => setanchorEl(null)}
+              anchorEl={anchorEl}
+              MenuListProps={{
+                "aria-labelledby": "textfield",
+              }}
+              sx={{ maxWidth: "70vw" }}
+            >
+              {videolist?.map((vid) => (
+                <>
+                  <MenuItem onClick={() => chooseVideo(vid)}>
+                    <Card
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        width: "100%",
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        image={vid.snippet.thumbnails.url}
+                        alt="not found"
+                        sx={{ height: "120px", width: "213px" }}
+                      />
+                      <CardContent>
+                        <Typography variant="body2">{vid.title}</Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Duration: {vid.duration_raw}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Views: {vid.views}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </MenuItem>
+                  <Divider />
+                </>
+              ))}
+            </Menu>
+            <LoadingButton
+              sx={{ width: "5vw", margin: "10px" }}
+              variant="contained"
+              color="error"
+              loading={load2}
+              aria-controls={open3 ? "basic-menu" : undefined}
+              aria-expanded={open3 ? "true" : undefined}
+              onClick={handleSearch}
+              // style={{ wordWrap: "break-word" }}
+            >
+              <YouTubeIcon />
+            </LoadingButton>
             <LoadingButton
               onClick={sendUrl}
               loading={load}
               loadingPosition="end"
               variant="contained"
-              sx={{ width: "23vw", margin: "10px" }}
+              sx={{ width: "17vw", margin: "10px" }}
             >
               Send
             </LoadingButton>
@@ -333,7 +421,6 @@ const Mainpage = ({ socket }) => {
                 ref={player}
                 onPause={pause}
                 onPlay={play}
-                // onSeek={seek}
               />
             </Main>
             <Drawer

@@ -55,7 +55,7 @@ export const delRoom = (roomId) => API.delete(`/room/${roomId}`).then((res) => {
 });
 
 export const ytSearch = (term) => API.post(`/videoSearch`,term).then((res)=>{
-    // console.log(res);
+    console.log(res.data);
     return res.data;
 }).catch((err)=>{
     console.log(err.response);
