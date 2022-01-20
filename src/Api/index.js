@@ -53,3 +53,10 @@ export const delRoom = (roomId) => API.delete(`/room/${roomId}`).then((res) => {
 .catch((err)=>{
     return (err.response.data);
 });
+
+export const ytSearch = (term) => API.post(`/videoSearch`,term).then((res)=>{
+    // console.log(res);
+    return res.data;
+}).catch((err)=>{
+    console.log(err.response);
+});
