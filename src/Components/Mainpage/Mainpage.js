@@ -159,14 +159,10 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("seek", (data) => {
-      player.current.seekTo(data.seek, "seconds");
       if (data.pause) {
+        player.current.seekTo(data.seek, "seconds");
         setplaying(false);
       } else setplaying(true);
-    });
-
-    socket.on("seek-only", (data) => {
-      player.current.seekTo(data.seek, "seconds");
     });
 
     socket.on("disconnect", () => {
@@ -183,29 +179,21 @@ const Mainpage = ({ socket }) => {
   }, [socket]);
 
   useEffect(async () => {
-    console.log(currentuser);
     if (currentuser?.isHost) {
       sendUrl();
       setTimeout(() => {
-        seek();
+        pause();
       }, 4000);
+      setTimeout(() => {
+        play();
+      }, 5000);
     }
-  }, [members]);
+  }, [members.length]);
 
   const sendUrl = () => {
     if (currentuser.isAdmin) {
       setload(true);
       socket.emit("url", { roomId, val });
-    }
-  };
-
-  const seek = () => {
-    if (currentuser.isAdmin) {
-      var currentTime = player.current.getCurrentTime();
-      socket.emit("seek-only", {
-        roomId: roomId,
-        seek: currentTime,
-      });
     }
   };
 
@@ -225,7 +213,6 @@ const Mainpage = ({ socket }) => {
       var currentTime = player.current.getCurrentTime();
       socket.emit("seek", {
         roomId: roomId,
-        seek: currentTime,
         pause: false,
       });
     }
@@ -332,7 +319,6 @@ const Mainpage = ({ socket }) => {
                 ref={player}
                 onPause={pause}
                 onPlay={play}
-                // onSeek={seek}
               />
             </Main>
             <Drawer
