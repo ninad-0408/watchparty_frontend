@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import JoinRoom from "./JoinRoom";
+import MyRoom from "./MyRoom";
 import { useHistory } from "react-router-dom";
 
 function Navbar() {
@@ -24,6 +25,8 @@ function Navbar() {
   const handleOpen1 = () => setOpen1(!open1);
   const [open2, setOpen2] = useState(false);
   const handleOpen2 = () => setOpen2(!open2);
+  const [open3, setOpen3] = useState(false);
+  const handleOpen3 = () => setOpen3(!open3);
 
   const style = {
     position: "absolute",
@@ -122,6 +125,27 @@ function Navbar() {
                       <Fade in={open2}>
                         <Box sx={style1}>
                           <JoinRoom />
+                        </Box>
+                      </Fade>
+                    </Modal>
+                  </li>
+                  <li className="nav-item mx-0 mx-lg-1">
+                    <Link
+                      onClick={handleOpen3}
+                      className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                      style={{ color: "white" }}
+                      to='/'
+                    >
+                      My Rooms
+                    </Link>
+                    <Modal
+                      open={open3}
+                      onClose={handleOpen3}
+                      closeAfterTransition
+                    >
+                      <Fade in={open3}>
+                        <Box sx={style1}>
+                          <MyRoom />
                         </Box>
                       </Fade>
                     </Modal>
