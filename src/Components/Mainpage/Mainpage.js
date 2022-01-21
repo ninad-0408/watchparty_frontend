@@ -163,6 +163,8 @@ const Mainpage = ({ socket }) => {
   useEffect(() => {
     socket.on("message", (mess) => {
       setMessage((prev) => [...prev, mess]);
+      var x = document.getElementById("myAudio"); 
+      x.play();
     });
 
     socket.on("member-connected", (member) => {
@@ -535,6 +537,7 @@ const Mainpage = ({ socket }) => {
 			<input type="file" accept='video/*' id="myfile" onChange={upload} />
 			<video playsInline muted ref={myVideo} autoPlay  />
 			<video playsInline muted ref={userVideo} autoPlay /> */}
+      <audio  src={"/tone.mp3"} style={{display:"none"}} id="myAudio"></audio>
     </>
   );
 };
