@@ -77,7 +77,7 @@ const Login = () => {
             margin: "auto",
             "justify-content": "center",
             "align-items": "center",
-            position: "absolute",
+            position: "fixed",
           }}
         >
           <Alert

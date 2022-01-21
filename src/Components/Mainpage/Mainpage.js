@@ -33,6 +33,8 @@ import RoomPassword from "../RoomPassword.js";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import MicOffIcon from '@mui/icons-material/MicOff';
+import MicIcon from '@mui/icons-material/Mic';
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
@@ -78,13 +80,15 @@ const Mainpage = ({ socket }) => {
   const { roomId } = useParams();
   const [url, seturl] = useState("");
   const [val, setval] = useState("");
-  const [open, setopen] = useState(true);
+  const [open, setopen] = useState(false);
   const [room, setRoom] = useState({});
   const [members, setmembers] = useState([]);
   const [message, setMessage] = useState([]);
   const [load, setload] = useState(false);
   const [load2, setload2] = useState(false);
   const [anchorEl, setanchorEl] = useState(null);
+  const [mic, setmic] = useState(false);
+  const [voice, setvoice] = useState([]);
   const open3 = Boolean(anchorEl);
   const [videolist, setvideolist] = useState([]);
   const history = useHistory();
@@ -198,6 +202,13 @@ const Mainpage = ({ socket }) => {
       } else setplaying(true);
     });
 
+    socket.on('voice', (blob) => {
+      var newvoice = new Blob([blob], { 'type' : 'audio/ogg; codecs=opus' });
+      var audio = document.createElement('audio');
+      audio.src = window.URL.createObjectURL(newvoice);
+      audio.play();
+    })
+
     socket.on("disconnect", () => {
       history.push("/");
     });
@@ -250,6 +261,39 @@ const Mainpage = ({ socket }) => {
     }
   };
 
+  useEffect(() => {
+    if(mic)
+    {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then((stream) => {
+          var mediaRecorder = new MediaRecorder(stream);
+
+          mediaRecorder.onstart = () => {
+            setvoice([]);
+          };
+
+          mediaRecorder.ondataavailable = (e) => {
+            setvoice((prev) => [ ...prev, e.data ]);
+          };
+
+          mediaRecorder.onstop = () => {
+            var blob = new Blob(voice, { 'type' : 'audio/ogg; codecs=opus' });
+            socket.emit('voice', { roomId, blob });
+          };
+
+          mediaRecorder.start();
+
+          setTimeout(() => {
+            mediaRecorder.stop();
+            setmic(false);
+          }, 5000);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [mic])
+
   // const [file, setfile] = useState(null);
   // const [media, setmedia] = useState(null);
 
@@ -276,8 +320,8 @@ const Mainpage = ({ socket }) => {
         style={{
           width: "100%",
           "margin-top": "30px",
-          position: "absolute",
-          left: '35%',
+          position: "fixed",
+          marginLeft: '35%',
           zIndex: '10000'
         }}
       >
@@ -451,6 +495,11 @@ const Mainpage = ({ socket }) => {
                 }}
               >
                 {user.username}
+                <Button onClick={() => setmic(!mic)}>
+                  {
+                    mic ? <MicIcon color='primary' /> : <MicOffIcon color='disabled' />
+                  }
+                </Button>
               </div>
               <Divider />
               <Tabs value={value} onChange={handleChange}>

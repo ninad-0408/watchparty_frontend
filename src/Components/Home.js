@@ -39,7 +39,7 @@ function Home() {
             style={{
               width: "100%",
               "margin-top": "30px",
-              position: "absolute",
+              position: "fixed",
             }}
           >
             {alert && (
