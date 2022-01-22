@@ -8,6 +8,7 @@ import "./home.css";
 function Home() {
   const location = useLocation();
   const [alert, setAlert] = useState(null);
+  const [alerterror, setError] = useState(null);
   const user = JSON.parse(localStorage.getItem("profile"))?.user;
 
   useEffect(() => {
@@ -61,6 +62,16 @@ function Home() {
                 </Alert>
               </div>
             )}
+            {alerterror && (
+          <Alert
+            variant="filled"
+            severity="error"
+            sx={{ width: "300px" }}
+            onClose={() => setError(null)}
+          >
+            {alerterror}
+          </Alert>
+        )}
           </div>
           <div class="container d-flex-row d-md-flex align-items-center justify-content-between mt-5">
             <div class="col-12 col-md-8">
