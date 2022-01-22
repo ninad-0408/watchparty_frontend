@@ -1,12 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
-import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
+import Picker, { SKIN_TONE_NEUTRAL } from "emoji-picker-react";
+import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
+import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import SendIcon from '@mui/icons-material/Send';
 
 const Chat = ({ message, setMessage, socket }) => {
   const { roomId } = useParams();
+
+  const onEmojiClick = (event, emojiObject) => {
+    // console.log(emojiObject.emoji);
+    setvalue((prev) => {
+      return prev + emojiObject.emoji;
+    });
+  };
   // console.log(roomId);
   const Item = styled(Paper)(({ theme, you }) => ({
     ...theme.typography.body2,
@@ -27,7 +38,7 @@ const Chat = ({ message, setMessage, socket }) => {
     if (e.charCode === 13) {
       const { name, value } = e.target;
       if (value !== "") {
-        socket.emit("message", ({value,roomId}));
+        socket.emit("message", { value, roomId });
         setMessage((msg) => {
           return [...msg, { [name]: value, username: username }];
         });
@@ -35,7 +46,11 @@ const Chat = ({ message, setMessage, socket }) => {
       }
     }
   }
-
+  const [open, setOpen] = useState(false);
+  function handleClick() {
+    console.log(open);
+    setOpen(!open);
+  }
   const handlep = (e) => {
     setvalue(e.target.value);
   };
@@ -83,7 +98,32 @@ const Chat = ({ message, setMessage, socket }) => {
           width: "90%",
           backgroundColor: "rgba(20,20,35,0.4)",
         }}
-      ></TextField>
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleClick}>
+                <InsertEmoticonIcon sx={open?{color:"green"}:{color:"rgba(20,20,35,0.4)"}}></InsertEmoticonIcon>
+              </IconButton>
+              <IconButton onClick={handleChange}>
+                <SendIcon></SendIcon>
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      >
+        {" "}
+      </TextField>
+
+      {open ? (
+        <Picker
+          onEmojiClick={onEmojiClick}
+          skinTone={SKIN_TONE_NEUTRAL}
+          disableSearchBar={true}
+          pickerStyle={{ width: "100%" }}
+        />
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
