@@ -26,6 +26,7 @@ import {
   CardMedia,
   CircularProgress,
   Fade,
+  InputAdornment,
   Modal,
   Typography,
 } from "@mui/material";
@@ -35,6 +36,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MicOffIcon from '@mui/icons-material/MicOff';
 import MicIcon from '@mui/icons-material/Mic';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
@@ -387,6 +389,15 @@ const Mainpage = ({ socket }) => {
               aria-haspopup="true"
               id="textfield"
               ref={textfield}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton>
+                      <ClearIcon onClick={() => setval('')} />
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
             <Menu
               id="basic-menu"
