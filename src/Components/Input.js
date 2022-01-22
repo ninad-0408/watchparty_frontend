@@ -29,7 +29,7 @@ const Input = ({ name, autoFocus, half, label, value, type, handleChange, handle
                     ),
                 }}
             />
-            {error? <FormHelperText id="component-error-text">{name} should be in between 3 to 8 characters</FormHelperText>:<></>}
+            {error? (name==='username'? <FormHelperText id="component-error-text">{name} should be in between 3 to 8 characters</FormHelperText>:<FormHelperText id="component-error-text">{name} should be greater than or equal to 8 characters</FormHelperText>):<></>}
         </Grid>
     )
 };

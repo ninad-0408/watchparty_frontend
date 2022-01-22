@@ -12,14 +12,26 @@ import { myRoom, delRoom } from "../Api/index.js";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useHistory } from "react-router-dom";
 
 function MyRoom() {
   const [arr, setArr] = useState([]);
   const [loading, setloading] = useState(true);
   const [boolvar, setboolvar] = useState(true);
-
+  const history = useHistory();
   const delfun = (id) => {
-    delRoom(id);
+    delRoom(id).then((data) => {
+      console.log(data);
+      if (data.err) {
+          console.log(data.err);
+      } else {
+        console.log(data.message);
+        history.push({
+          pathname: "/",
+          state: { message: data.message },
+        });
+      }
+    });
     // setboolvar(!boolvar);
     // setArr(null);
     setArr( arr.filter(data=> data._id !== id));
