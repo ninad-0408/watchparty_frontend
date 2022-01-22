@@ -13,12 +13,11 @@ const Chat = ({ message, setMessage, socket }) => {
   const { roomId } = useParams();
 
   const onEmojiClick = (event, emojiObject) => {
-    // console.log(emojiObject.emoji);
     setvalue((prev) => {
       return prev + emojiObject.emoji;
     });
   };
-  // console.log(roomId);
+
   const Item = styled(Paper)(({ theme, you }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -33,24 +32,24 @@ const Chat = ({ message, setMessage, socket }) => {
   const [value, setvalue] = useState("");
 
   const stack = useRef(null);
+  const text = useRef(null);
 
-  function handleChange(e) {
-    if (e.charCode === 13) {
-      const { name, value } = e.target;
+  function handleChange(e, other) {
+    if (other || e.charCode === 13) {
       if (value !== "") {
         socket.emit("message", { value, roomId });
         setMessage((msg) => {
-          return [...msg, { [name]: value, username: username }];
+          return [...msg, { message: value, username: username }];
         });
         setvalue("");
       }
     }
+    else
+    setvalue(e.target.value);
   }
+
   const [open, setOpen] = useState(false);
-  function handleClick() {
-    console.log(open);
-    setOpen(!open);
-  }
+
   const handlep = (e) => {
     setvalue(e.target.value);
   };
@@ -91,8 +90,9 @@ const Chat = ({ message, setMessage, socket }) => {
       <TextField
         name="message"
         label="Message"
+        ref={text}
         onChange={handlep}
-        onKeyPress={handleChange}
+        onKeyPress={(e) => handleChange(e, false)}
         value={value}
         sx={{
           width: "90%",
@@ -101,11 +101,11 @@ const Chat = ({ message, setMessage, socket }) => {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={handleClick}>
-                <InsertEmoticonIcon sx={open?{color:"green"}:{color:"rgba(20,20,35,0.4)"}}></InsertEmoticonIcon>
+              <IconButton onClick={() => setOpen(!open)}>
+                <InsertEmoticonIcon color={open ? "primary" : "disabled"} />
               </IconButton>
-              <IconButton onClick={handleChange}>
-                <SendIcon></SendIcon>
+              <IconButton onClick={() => handleChange(null, true)}>
+                <SendIcon color='primary' />
               </IconButton>
             </InputAdornment>
           ),

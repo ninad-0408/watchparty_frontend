@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Switch from "@mui/material/Switch";
 import { LoadingButton } from "@mui/lab";
-import { Grid } from "@mui/material";
+import { Grid, IconButton } from "@mui/material";
 import { delRoom } from "../../Api";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const Setting = ({ room, currentuser, socket }) => {
   const [loading, setloading] = useState(false);
@@ -23,19 +24,29 @@ const Setting = ({ room, currentuser, socket }) => {
     }
   };
 
+  function ctc(data) {
+    navigator.clipboard.writeText(data);
+  }
+
   const handleChange2 = () => {
     if (currentuser.isHost) socket.emit("lock-room", room._id, !room.lock);
   };
 
   return (
-    <Grid container margin={3} spacing={3}>
+    <Grid container margin={1} spacing={4}>
       <Grid item sx={6}>
         Lock Room
         <Switch checked={room.lock} onClick={handleChange2} />
       </Grid>
+      <Grid item sx={6}>
+      Copy Link
+        <IconButton onClick={() => ctc(window.location.href)}>
+          <ContentCopyIcon color='info' />
+        </IconButton>
+      </Grid>
       {currentuser.isHost ? (
         <>
-          <Grid item sx={6}>
+          <Grid item sx={6} marginTop={2}>
             <LoadingButton
               loading={loading}
               color="warning"
@@ -45,7 +56,7 @@ const Setting = ({ room, currentuser, socket }) => {
               Close Room
             </LoadingButton>
           </Grid>
-          <Grid item sx={12} marginTop={2} marginLeft={19}>
+          <Grid item sx={6} marginTop={2}>
             <LoadingButton
               loading={loading1}
               color="error"
