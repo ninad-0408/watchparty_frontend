@@ -29,6 +29,14 @@ const Login = () => {
 
   const handleShowPassword = () => setshowPassword((e) => !e);
 
+  const user = JSON.parse(localStorage.getItem("profile"))?.user;
+
+  if(user)
+  history.push({
+    pathname: '/',
+    state: { message: 'You are already logged in.'}
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setprocessing(true);

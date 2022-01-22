@@ -177,7 +177,7 @@ const Mainpage = ({ socket }) => {
     socket.on("error", ({ message }) => {
       setError(message);
       history.push({
-        path: '/',
+        pathname: '/',
         state: { message } 
       });
     });
