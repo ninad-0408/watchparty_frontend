@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Avatar, Container, Grid, Paper, Typography, Box } from "@mui/material";
+import { Avatar, Container, Grid, Paper, Typography, Box, Switch } from "@mui/material";
 import VideocamIcon from "@mui/icons-material/Videocam";
 // import AddIcon from "@mui/icons-material/Add";
 // import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -18,6 +18,7 @@ const CreateRoom = () => {
   const [showPassword, setshowPassword] = useState(false);
   const [formData, setformData] = useState({});
   const [processing, setprocessing] = useState(false);
+  const [val, setval] = useState(false);
 
   const handleShowPassword = () => setshowPassword((e) => !e);
 
@@ -89,12 +90,15 @@ const CreateRoom = () => {
               required
               error={roomlen}
             />
+            Make Room Private
+            <Switch value={val} onChange={() => setval(!val)}/>
             <Input
               name="password"
               label="Password"
               type={showPassword ? "text" : "password"}
               handleShowPassword={handleShowPassword}
               handleChange={handleChange}
+              required
             />
             {/* <Box
               sx={{
