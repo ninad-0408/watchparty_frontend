@@ -5,7 +5,7 @@ const Footer = () => {
     <div>
       <footer class="pt-5 footer text-center bg-dark text-white" >
       <div class='col-12 '>
-        <h1 class="masthead-heading mb-0" style={{ "font-family": "'Baloo Bhaijaan 2', cursive", "font-size": "80px" }}>Watch on any Device
+        <h1 class="masthead-heading mb-0" style={{ "font-family": "'Baloo Bhaijaan 2', cursive", "font-size": "60px" }}>Watch on any Device
         </h1>
         {/* <p class="pre-wrap masthead-subheading font-weight-light mb-0">Lorem ipsum dolor sit amet consectetur adipisicing</p> */}
       </div>

@@ -56,6 +56,7 @@ function Navbar() {
         id="mainNav"
       >
         <div className="container">
+          <img src="favicon.ico" style={{height:"20px", marginRight:"3px"}}/>
           <Link className="navbar-brand js-scroll-trigger" to="/">
             Watch<strong style={{ color: "#9CC3D5" }}>Party</strong>
           </Link>
