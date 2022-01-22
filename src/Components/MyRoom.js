@@ -16,7 +16,6 @@ import LoadingButton from '@mui/lab/LoadingButton';
 function MyRoom() {
   const [arr, setArr] = useState([]);
   const [loading, setloading] = useState(true);
-  const [boolvar, setboolvar] = useState(true);
 
   const delfun = (id) => {
     delRoom(id);
