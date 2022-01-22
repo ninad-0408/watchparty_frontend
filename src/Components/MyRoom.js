@@ -12,14 +12,25 @@ import { myRoom, delRoom } from "../Api/index.js";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { io } from "socket.io-client";
+import { baseUrl } from "../Constants/baseUrl";
 import { useHistory } from "react-router-dom";
+
 
 function MyRoom() {
   const [arr, setArr] = useState([]);
   const [loading, setloading] = useState(true);
-  const [boolvar, setboolvar] = useState(true);
   const history = useHistory();
+  
   const delfun = (id) => {
+    const token = JSON.parse(localStorage.getItem("profile"))?.token;
+    const socket = io(baseUrl, {
+      extraHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    socket.emit('close-room', id);
+    socket.disconnect();
     delRoom(id).then((data) => {
       console.log(data);
       if (data.err) {
@@ -32,8 +43,6 @@ function MyRoom() {
         });
       }
     });
-    // setboolvar(!boolvar);
-    // setArr(null);
     setArr( arr.filter(data=> data._id !== id));
   }
 
@@ -45,7 +54,6 @@ function MyRoom() {
     myRoom().then((res) => {
       setArr(res);
       setloading(false);
-      console.log(res);
     });
   }, []);
 
@@ -54,12 +62,11 @@ function MyRoom() {
       <LoadingButton
         loading={loading}
         loadingPosition="start"
-        // startIcon={<SaveIcon />}
         variant="outlined"
         sx={{width:"100%"}}
       >
         <Typography variant="h5" component="div" sx={{ textAlign: "center" }}>
-        {loading?"Loading":"My rooms"}
+        {loading ? "Loading" : "My rooms"}
       </Typography>
       </LoadingButton>
         
@@ -87,10 +94,10 @@ function MyRoom() {
                         Join
                       </Button>
                     </Link>
-                    <IconButton onClick={()=>ctc(window.location.href+`room/${room._id}`)}>
-                        <ContentCopyIcon />
+                    <IconButton onClick={() => ctc(window.location.href+`room/${room._id}`)}>
+                        <ContentCopyIcon color='info' />
                     </IconButton>
-                      <IconButton onClick={()=>delfun(room._id)}>
+                      <IconButton onClick={() => delfun(room._id)}>
                         <DeleteIcon color="error"/>
                       </IconButton>
                   </Grid>

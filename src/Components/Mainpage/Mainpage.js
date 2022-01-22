@@ -202,7 +202,10 @@ const Mainpage = ({ socket }) => {
 
     socket.on("error", ({ message }) => {
       setError(message);
-      history.push("/");
+      history.push({
+        pathname: '/',
+        state: { message } 
+      });
     });
 
     socket.on("room-update", (data) => {
@@ -380,6 +383,7 @@ const Mainpage = ({ socket }) => {
           <Alert
             variant="filled"
             severity="error"
+            sx={{ width: "300px" }}
             onClose={() => setError(null)}
           >
             {alerterror}
@@ -475,7 +479,6 @@ const Mainpage = ({ socket }) => {
               aria-controls={open3 ? "basic-menu" : undefined}
               aria-expanded={open3 ? "true" : undefined}
               onClick={handleSearch}
-              // style={{ wordWrap: "break-word" }}
             >
               <YouTubeIcon />
             </LoadingButton>
