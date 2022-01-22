@@ -17,8 +17,8 @@ import { useHistory } from "react-router-dom";
 function MyRoom() {
   const [arr, setArr] = useState([]);
   const [loading, setloading] = useState(true);
-  const [boolvar, setboolvar] = useState(true);
   const history = useHistory();
+  
   const delfun = (id) => {
     delRoom(id).then((data) => {
       console.log(data);
