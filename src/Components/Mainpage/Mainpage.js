@@ -1,25 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef ,Suspense, lazy} from "react";
 import { styled } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
-import LoadingButton from "@mui/lab/LoadingButton";
-import Box from "@mui/material/Box";
-import ReactPlayer from "react-player/lazy";
-import Button from "@mui/material/Button";
-import Drawer from "@mui/material/Drawer";
-import MenuIcon from "@mui/icons-material/Menu";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+
 import { getRoom, ytSearch } from "../../Api/index.js";
-import Chat from "./Chat";
-import People from "./People";
-import Setting from "./Setting";
 import { useParams, useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
-import Alert from "@mui/material/Alert";
+// import Alert from "@mui/material/Alert";
 import {
   Card,
   CardContent,
@@ -30,13 +16,53 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import RoomPassword from "../RoomPassword.js";
+// import RoomPassword from "../RoomPassword.js";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MicOffIcon from '@mui/icons-material/MicOff';
-import MicIcon from '@mui/icons-material/Mic';
+// import Menu from "@mui/material/Menu";
+// import MenuItem from "@mui/material/MenuItem";
+// import MicOffIcon from '@mui/icons-material/MicOff';
+// import MicIcon from '@mui/icons-material/Mic';
 import ClearIcon from '@mui/icons-material/Clear';
+import Loader from '../Loader';
+const Alert= lazy(() => import("@mui/material/Alert"));
+const Menu  = lazy(() => import("@mui/material/Menu"));
+const MenuItem  = lazy(() => import("@mui/material/MenuItem"));
+const MicOffIcon = lazy(() => import("@mui/icons-material/MicOff"));
+const MicIcon = lazy(() => import("@mui/icons-material/Mic"));
+const RoomPassword = lazy(() => import("../RoomPassword.js"));
+const TextField = lazy(() => import("@mui/material/TextField"));
+const LoadingButton  = lazy(() => import("@mui/lab/LoadingButton"));
+const Box = lazy(() => import("@mui/material/Box"));
+const ReactPlayer = lazy(() => import("react-player/lazy"));
+const Button = lazy(() => import("@mui/material/Button"));
+const Drawer = lazy(() => import("@mui/material/Drawer"));
+const MenuIcon = lazy(() => import("@mui/icons-material/Menu"));
+const Divider = lazy(() => import("@mui/material/Divider"));
+const IconButton = lazy(() => import("@mui/material/IconButton"));
+const ChevronRightIcon = lazy(() => import("@mui/icons-material/ChevronRight"));
+const Tabs = lazy(() => import("@mui/material/Tabs"));
+const  Tab = lazy(() => import("@mui/material/Tab"));
+
+// import TextField from "@mui/material/TextField";
+// import LoadingButton from "@mui/lab/LoadingButton";
+// import Box from "@mui/material/Box";
+// import ReactPlayer from "react-player/lazy";
+// import Button from "@mui/material/Button";
+// import Drawer from "@mui/material/Drawer";
+// import MenuIcon from "@mui/icons-material/Menu";
+// import Divider from "@mui/material/Divider";
+// import IconButton from "@mui/material/IconButton";
+// import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+// import Tabs from "@mui/material/Tabs";
+// import Tab from "@mui/material/Tab";
+
+const Chat = lazy(() => import("./Chat"));
+const People = lazy(() => import("./People"));
+const Setting = lazy(() => import("./Setting"));
+// import Chat from "./Chat";
+// import People from "./People";
+// import Setting from "./Setting";
+
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
@@ -320,6 +346,7 @@ const Mainpage = ({ socket }) => {
 
   return (
     <>
+     <Suspense fallback={<div><Loader margin/></div>}>
       <div
         style={{
           width: "100%",
@@ -515,11 +542,13 @@ const Mainpage = ({ socket }) => {
                 </Button>
               </div>
               <Divider />
+             
               <Tabs value={value} onChange={handleChange}>
                 <Tab value="1" sx={{ width: "33%" }} label="CHAT" />
                 <Tab value="2" sx={{ width: "33%" }} label="PEOPLE" />
                 <Tab value="3" sx={{ width: "33%" }} label="SETTINGS" />
               </Tabs>
+            
               {value === "1" ? (
                 <Chat
                   message={message}
@@ -548,6 +577,7 @@ const Mainpage = ({ socket }) => {
 			<input type="file" accept='video/*' id="myfile" onChange={upload} />
 			<video playsInline muted ref={myVideo} autoPlay  />
 			<video playsInline muted ref={userVideo} autoPlay /> */}
+      </Suspense>
       <audio  src={"/tone.mp3"} style={{display:"none"}} id="myAudio"></audio>
     </>
   );

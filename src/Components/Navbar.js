@@ -156,7 +156,7 @@ function Navbar() {
                       href="#"
                       style={{ color: "white" }}
                     >
-                      User: {user}
+                      Hi {user}
                     </a>
                   </li>
                   <li className="nav-item mx-0 mx-lg-1">
