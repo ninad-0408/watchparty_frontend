@@ -38,6 +38,7 @@ const Login = () => {
   });
 
   const handleSubmit = (e) => {
+
     e.preventDefault();
     setprocessing(true);
     login(formData)
@@ -67,10 +68,15 @@ const Login = () => {
   const [passlen, setpasslen] = useState(false);
 
   const handleChange = (e) => {
-    if (e.target.value.length > 2 && e.target.value.length < 9) {
-      e.target.name === "username" ? setuserlen(false) : setpasslen(false);
+    if (e.target.value.length > 2 && e.target.value.length < 9 && e.target.name ==="username") {
+      setuserlen(false); 
       setformData({ ...formData, [e.target.name]: e.target.value });
-    } else {
+    }
+    else if(e.target.name ==="password" && e.target.value.length > 7  ){
+      setpasslen(false);
+      setformData({ ...formData, [e.target.name]: e.target.value });
+    }
+     else {
       e.target.name === "password" ? setpasslen(true) : setuserlen(true);
       setformData({ ...formData, [e.target.name]: e.target.value });
     }

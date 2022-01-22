@@ -44,6 +44,7 @@ const Auth = () => {
   });
 
   const handleSubmit = (e) => {
+    console.log(formData);
     e.preventDefault();
     setprocessing(true);
     signup(formData)
@@ -74,10 +75,14 @@ const Auth = () => {
   const handleChange = (e) => {
     console.log(e.target);
     if (e.target.name === "username" || e.target.name === "password") {
-      if (e.target.value.length > 2 && e.target.value.length < 11) {
-        e.target.name === "username" ? setuserlen(false) : setpasslen(false);
+      if (e.target.value.length > 2 && e.target.value.length < 9 && e.target.name ==="username") {
+        setuserlen(false); 
         setformData({ ...formData, [e.target.name]: e.target.value });
-      } else {
+      }
+      else if(e.target.value.length > 7 && e.target.name ==="password"){
+        setpasslen(false);
+        setformData({ ...formData, [e.target.name]: e.target.value });
+      }else {
         e.target.name === "password" ? setpasslen(true) : setuserlen(true);
         setformData({ ...formData, [e.target.name]: e.target.value });
       }

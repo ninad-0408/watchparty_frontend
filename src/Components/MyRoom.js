@@ -14,11 +14,14 @@ import { Link } from "react-router-dom";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { io } from "socket.io-client";
 import { baseUrl } from "../Constants/baseUrl";
+import { useHistory } from "react-router-dom";
+
 
 function MyRoom() {
   const [arr, setArr] = useState([]);
   const [loading, setloading] = useState(true);
-
+  const history = useHistory();
+  
   const delfun = (id) => {
     const token = JSON.parse(localStorage.getItem("profile"))?.token;
     const socket = io(baseUrl, {
@@ -28,8 +31,19 @@ function MyRoom() {
     });
     socket.emit('close-room', id);
     socket.disconnect();
-    delRoom(id);
-    setArr( arr.filter(data => data._id !== id));
+    delRoom(id).then((data) => {
+      console.log(data);
+      if (data.err) {
+          console.log(data.err);
+      } else {
+        console.log(data.message);
+        history.push({
+          pathname: "/",
+          state: { message: data.message },
+        });
+      }
+    });
+    setArr( arr.filter(data=> data._id !== id));
   }
 
   function ctc(data) {
