@@ -146,7 +146,7 @@ const Login = () => {
                 Login
               </LoadingButton>
             </Box>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 <Button color="secondary">
                   <Link to="/signup">Don't have an account? Sign Up</Link>
