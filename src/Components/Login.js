@@ -72,7 +72,7 @@ const Login = () => {
       setuserlen(false); 
       setformData({ ...formData, [e.target.name]: e.target.value });
     }
-    else if(e.target.name ==="password" && e.target.value.length > 7  ){
+    else if(e.target.name === "password" && e.target.value.length > 7  ){
       setpasslen(false);
       setformData({ ...formData, [e.target.name]: e.target.value });
     }
