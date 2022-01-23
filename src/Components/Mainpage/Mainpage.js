@@ -373,14 +373,16 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
-            <Button variant="contained" color="primary" sx={{ margin: "10px" }}>
+            <Button variant="contained" size="small" color="primary" sx={{ margin: "20px 4px" }}>
               {room.name}
             </Button>
             <TextField
-              label="Search or Paste Video Url"
+              // label="Search or Paste Video Url"
+              placeholder="Search or Paste Video Url"
+              size="small"
               sx={{
                 width: "70vw",
-                margin: "11px",
+                margin: "20px 4px",// margin: "11px",
                 backgroundColor: "rgba(20,20,35,0.4)",
               }}
               variant="outlined"
@@ -441,7 +443,7 @@ const Mainpage = ({ socket }) => {
               ))}
             </Menu>
             <LoadingButton
-              sx={{ width: "5vw", margin: "10px" }}
+              sx={{ width: "5vw", margin: "20px 4px" }}
               variant="contained"
               color="error"
               loading={load2}
@@ -456,7 +458,7 @@ const Mainpage = ({ socket }) => {
               loading={load}
               loadingPosition="end"
               variant="contained"
-              sx={{ width: "17vw", margin: "10px" }}
+              sx={{ width: "17vw", margin: "20px 4px" }}
             >
               Send
             </LoadingButton>
