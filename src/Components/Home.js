@@ -13,6 +13,7 @@ function Home() {
 
   useEffect(() => {
     setAlert(location?.state?.message);
+    console.log(location?.state?.message);
     const timeId = setTimeout(() => {
       setAlert(null);
     }, 3500);

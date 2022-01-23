@@ -72,7 +72,7 @@ const Login = () => {
       setuserlen(false); 
       setformData({ ...formData, [e.target.name]: e.target.value });
     }
-    else if(e.target.name ==="password" && e.target.value.length > 7  ){
+    else if(e.target.name === "password" && e.target.value.length > 7  ){
       setpasslen(false);
       setformData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -84,26 +84,36 @@ const Login = () => {
 
   return (
     <>
-      {alert && (
-        <div
-          style={{
-            display: "flex",
-            margin: "auto",
-            "justify-content": "center",
-            "align-items": "center",
-            position: "fixed",
-          }}
-        >
-          <Alert
-            variant="filled"
-            severity="error"
-            sx={{ width: "300px" }}
-            onClose={() => setAlert(null)}
+      <div
+        style={{
+          width: "100%",
+          "margin-top": "30px",
+          position: "fixed",
+          marginLeft: '43%',
+          zIndex: '10000'
+        }}
+      >
+        {alert && (
+          <div
+            style={{
+              display: "flex",
+              margin: "auto",
+              "justify-content": "center",
+              "align-items": "center",
+              position: "absolute",
+            }}
           >
-            {alert}
-          </Alert>
-        </div>
-      )}
+            <Alert
+              variant="filled"
+              severity="error"
+              sx={{ width: "300px" }}
+              onClose={() => setAlert(null)}
+            >
+              {alert}
+            </Alert>
+          </div>
+        )}
+      </div>
       <Container component="main" maxWidth="xs">
         <Paper className={classes.paper} elevation={3}>
           <Avatar className={classes.avatar}>
@@ -146,7 +156,7 @@ const Login = () => {
                 Login
               </LoadingButton>
             </Box>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
                 <Button color="secondary">
                   <Link to="/signup">Don't have an account? Sign Up</Link>

@@ -57,7 +57,7 @@ function Navbar() {
       >
         <div className="container">
           <img src="favicon.ico" style={{height:"20px", marginRight:"3px"}}/>
-          <Link className="navbar-brand js-scroll-trigger" to="/">
+          <Link className="navbar-brand" to="/">
             Watch<strong style={{ color: "#9CC3D5" }}>Party</strong>
           </Link>
           <button
@@ -82,6 +82,15 @@ function Navbar() {
             >
               {user ? (
                 <>
+                <li className="nav-item mx-0 mx-lg-1">
+                    <a
+                      className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                      href="#"
+                      style={{ color: "white" }}
+                    >
+                      Hi<img alt="gif" src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" style={{ height: "20px" }}/> {user}
+                    </a>
+                  </li>
                   <li className="nav-item mx-0 mx-lg-1">
                     <div>
                       <Link
@@ -150,15 +159,6 @@ function Navbar() {
                         </Box>
                       </Fade>
                     </Modal>
-                  </li>
-                  <li className="nav-item mx-0 mx-lg-1">
-                    <a
-                      className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                      href="#"
-                      style={{ color: "white" }}
-                    >
-                      User: {user}
-                    </a>
                   </li>
                   <li className="nav-item mx-0 mx-lg-1">
                     <Link
