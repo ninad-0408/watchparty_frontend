@@ -90,7 +90,7 @@ const Mainpage = ({ socket }) => {
   const [load2, setload2] = useState(false);
   const [anchorEl, setanchorEl] = useState(null);
   const [mic, setmic] = useState(false);
-  const [voice, setvoice] = useState([]);
+  const [mediaRecorder, setmediaRecorder] = useState(null);
   const open3 = Boolean(anchorEl);
   const [videolist, setvideolist] = useState([]);
   const history = useHistory();
@@ -175,7 +175,7 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("error", ({ message }) => {
-      setError(message);
+      // setError(message);
       history.push({
         pathname: '/',
         state: { message } 
@@ -269,37 +269,33 @@ const Mainpage = ({ socket }) => {
   };
 
   useEffect(() => {
-    if(mic)
-    {
       navigator.mediaDevices.getUserMedia({ audio: true })
         .then((stream) => {
-          var mediaRecorder = new MediaRecorder(stream);
+          var recorder = new MediaRecorder(stream);
 
-          mediaRecorder.onstart = () => {
-            setvoice([]);
+          recorder.ondataavailable = (e) => {
+            socket.emit('voice', { roomId, blob: e.data });
           };
 
-          mediaRecorder.ondataavailable = (e) => {
-            setvoice((prev) => [ ...prev, e.data ]);
-          };
-
-          mediaRecorder.onstop = () => {
-            var blob = new Blob(voice, { 'type' : 'audio/ogg; codecs=opus' });
-            socket.emit('voice', { roomId, blob });
-          };
-
-          mediaRecorder.start();
-
-          setTimeout(() => {
-            mediaRecorder.stop();
-            setmic(false);
-          }, 5000);
+          setmediaRecorder(recorder);
+          
         })
         .catch((error) => {
           console.log(error);
         });
-    }
-  }, [mic])
+  }, [])
+
+  useEffect(() => {
+    if(mic)
+    mediaRecorder?.start();
+    else
+    {
+      if(mediaRecorder?.state != 'inactive')
+      mediaRecorder?.stop();
+      setmic(false);
+    };
+
+  }, [mic]);
 
   // const [file, setfile] = useState(null);
   // const [media, setmedia] = useState(null);
@@ -413,7 +409,7 @@ const Mainpage = ({ socket }) => {
               MenuListProps={{
                 "aria-labelledby": "textfield",
               }}
-              sx={{ maxWidth: "70vw" }}
+              sx={{ width: '60vw', maxWidth: "800px", maxHeight: '600px' }}
             >
               {videolist?.map((vid) => (
                 <>
@@ -429,7 +425,7 @@ const Mainpage = ({ socket }) => {
                         component="img"
                         image={vid.snippet.thumbnails.url}
                         alt="not found"
-                        sx={{ height: "120px", width: "213px" }}
+                        sx={{height: '100px', width: "156px" }}
                       />
                       <CardContent>
                         <Typography variant="body2">{vid.title}</Typography>
@@ -498,9 +494,11 @@ const Mainpage = ({ socket }) => {
               anchor="right"
               open={open}
             >
-              <IconButton sx={{/*width:"50px",*/ borderRadius:0}} onClick={() => setopen(false)}>
+            <Button onClick={() => setopen(false)}>
+              <IconButton>
                 <ChevronRightIcon />
               </IconButton>
+              </Button>
               <div
                 style={{
                   width: "95%",

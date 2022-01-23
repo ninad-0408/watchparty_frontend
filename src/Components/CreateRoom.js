@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Avatar, Container, Grid, Paper, Typography, Box } from "@mui/material";
+import {
+  Avatar,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  Box,
+  Switch,
+} from "@mui/material";
 import VideocamIcon from "@mui/icons-material/Videocam";
 // import AddIcon from "@mui/icons-material/Add";
 // import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -18,31 +26,29 @@ const CreateRoom = () => {
   const [showPassword, setshowPassword] = useState(false);
   const [formData, setformData] = useState({});
   const [processing, setprocessing] = useState(false);
+  const [val, setval] = useState(false);
 
   const handleShowPassword = () => setshowPassword((e) => !e);
 
   const handleSubmit = async (e) => {
     setprocessing(true);
     e.preventDefault();
+    var data = formData;
+    if (!val) data.password = "";
     await CreateNewRoom(formData)
       .then((data) => history.push(`/room/${data.room._id}`))
       .catch((error) => console.log(error));
   };
 
-  const [roomlen, setroomlen] = useState(false)
+  const [roomlen, setroomlen] = useState(false);
 
   const handleChange = (e) => {
-    if(e.target.name==="name")
-    {
-      if(e.target.value.length > 2 && e.target.value.length < 9){
+    if (e.target.name === "name") {
+      if (e.target.value.length > 2 && e.target.value.length < 9) {
         setformData({ ...formData, [e.target.name]: e.target.value });
         setroomlen(false);
-      }
-      else
-      setroomlen(true);
-    }
-    else
-    setformData({ ...formData, [e.target.name]: e.target.value });
+      } else setroomlen(true);
+    } else setformData({ ...formData, [e.target.name]: e.target.value });
   };
 
   // const [fields, setFields] = useState([{ value: null }]);
@@ -81,21 +87,35 @@ const CreateRoom = () => {
           style={{ "border-radius": "20px" }}
         >
           <Grid container spacing={2}>
-            <Input
-              name="name"
-              label="RoomName"
-              type="text"
-              handleChange={handleChange}
-              required
-              error={roomlen}
-            />
-            <Input
-              name="password"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              handleShowPassword={handleShowPassword}
-              handleChange={handleChange}
-            />
+            <Grid item>
+              <Input
+                name="name"
+                label="RoomName"
+                type="text"
+                handleChange={handleChange}
+                required
+                error={roomlen}
+              />
+            </Grid>
+            <Grid item>
+              Make Room Private
+              <Switch value={val} onChange={() => setval(!val)} />
+            </Grid>
+            {val ? (
+              <Grid item>
+                <Input
+                  name="password"
+                  label="Password"
+                  type={showPassword ? "text" : "password"}
+                  handleShowPassword={handleShowPassword}
+                  handleChange={handleChange}
+                  required
+                />
+              </Grid>
+            ) : (
+              <></>
+            )}
+
             {/* <Box
               sx={{
                 display: "flex",
@@ -121,7 +141,14 @@ const CreateRoom = () => {
             })} */}
           </Grid>
           <Box marginTop={2}>
-            <LoadingButton type="submit" color="primary" variant='contained' loading={processing} fullWidth disabled={roomlen}>
+            <LoadingButton
+              type="submit"
+              color="primary"
+              variant="contained"
+              loading={processing}
+              fullWidth
+              disabled={roomlen}
+            >
               CREATE
             </LoadingButton>
           </Box>

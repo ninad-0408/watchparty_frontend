@@ -93,26 +93,36 @@ const Auth = () => {
 
   return (
     <>
-      {alert && (
-        <div
-          style={{
-            display: "flex",
-            margin: "auto",
-            "justify-content": "center",
-            "align-items": "center",
-            position: "fixed",
-          }}
-        >
-          <Alert
-            variant="filled"
-            severity="error"
-            sx={{ width: "300px" }}
-            onClose={() => setAlert(null)}
+      <div
+        style={{
+          width: "100%",
+          "margin-top": "30px",
+          position: "fixed",
+          marginLeft: '43%',
+          zIndex: '10000'
+        }}
+      >
+        {alert && (
+          <div
+            style={{
+              display: "flex",
+              margin: "auto",
+              "justify-content": "center",
+              "align-items": "center",
+              position: "absolute",
+            }}
           >
-            {alert}
-          </Alert>
-        </div>
-      )}
+            <Alert
+              variant="filled"
+              severity="error"
+              sx={{ width: "300px" }}
+              onClose={() => setAlert(null)}
+            >
+              {alert}
+            </Alert>
+          </div>
+        )}
+      </div>
       <Container component="main" maxWidth="xs">
         <Paper className={classes.paper} elevation={3}>
           <Avatar className={classes.avatar}>
