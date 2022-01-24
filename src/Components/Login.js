@@ -70,11 +70,11 @@ const Login = () => {
   const handleChange = (e) => {
     if (e.target.value.length > 2 && e.target.value.length < 9 && e.target.name ==="username") {
       setuserlen(false); 
-      setformData({ ...formData, [e.target.name]: e.target.value });
+      setformData({ ...formData, [e.target.name]: e.target.value.toLowerCase().replace(' ','') });
     }
     else if(e.target.name === "password" && e.target.value.length > 7  ){
       setpasslen(false);
-      setformData({ ...formData, [e.target.name]: e.target.value });
+      setformData({ ...formData, [e.target.name]: e.target.value.replace(' ','') });
     }
      else {
       e.target.name === "password" ? setpasslen(true) : setuserlen(true);

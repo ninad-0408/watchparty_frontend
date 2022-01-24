@@ -45,10 +45,10 @@ const CreateRoom = () => {
   const handleChange = (e) => {
     if (e.target.name === "name") {
       if (e.target.value.length > 2 && e.target.value.length < 9) {
-        setformData({ ...formData, [e.target.name]: e.target.value });
+        setformData({ ...formData, [e.target.name]: e.target.value.toLowerCase().replace(' ','') });
         setroomlen(false);
       } else setroomlen(true);
-    } else setformData({ ...formData, [e.target.name]: e.target.value });
+    } else setformData({ ...formData, [e.target.name]: e.target.value.replace(' ','') });
   };
 
   // const [fields, setFields] = useState([{ value: null }]);
