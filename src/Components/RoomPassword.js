@@ -21,7 +21,7 @@ const RoomPassword = ({ roomId, socket, handleOpen }) => {
   };
 
   const handleChange = (e) => {
-      setpassword(e.target.value);
+      setpassword(e.target.value.replace(' ',''));
   }
 
   return (
