@@ -5,7 +5,7 @@ import { Grid, IconButton } from "@mui/material";
 import { delRoom } from "../../Api";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-const Setting = ({ room, currentuser, socket }) => {
+const Setting = ({ room, currentuser, socket, handleCheckAdmin }) => {
   const [loading, setloading] = useState(false);
   const [loading1, setloading1] = useState(false);
 
@@ -14,6 +14,8 @@ const Setting = ({ room, currentuser, socket }) => {
       setloading(true);
       socket.emit("close-room", room._id);
     }
+    else
+    handleCheckAdmin('Host');
   };
 
   const handleChange1 = () => {
@@ -22,6 +24,8 @@ const Setting = ({ room, currentuser, socket }) => {
       socket.emit("close-room", room._id);
       delRoom(room._id);
     }
+    else
+    handleCheckAdmin('Host');
   };
 
   function ctc(data) {
@@ -30,6 +34,8 @@ const Setting = ({ room, currentuser, socket }) => {
 
   const handleChange2 = () => {
     if (currentuser.isHost) socket.emit("lock-room", room._id, !room.lock);
+    else
+    handleCheckAdmin('Host');
   };
 
   return (

@@ -42,6 +42,7 @@ function Home() {
               width: "100%",
               "margin-top": "30px",
               position: "fixed",
+              zIndex: "10000",
             }}
           >
             {alert && (
@@ -64,14 +65,23 @@ function Home() {
               </div>
             )}
             {alerterror && (
-              <Alert
-                variant="filled"
-                severity="error"
-                sx={{ width: "300px" }}
-                onClose={() => setError(null)}
+              <div
+                style={{
+                  display: "flex",
+                  margin: "auto",
+                  "justify-content": "center",
+                  "align-items": "center",
+                }}
               >
-                {alerterror}
-              </Alert>
+                <Alert
+                  variant="filled"
+                  severity="error"
+                  sx={{ width: "300px" }}
+                  onClose={() => setError(null)}
+                >
+                  {alerterror}
+                </Alert>
+              </div>
             )}
           </div>
           <div class="container d-flex-row d-md-flex align-items-center justify-content-between mt-5">
@@ -92,7 +102,8 @@ function Home() {
                   "font-size": "28px",
                 }}
               >
-                Best place to chill and enjoy with friends.<br></br> Watch Youtube, Facebook videos with friends. 
+                Best place to chill and enjoy with friends.<br></br> Watch
+                Youtube, Facebook videos with friends.
               </p>
             </div>
             <div class="pb-5 mt-3 d-flex align-items-center justify-content-center">
