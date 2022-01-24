@@ -316,7 +316,10 @@ const Mainpage = ({ socket }) => {
   //   myVideo.current.srcObject = currentStream;
   //   socket.emit("stream",currentStream)
   // })}
-
+  function handleUrl()
+  {
+    setError("You are not Admin");
+  }
   return (
     <>
       <div
@@ -378,7 +381,7 @@ const Mainpage = ({ socket }) => {
             </Button>
             <TextField
               // label="Search or Paste Video Url"
-              placeholder="Search or Paste Video Url"
+              placeholder={currentuser?.isAdmin?"Search or Paste Video Url":"You can't change the url, contact admin if you want to"}
               size="small"
               sx={{
                 width: "70vw",
@@ -387,6 +390,7 @@ const Mainpage = ({ socket }) => {
               }}
               variant="outlined"
               onChange={onchange}
+              onClick={handleUrl}
               value={val}
               aria-haspopup="true"
               id="textfield"

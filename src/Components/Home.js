@@ -64,15 +64,15 @@ function Home() {
               </div>
             )}
             {alerterror && (
-          <Alert
-            variant="filled"
-            severity="error"
-            sx={{ width: "300px" }}
-            onClose={() => setError(null)}
-          >
-            {alerterror}
-          </Alert>
-        )}
+              <Alert
+                variant="filled"
+                severity="error"
+                sx={{ width: "300px" }}
+                onClose={() => setError(null)}
+              >
+                {alerterror}
+              </Alert>
+            )}
           </div>
           <div class="container d-flex-row d-md-flex align-items-center justify-content-between mt-5">
             <div class="col-12 col-md-8">
@@ -80,13 +80,19 @@ function Home() {
                 class="masthead-heading mb-0 text-dark"
                 style={{
                   "font-family": "'Baloo Bhaijaan 2', cursive",
-                  "font-size": "80px",
+                  "font-size": "100px",
                 }}
               >
                 Watch Party
               </h1>
-              <p class="pre-wrap masthead-subheading font-weight-light mb-0">
-                Watch youtube webseries with friends
+              <p
+                class="pre-wrap masthead-subheading font-weight-light mb-0"
+                style={{
+                  "font-family": "'Baloo Bhaijaan 2', cursive",
+                  "font-size": "28px",
+                }}
+              >
+                Best place to chill and enjoy with friends.<br></br> Watch Youtube, Facebook videos with friends. 
               </p>
             </div>
             <div class="pb-5 mt-3 d-flex align-items-center justify-content-center">
