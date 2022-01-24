@@ -50,12 +50,13 @@ function Navbar() {
   };
 
   return (
-    <>
+    <div >
       <nav
-        className="navbar noselect navbar-expand-lg bg-dark text-uppercase fixed-top"
+        className="navbar noselect navbar-expand-lg  text-uppercase fixed-top"
         id="mainNav"
+        style={{"background-color":"#14273a"}}
       >
-        <div className="container">
+        <div className="container" >
           <img src="favicon.ico" style={{height:"20px", marginRight:"3px"}}/>
           <Link className="navbar-brand" to="/">
             Watch<strong style={{ color: "#9CC3D5" }}>Party</strong>
@@ -197,7 +198,7 @@ function Navbar() {
           </div>
         </div>
       </nav>
-    </>
+    </div>
   );
 }
 export default Navbar;
