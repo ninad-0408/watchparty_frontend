@@ -34,9 +34,9 @@ import RoomPassword from "../RoomPassword.js";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import MicOffIcon from '@mui/icons-material/MicOff';
-import MicIcon from '@mui/icons-material/Mic';
-import ClearIcon from '@mui/icons-material/Clear';
+import MicOffIcon from "@mui/icons-material/MicOff";
+import MicIcon from "@mui/icons-material/Mic";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const Room = () => {
   const token = JSON.parse(localStorage.getItem("profile"))?.token;
@@ -165,7 +165,7 @@ const Mainpage = ({ socket }) => {
   useEffect(() => {
     socket.on("message", (mess) => {
       setMessage((prev) => [...prev, mess]);
-      var x = document.getElementById("myAudio"); 
+      var x = document.getElementById("myAudio");
       x.play();
     });
 
@@ -175,10 +175,9 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("error", ({ message }) => {
-      // setError(message);
       history.push({
-        pathname: '/',
-        state: { message } 
+        pathname: "/",
+        state: { message },
       });
     });
 
@@ -209,12 +208,12 @@ const Mainpage = ({ socket }) => {
       } else setplaying(true);
     });
 
-    socket.on('voice', (blob) => {
-      var newvoice = new Blob([blob], { 'type' : 'audio/ogg; codecs=opus' });
-      var audio = document.createElement('audio');
+    socket.on("voice", (blob) => {
+      var newvoice = new Blob([blob], { type: "audio/ogg; codecs=opus" });
+      var audio = document.createElement("audio");
       audio.src = window.URL.createObjectURL(newvoice);
       audio.play();
-    })
+    });
 
     socket.on("disconnect", () => {
       history.push("/");
@@ -269,32 +268,32 @@ const Mainpage = ({ socket }) => {
   };
 
   useEffect(() => {
-      navigator.mediaDevices.getUserMedia({ audio: true })
-        .then((stream) => {
-          var recorder = new MediaRecorder(stream);
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        var recorder = new MediaRecorder(stream);
 
-          recorder.ondataavailable = (e) => {
-            socket.emit('voice', { roomId, blob: e.data });
-          };
+        recorder.ondataavailable = (e) => {
+          socket.emit("voice", { roomId, blob: e.data });
+        };
 
-          setmediaRecorder(recorder);
-          
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  }, [])
+        setmediaRecorder(recorder);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    return () => {
+      setmediaRecorder(null);
+    };
+  }, []);
 
   useEffect(() => {
-    if(mic)
-    mediaRecorder?.start();
-    else
-    {
-      if(mediaRecorder?.state != 'inactive')
-      mediaRecorder?.stop();
+    if (mic) mediaRecorder?.start();
+    else {
+      if (mediaRecorder?.state != "inactive") mediaRecorder?.stop();
       setmic(false);
-    };
-
+    }
   }, [mic]);
 
   // const [file, setfile] = useState(null);
@@ -324,8 +323,8 @@ const Mainpage = ({ socket }) => {
           width: "100%",
           "margin-top": "30px",
           position: "fixed",
-          marginLeft: '35%',
-          zIndex: '10000'
+          marginLeft: "35%",
+          zIndex: "10000",
         }}
       >
         {alert && (
@@ -373,7 +372,12 @@ const Mainpage = ({ socket }) => {
       <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
         <Box spacing={1}>
           <Box style={{ display: "flex" }}>
-            <Button variant="contained" size="small" color="primary" sx={{ margin: "20px 4px" }}>
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              sx={{ margin: "20px 4px" }}
+            >
               {room.name}
             </Button>
             <TextField
@@ -382,7 +386,7 @@ const Mainpage = ({ socket }) => {
               size="small"
               sx={{
                 width: "70vw",
-                margin: "20px 4px",// margin: "11px",
+                margin: "20px 4px", // margin: "11px",
                 backgroundColor: "rgba(20,20,35,0.4)",
               }}
               variant="outlined"
@@ -393,12 +397,12 @@ const Mainpage = ({ socket }) => {
               ref={textfield}
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position='end'>
+                  <InputAdornment position="end">
                     <IconButton>
-                      <ClearIcon onClick={() => setval('')} />
+                      <ClearIcon onClick={() => setval("")} />
                     </IconButton>
                   </InputAdornment>
-                )
+                ),
               }}
             />
             <Menu
@@ -409,7 +413,7 @@ const Mainpage = ({ socket }) => {
               MenuListProps={{
                 "aria-labelledby": "textfield",
               }}
-              sx={{ width: '60vw', maxWidth: "800px", maxHeight: '600px' }}
+              sx={{ width: "60vw", maxWidth: "800px", maxHeight: "600px" }}
             >
               {videolist?.map((vid) => (
                 <>
@@ -425,7 +429,7 @@ const Mainpage = ({ socket }) => {
                         component="img"
                         image={vid.snippet.thumbnails.url}
                         alt="not found"
-                        sx={{height: '100px', width: "156px" }}
+                        sx={{ height: "100px", width: "156px" }}
                       />
                       <CardContent>
                         <Typography variant="body2">{vid.title}</Typography>
@@ -494,10 +498,10 @@ const Mainpage = ({ socket }) => {
               anchor="right"
               open={open}
             >
-            <Button onClick={() => setopen(false)}>
-              <IconButton>
-                <ChevronRightIcon />
-              </IconButton>
+              <Button onClick={() => setopen(false)}>
+                <IconButton>
+                  <ChevronRightIcon />
+                </IconButton>
               </Button>
               <div
                 style={{
@@ -512,9 +516,11 @@ const Mainpage = ({ socket }) => {
               >
                 {user.username}
                 <Button onClick={() => setmic(!mic)}>
-                  {
-                    mic ? <MicIcon color='primary' /> : <MicOffIcon color='disabled' />
-                  }
+                  {mic ? (
+                    <MicIcon color="primary" />
+                  ) : (
+                    <MicOffIcon color="disabled" />
+                  )}
                 </Button>
               </div>
               <Divider />
@@ -551,7 +557,7 @@ const Mainpage = ({ socket }) => {
 			<input type="file" accept='video/*' id="myfile" onChange={upload} />
 			<video playsInline muted ref={myVideo} autoPlay  />
 			<video playsInline muted ref={userVideo} autoPlay /> */}
-      <audio  src={"/tone.mp3"} style={{display:"none"}} id="myAudio"></audio>
+      <audio src={"/tone.mp3"} style={{ display: "none" }} id="myAudio"></audio>
     </>
   );
 };
