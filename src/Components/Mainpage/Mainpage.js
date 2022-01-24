@@ -16,7 +16,7 @@ import { getRoom, ytSearch } from "../../Api/index.js";
 import Chat from "./Chat";
 import People from "./People";
 import Setting from "./Setting";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
 import Alert from "@mui/material/Alert";
@@ -103,6 +103,8 @@ const Mainpage = ({ socket }) => {
   const [open2, setOpen2] = useState(false);
   const handleOpen = () => setOpen2(!open2);
 
+  const location = useLocation();
+  
   const style = {
     position: "absolute",
     top: "20%",
@@ -128,13 +130,13 @@ const Mainpage = ({ socket }) => {
         setvideolist(() => [...data?.videoList]);
         setload2(false);
       });
-    }
+    } else if(val !== '') handleCheckAdmin('Admin');
   };
 
   const onchange = (e) => {
     if (currentuser.isAdmin) {
       setval(e.target.value);
-    }
+    } else handleCheckAdmin('Admin');
   };
 
   const toggleSidebar = () => {
@@ -175,6 +177,7 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("error", ({ message }) => {
+      location.state = 'redirected';
       history.push({
         pathname: "/",
         state: { message },
@@ -216,7 +219,11 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("disconnect", () => {
-      history.push("/");
+      if(location.state != 'redirected')
+      history.push({
+        pathname: "/",
+        state: { message: 'Room disconnected'}
+      });
     });
 
     // socket.on("stream", (stream) => {
@@ -315,18 +322,18 @@ const Mainpage = ({ socket }) => {
   //   myVideo.current.srcObject = currentStream;
   //   socket.emit("stream",currentStream)
   // })}
-  function handleUrl()
-  {
-    setError("You are not Admin");
+  function handleCheckAdmin(field) {
+    setError(`You are not ${field}`);
   }
+
   return (
     <>
+    <div className="App">
       <div
         style={{
           width: "100%",
           "margin-top": "30px",
           position: "fixed",
-          marginLeft: "35%",
           zIndex: "10000",
         }}
       >
@@ -337,7 +344,6 @@ const Mainpage = ({ socket }) => {
               margin: "auto",
               "justify-content": "center",
               "align-items": "center",
-              position: "absolute",
             }}
           >
             <Alert
@@ -351,15 +357,25 @@ const Mainpage = ({ socket }) => {
           </div>
         )}
         {alerterror && (
-          <Alert
-            variant="filled"
-            severity="error"
-            sx={{ width: "300px" }}
-            onClose={() => setError(null)}
+          <div
+            style={{
+              display: "flex",
+              margin: "auto",
+              "justify-content": "center",
+              "align-items": "center",
+            }}
           >
-            {alerterror}
-          </Alert>
+            <Alert
+              variant="filled"
+              severity="error"
+              sx={{ width: "300px" }}
+              onClose={() => setError(null)}
+            >
+              {alerterror}
+            </Alert>
+          </div>
         )}
+      </div>
       </div>
       <Modal open={open2} closeAfterTransition>
         <Fade in={open2}>
@@ -385,7 +401,11 @@ const Mainpage = ({ socket }) => {
             </Button>
             <TextField
               // label="Search or Paste Video Url"
-              placeholder={currentuser?.isAdmin?"Search or Paste Video Url":"You can't change the url, contact admin if you want to"}
+              placeholder={
+                currentuser?.isAdmin
+                  ? "Search or Paste Video Url"
+                  : "You can't change the url, contact admin if you want to"
+              }
               size="small"
               sx={{
                 width: "70vw",
@@ -394,7 +414,7 @@ const Mainpage = ({ socket }) => {
               }}
               variant="outlined"
               onChange={onchange}
-              onClick={handleUrl}
+              onClick={() => handleCheckAdmin('Admin')}
               value={val}
               aria-haspopup="true"
               id="textfield"
@@ -550,6 +570,7 @@ const Mainpage = ({ socket }) => {
                   room={room}
                   currentuser={currentuser}
                   socket={socket}
+                  handleCheckAdmin={handleCheckAdmin}
                 />
               )}
             </Drawer>
