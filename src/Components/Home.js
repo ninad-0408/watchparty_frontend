@@ -12,12 +12,12 @@ function Home() {
 
   useEffect(() => {
     setAlert(location?.state?.message);
-    location.state = undefined;
     const timeId = setTimeout(() => {
       setAlert(null);
     }, 3500);
-
+    
     return () => {
+      location.state = null;
       clearTimeout(timeId);
     };
   }, [location.state]);
