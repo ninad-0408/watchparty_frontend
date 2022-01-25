@@ -1,4 +1,5 @@
 import React from "react";
+import Tooltip from '@mui/material/Tooltip';
 
 const Footer = () => {
   return (
@@ -58,6 +59,7 @@ const Footer = () => {
         >
           &copy; 2022 Watch Party | All Rights Reserved | Terms of Service |
           Privacy | Developers &nbsp;
+          <Tooltip title="Jay Raikhere">
                 <a
                   href="https://www.linkedin.com/in/jay-raikhere-5201041b4/"
                   target="_blank"
@@ -69,7 +71,9 @@ const Footer = () => {
                     style={{ height: "40px", borderRadius: "50%" }}
                   />
                 </a>
+          </Tooltip>
                 &nbsp;
+          <Tooltip title="Ninad Kalanke">
                 <a
                   href="https://www.linkedin.com/in/ninad-kalanke/"
                   target="_blank"
@@ -81,7 +85,9 @@ const Footer = () => {
                     style={{ height: "40px", borderRadius: "50%" }}
                   />
                 </a>
+          </Tooltip>
                 &nbsp;
+          <Tooltip title="Akshat Gupta">
                 <a
                   href="https://www.linkedin.com/in/akshat-gupta-856397191/"
                   target="_blank"
@@ -93,6 +99,7 @@ const Footer = () => {
                     style={{ height: "40px", borderRadius: "50%" }}
                   />
                 </a>
+          </Tooltip>
                 &nbsp;
         </div>
       </div>

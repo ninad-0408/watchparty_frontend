@@ -14,13 +14,14 @@ import { Link, useHistory } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Input from "./Input";
 import { login } from "../Api/index";
+import FormHelperText from '@mui/material/FormHelperText';
 
 import useStyles from "./styles";
 import Cookies from "js-cookie";
 
 const initialState = { username: "", password: "" };
 
-const Login = () => {
+const ResetPassword = () => {
   const classes = useStyles();
   const history = useHistory();
   const [alert, setAlert] = useState(null);
@@ -68,19 +69,17 @@ const Login = () => {
       .catch((error) => setAlert(error.message));
   };
   const [userlen, setuserlen] = useState(false);
-  const [passlen, setpasslen] = useState(false);
 
   const handleChange = (e) => {
-    if (e.target.value.length > 2 && e.target.value.length < 9 && e.target.name ==="username") {
+    if ( e.target.name ==="username" && e.target.value.length > 2 && e.target.value.length < 9) {
       setuserlen(false); 
       setformData({ ...formData, [e.target.name]: e.target.value.toLowerCase().replace(' ','') });
     }
-    else if(e.target.name === "password" && e.target.value.length > 7  ){
-      setpasslen(false);
-      setformData({ ...formData, [e.target.name]: e.target.value.replace(' ','') });
+    else if(e.target.name ==="username"){
+        setuserlen(true); 
+        setformData({ ...formData, [e.target.name]: e.target.value });
     }
-     else {
-      e.target.name === "password" ? setpasslen(true) : setuserlen(true);
+     else{
       setformData({ ...formData, [e.target.name]: e.target.value });
     }
   };
@@ -122,7 +121,7 @@ const Login = () => {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography variant="h5">Login</Typography>
+          <Typography variant="h5">Enter Details</Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Input
@@ -136,16 +135,16 @@ const Login = () => {
                 autoFocus
               />
               <Input
-                name="password"
-                label="Password"
-                type={showPassword ? "text" : "password"}
-                handleShowPassword={handleShowPassword}
+                name="email"
+                label="Email"
+                type="email"
                 handleChange={handleChange}
                 required
-                error={passlen}
-                value={formData.password}
+                value={formData.email}
+                autoFocus
               />
             </Grid>
+              <FormHelperText id="component-error-text">Reset password link will be sent to email</FormHelperText>
             <Box marginTop={3}>
               <LoadingButton
                 type="submit"
@@ -154,23 +153,11 @@ const Login = () => {
                 loading={processing}
                 variant="contained"
                 fullWidth
-                disabled={userlen || passlen}
+                disabled={userlen}
               >
-                Login
+                Submit
               </LoadingButton>
             </Box>
-            <Grid container justifyContent="center">
-              <Grid item>
-                <Button color="secondary">
-                  <Link to="/signup">Don't have an account? Sign Up</Link>
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button color="secondary">
-                  <Link to="/forgotpassword">Forgot Password</Link>
-                </Button>
-              </Grid>
-            </Grid>
           </form>
         </Paper>
       </Container>
@@ -178,4 +165,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

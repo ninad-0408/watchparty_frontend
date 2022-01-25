@@ -5,6 +5,7 @@ import { Grid, IconButton } from "@mui/material";
 import { delRoom } from "../../Api";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Dialogs } from './Dialogs'
+import Tooltip from '@mui/material/Tooltip';
 
 const Setting = ({ room, currentuser, socket, handleCheckAdmin }) => {
   const [loading, setloading] = useState(false);
@@ -70,13 +71,16 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin }) => {
       </Grid>
       <Grid item sx={6}>
       Copy Link
+      <Tooltip title="Copy URL">
         <IconButton onClick={() => ctc(window.location.href)}>
           <ContentCopyIcon color='info' />
         </IconButton>
+        </Tooltip>
       </Grid>
       {currentuser.isHost ? (
         <>
           <Grid item sx={6} marginTop={2}>
+          <Tooltip title="Close Room Now">
             <LoadingButton
               loading={loading}
               color="warning"
@@ -85,8 +89,10 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin }) => {
             >
               Close Room
             </LoadingButton>
+          </Tooltip>
           </Grid>
           <Grid item sx={6} marginTop={2}>
+          <Tooltip title="Delete Room Now">
             <LoadingButton
               loading={loading1}
               color="error"
@@ -95,6 +101,7 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin }) => {
             >
               Delete Room
             </LoadingButton>
+            </Tooltip>
           </Grid>
         </>
       ) : (
