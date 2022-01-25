@@ -15,6 +15,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { io } from "socket.io-client";
 import { baseUrl } from "../Constants/baseUrl";
 import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 
 
 function MyRoom() {
@@ -23,12 +24,13 @@ function MyRoom() {
   const history = useHistory();
   
   const delfun = (id) => {
-    const token = JSON.parse(localStorage.getItem("profile"))?.token;
+    const token = Cookies.get()?.token;
     const socket = io(baseUrl, {
       extraHeaders: {
         Authorization: `Bearer ${token}`,
       },
     });
+
     socket.emit('close-room', id);
     socket.disconnect();
     delRoom(id).then((data) => {

@@ -7,18 +7,21 @@ import Fade from "@mui/material/Fade";
 import JoinRoom from "./JoinRoom";
 import MyRoom from "./MyRoom";
 import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function Navbar() {
-  const user = JSON.parse(localStorage.getItem("profile"))?.user?.username;
+
+  const username = Cookies.get()?.username;
   const history = useHistory();
+
   const handleLogout = () => {
-    localStorage.removeItem("profile");
-    // setAlert("LoggedOut Successfully!")
+    Cookies.remove("_id");
+    Cookies.remove("username");
+    Cookies.remove("token");
     history.push({
       pathname: "/",
       state: { message: "LoggedOut Successfully!" },
     });
-    // window.location.reload();
   };
 
   const [open1, setOpen1] = useState(false);
@@ -81,7 +84,7 @@ function Navbar() {
                 "font-size": "20px",
               }}
             >
-              {user ? (
+              {username ? (
                 <>
                 <li className="nav-item mx-0 mx-lg-1">
                     <a
@@ -89,7 +92,7 @@ function Navbar() {
                       href="#"
                       style={{ color: "white" }}
                     >
-                      Hi<img alt="gif" src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" style={{ height: "20px" }}/> {user}
+                      Hi<img alt="gif" src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" style={{ height: "20px" }}/> {username}
                     </a>
                   </li>
                   <li className="nav-item mx-0 mx-lg-1">

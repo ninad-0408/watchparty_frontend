@@ -37,9 +37,10 @@ import MenuItem from "@mui/material/MenuItem";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import MicIcon from "@mui/icons-material/Mic";
 import ClearIcon from "@mui/icons-material/Clear";
+import Cookies from "js-cookie";
 
 const Room = () => {
-  const token = JSON.parse(localStorage.getItem("profile"))?.token;
+  const token = Cookies.get()?.token;
   const socket = io(baseUrl, {
     extraHeaders: {
       Authorization: `Bearer ${token}`,
@@ -98,13 +99,13 @@ const Mainpage = ({ socket }) => {
   const [playing, setplaying] = useState(false);
   const player = useRef(null);
 
-  const user = JSON.parse(localStorage.getItem("profile"))?.user;
+  const user = Cookies.get();
   const [currentuser, setcurrentuser] = useState(null);
   const [open2, setOpen2] = useState(false);
   const handleOpen = () => setOpen2(!open2);
 
   const location = useLocation();
-  
+
   const style = {
     position: "absolute",
     top: "20%",
@@ -123,20 +124,22 @@ const Mainpage = ({ socket }) => {
   };
 
   const handleSearch = () => {
-    if (currentuser.isAdmin && val !== "") {
-      setload2(true);
-      ytSearch({ word: val }).then((data) => {
-        setanchorEl(textfield.current);
-        setvideolist(() => [...data?.videoList]);
-        setload2(false);
-      });
-    } else if(val !== '') handleCheckAdmin('Admin');
+    if (currentuser.isAdmin) {
+      if (val != "") {
+        setload2(true);
+        ytSearch({ word: val }).then((data) => {
+          setanchorEl(textfield.current);
+          setvideolist(() => [...data?.videoList]);
+          setload2(false);
+        });
+      }
+    } else handleCheckAdmin("Admin");
   };
 
   const onchange = (e) => {
     if (currentuser.isAdmin) {
       setval(e.target.value);
-    } else handleCheckAdmin('Admin');
+    } else handleCheckAdmin("Admin");
   };
 
   const toggleSidebar = () => {
@@ -177,7 +180,7 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("error", ({ message }) => {
-      location.state = 'redirected';
+      location.state = "redirected";
       history.push({
         pathname: "/",
         state: { message },
@@ -219,11 +222,11 @@ const Mainpage = ({ socket }) => {
     });
 
     socket.on("disconnect", () => {
-      if(location.state != 'redirected')
-      history.push({
-        pathname: "/",
-        state: { message: 'Room disconnected'}
-      });
+      if (location.state != "redirected")
+        history.push({
+          pathname: "/",
+          state: { message: "Room disconnected" },
+        });
     });
 
     // socket.on("stream", (stream) => {
@@ -328,54 +331,54 @@ const Mainpage = ({ socket }) => {
 
   return (
     <>
-    <div className="App">
-      <div
-        style={{
-          width: "100%",
-          "margin-top": "30px",
-          position: "fixed",
-          zIndex: "10000",
-        }}
-      >
-        {alert && (
-          <div
-            style={{
-              display: "flex",
-              margin: "auto",
-              "justify-content": "center",
-              "align-items": "center",
-            }}
-          >
-            <Alert
-              variant="filled"
-              severity="info"
-              sx={{ width: "300px" }}
-              onClose={() => setAlert(null)}
+      <div className="App">
+        <div
+          style={{
+            width: "100%",
+            "margin-top": "30px",
+            position: "fixed",
+            zIndex: "10000",
+          }}
+        >
+          {alert && (
+            <div
+              style={{
+                display: "flex",
+                margin: "auto",
+                "justify-content": "center",
+                "align-items": "center",
+              }}
             >
-              {alert}
-            </Alert>
-          </div>
-        )}
-        {alerterror && (
-          <div
-            style={{
-              display: "flex",
-              margin: "auto",
-              "justify-content": "center",
-              "align-items": "center",
-            }}
-          >
-            <Alert
-              variant="filled"
-              severity="error"
-              sx={{ width: "300px" }}
-              onClose={() => setError(null)}
+              <Alert
+                variant="filled"
+                severity="info"
+                sx={{ width: "300px" }}
+                onClose={() => setAlert(null)}
+              >
+                {alert}
+              </Alert>
+            </div>
+          )}
+          {alerterror && (
+            <div
+              style={{
+                display: "flex",
+                margin: "auto",
+                "justify-content": "center",
+                "align-items": "center",
+              }}
             >
-              {alerterror}
-            </Alert>
-          </div>
-        )}
-      </div>
+              <Alert
+                variant="filled"
+                severity="error"
+                sx={{ width: "300px" }}
+                onClose={() => setError(null)}
+              >
+                {alerterror}
+              </Alert>
+            </div>
+          )}
+        </div>
       </div>
       <Modal open={open2} closeAfterTransition>
         <Fade in={open2}>
@@ -409,12 +412,11 @@ const Mainpage = ({ socket }) => {
               size="small"
               sx={{
                 width: "70vw",
-                margin: "20px 4px", // margin: "11px",
+                margin: "20px 4px",
                 backgroundColor: "rgba(20,20,35,0.4)",
               }}
               variant="outlined"
               onChange={onchange}
-              onClick={() => handleCheckAdmin('Admin')}
               value={val}
               aria-haspopup="true"
               id="textfield"

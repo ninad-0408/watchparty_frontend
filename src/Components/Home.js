@@ -9,11 +9,10 @@ function Home() {
   const location = useLocation();
   const [alert, setAlert] = useState(null);
   const [alerterror, setError] = useState(null);
-  const user = JSON.parse(localStorage.getItem("profile"))?.user;
 
   useEffect(() => {
     setAlert(location?.state?.message);
-    console.log(location?.state?.message);
+    location.state = undefined;
     const timeId = setTimeout(() => {
       setAlert(null);
     }, 3500);
