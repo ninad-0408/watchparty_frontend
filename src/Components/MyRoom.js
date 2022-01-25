@@ -16,6 +16,7 @@ import { io } from "socket.io-client";
 import { baseUrl } from "../Constants/baseUrl";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
+import Tooltip from '@mui/material/Tooltip';
 
 
 function MyRoom() {
@@ -96,12 +97,16 @@ function MyRoom() {
                         Join
                       </Button>
                     </Link>
+                    <Tooltip title="Copy URL">
                     <IconButton onClick={() => ctc(window.location.href+`room/${room._id}`)}>
                         <ContentCopyIcon color='info' />
                     </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete Room">
                       <IconButton onClick={() => delfun(room._id)}>
                         <DeleteIcon color="error"/>
                       </IconButton>
+                    </Tooltip>
                   </Grid>
                 </Grid>
               </CardContent>
