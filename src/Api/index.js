@@ -6,6 +6,15 @@ axios.defaults.withCredentials = true;
 
 const API = axios.create({ baseURL: baseUrl, withcredentials: true });
 
+API.interceptors.request.use((req) => {
+  const token = Cookies.get()?.token;
+  if (token) {
+    req.headers.authorization = `Bearer ${token}`;
+  }
+
+  return req;
+});
+
 export const signup = (formData) =>
   API.post("/user/signup", formData)
     .then((res) => {
