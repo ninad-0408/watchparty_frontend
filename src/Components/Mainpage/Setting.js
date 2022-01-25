@@ -4,7 +4,7 @@ import { LoadingButton } from "@mui/lab";
 import { Grid, IconButton } from "@mui/material";
 import { delRoom } from "../../Api";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import {Dialogs} from './Dialogs'
+import { Dialogs } from './Dialogs'
 
 const Setting = ({ room, currentuser, socket, handleCheckAdmin }) => {
   const [loading, setloading] = useState(false);

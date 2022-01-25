@@ -49,11 +49,15 @@ const Login = () => {
           const timeId = setTimeout(() => {
             setAlert(null);
           }, 3500);
+
           setformData(initialState);
+
           setprocessing(false);
+
           return () => {
             clearTimeout(timeId);
           };
+          
         } else {
           history.push({
             pathname: "/",
