@@ -13,14 +13,20 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Link, useHistory } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Input from "./Input";
-import { login } from "../Api/index";
+import { signup } from "../Api/index";
 
 import useStyles from "./styles";
 import Cookies from "js-cookie";
 
-const initialState = { username: "", password: "" };
+const initialState = {
+  name: "",
+  username: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
-const Login = () => {
+const SetPassword = () => {
   const classes = useStyles();
   const history = useHistory();
   const [alert, setAlert] = useState(null);
@@ -39,48 +45,44 @@ const Login = () => {
   });
 
   const handleSubmit = (e) => {
-
+    console.log(formData);
     e.preventDefault();
     setprocessing(true);
-    login(formData)
+    signup(formData)
       .then((data) => {
         if (data.err) {
           setAlert(data.err.message);
           const timeId = setTimeout(() => {
             setAlert(null);
           }, 3500);
-
           setformData(initialState);
-
           setprocessing(false);
-
           return () => {
             clearTimeout(timeId);
           };
-          
         } else {
-          history.push({
+          console.log(data.message);
+          history.push("/", {
             pathname: "/",
             state: { message: data.message },
           });
         }
       })
-      .catch((error) => setAlert(error.message));
+      .catch((error) => console.log(error));
   };
-  const [userlen, setuserlen] = useState(false);
   const [passlen, setpasslen] = useState(false);
 
   const handleChange = (e) => {
-    if (e.target.value.length > 2 && e.target.value.length < 9 && e.target.name ==="username") {
-      setuserlen(false); 
-      setformData({ ...formData, [e.target.name]: e.target.value.toLowerCase().replace(' ','') });
-    }
-    else if(e.target.name === "password" && e.target.value.length > 7  ){
-      setpasslen(false);
-      setformData({ ...formData, [e.target.name]: e.target.value.replace(' ','') });
-    }
-     else {
-      e.target.name === "password" ? setpasslen(true) : setuserlen(true);
+    console.log(e.target);
+    if (e.target.name === "password") {
+      if(e.target.value.length > 7 ){
+        setpasslen(false);
+        setformData({ ...formData, [e.target.name]: e.target.value.replace(' ','') });
+      }else {
+        setpasslen(true);
+        setformData({ ...formData, [e.target.name]: e.target.value });
+      }
+    } else {
       setformData({ ...formData, [e.target.name]: e.target.value });
     }
   };
@@ -122,19 +124,9 @@ const Login = () => {
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography variant="h5">Login</Typography>
+          <Typography variant="h5">Set Password</Typography>
           <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              <Input
-                name="username"
-                label="UserName"
-                type="text"
-                handleChange={handleChange}
-                required
-                error={userlen}
-                value={formData.username}
-                autoFocus
-              />
               <Input
                 name="password"
                 label="Password"
@@ -145,6 +137,16 @@ const Login = () => {
                 error={passlen}
                 value={formData.password}
               />
+              <Input
+                name="confirmPassword"
+                label="Confirm Password"
+                type={showPassword ? "text" : "password"}
+                handleShowPassword={handleShowPassword}
+                handleChange={handleChange}
+                required
+                error={passlen}
+                value={formData.confirmPassword}
+              />
             </Grid>
             <Box marginTop={3}>
               <LoadingButton
@@ -154,23 +156,11 @@ const Login = () => {
                 loading={processing}
                 variant="contained"
                 fullWidth
-                disabled={userlen || passlen}
+                disabled={passlen}
               >
-                Login
+                Submit
               </LoadingButton>
             </Box>
-            <Grid container justifyContent="center">
-              <Grid item>
-                <Button color="secondary">
-                  <Link to="/signup">Don't have an account? Sign Up</Link>
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button color="secondary">
-                  <Link to="/forgotpassword">Forgot Password</Link>
-                </Button>
-              </Grid>
-            </Grid>
           </form>
         </Paper>
       </Container>
@@ -178,4 +168,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SetPassword;
