@@ -16,6 +16,7 @@ import Input from "./Input";
 import { signup } from "../Api/index";
 
 import useStyles from "./styles";
+import Cookies from "js-cookie";
 
 const initialState = {
   name: "",
@@ -35,7 +36,7 @@ const Auth = () => {
 
   const handleShowPassword = () => setshowPassword((e) => !e);
 
-  const user = JSON.parse(localStorage.getItem("profile"))?.user;
+  const user = Cookies.get()?.username;
 
   if(user)
   history.push({

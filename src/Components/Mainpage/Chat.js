@@ -8,6 +8,7 @@ import { Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import SendIcon from '@mui/icons-material/Send';
+import Cookies from "js-cookie";
 
 const Chat = ({ message, setMessage, socket }) => {
   const { roomId } = useParams();
@@ -27,7 +28,8 @@ const Chat = ({ message, setMessage, socket }) => {
       textAlign: "right",
     }),
   }));
-  const username = JSON.parse(localStorage.getItem("profile"))?.user?.username;
+
+  const username = Cookies.get()?.username;
 
   const [value, setvalue] = useState("");
 

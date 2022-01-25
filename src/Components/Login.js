@@ -16,6 +16,7 @@ import Input from "./Input";
 import { login } from "../Api/index";
 
 import useStyles from "./styles";
+import Cookies from "js-cookie";
 
 const initialState = { username: "", password: "" };
 
@@ -29,7 +30,7 @@ const Login = () => {
 
   const handleShowPassword = () => setshowPassword((e) => !e);
 
-  const user = JSON.parse(localStorage.getItem("profile"))?.user;
+  const user = Cookies.get()?.username;
 
   if(user)
   history.push({
@@ -43,7 +44,6 @@ const Login = () => {
     setprocessing(true);
     login(formData)
       .then((data) => {
-        console.log(data);
         if (data.err) {
           setAlert(data.err.message);
           const timeId = setTimeout(() => {
@@ -55,7 +55,6 @@ const Login = () => {
             clearTimeout(timeId);
           };
         } else {
-          console.log(data.message);
           history.push({
             pathname: "/",
             state: { message: data.message },
