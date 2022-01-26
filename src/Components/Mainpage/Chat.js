@@ -9,6 +9,7 @@ import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import SendIcon from '@mui/icons-material/Send';
 import Cookies from "js-cookie";
+import moment from "moment";
 
 const Chat = ({ message, setMessage, socket }) => {
   const { roomId } = useParams();
@@ -39,9 +40,9 @@ const Chat = ({ message, setMessage, socket }) => {
   function handleChange(e, other) {
     if (other || e.charCode === 13) {
       if (value !== "") {
-        socket.emit("message", { value, roomId });
+        socket.emit("message", { value, date: new Date(), roomId });
         setMessage((msg) => {
-          return [...msg, { message: value, username: username }];
+          return [...msg, { message: value, username: username, date: new Date() }];
         });
         setvalue("");
       }
@@ -82,6 +83,7 @@ const Chat = ({ message, setMessage, socket }) => {
               <Item>
                 <span style={{ fontWeight: 1000 }}>{msg.username}</span>: &nbsp;
                 {msg.message}
+                <small style={{marginRight: '0px'}}>{moment(msg.date).format(" hh:mma")}</small>
               </Item>
             )
           )
