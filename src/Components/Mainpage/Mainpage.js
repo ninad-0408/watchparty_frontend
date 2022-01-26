@@ -94,6 +94,7 @@ const Mainpage = ({ socket }) => {
   const [mediaRecorder, setmediaRecorder] = useState(null);
   const open3 = Boolean(anchorEl);
   const [videolist, setvideolist] = useState([]);
+  const [sync, setsync] = useState([]);
   const history = useHistory();
 
   const [playing, setplaying] = useState(false);
@@ -144,6 +145,35 @@ const Mainpage = ({ socket }) => {
 
   const toggleSidebar = () => {
     setopen(!open);
+  };
+
+  const reqSync = () => {
+    let socketId = null;
+    let isAdmin = false;
+    let isHost = false;
+
+    members.forEach(ele => {
+      if(ele._id != currentuser._id)
+      {
+        if(!isAdmin && !isHost)
+        socketId = ele.socketId;
+
+        if(ele.isAdmin && !isAdmin && !isHost)
+        {
+          isAdmin = true;
+          socketId = ele.socketId;
+        }
+
+        if(ele.isHost && !isHost)
+        {
+          isHost = true;
+          socketId = ele.socketId;
+        }
+      }
+    });
+
+    if(socketId)
+    socket.emit('request-sync', socketId);
   };
 
   const [value, setValue] = useState("1");
@@ -197,6 +227,14 @@ const Mainpage = ({ socket }) => {
       setload(false);
     });
 
+    socket.on('play-pause', (playin) => {
+      setplaying(playin);
+    });
+
+    socket.on('request-sync', () => {
+      setsync((prev) => [...prev, 1]);
+    });
+
     socket.on("alert", (msg) => {
       setAlert(msg);
       const timeId = setTimeout(() => {
@@ -239,16 +277,21 @@ const Mainpage = ({ socket }) => {
   }, [socket]);
 
   useEffect(async () => {
-    if (currentuser?.isHost) {
       sendUrl();
+
       setTimeout(() => {
-        pause();
-      }, 4000);
+        var currentTime = player.current.getCurrentTime();
+        socket.emit("seek", {
+          roomId: roomId,
+          seek: currentTime,
+          pause: true,
+        });
+      }, 3000);
+
       setTimeout(() => {
-        play();
-      }, 5000);
-    }
-  }, [members.length]);
+        playpause();
+      }, 4000)
+  }, [sync.length, members.length]);
 
   const sendUrl = () => {
     if (currentuser.isAdmin) {
@@ -275,6 +318,10 @@ const Mainpage = ({ socket }) => {
         pause: false,
       });
     }
+  };
+
+  const playpause = () => {
+    socket.emit('play-pause', { playing, roomId });
   };
 
   useEffect(() => {
@@ -572,6 +619,7 @@ const Mainpage = ({ socket }) => {
                   room={room}
                   currentuser={currentuser}
                   socket={socket}
+                  reqSync={reqSync}
                   handleCheckAdmin={handleCheckAdmin}
                 />
               )}
