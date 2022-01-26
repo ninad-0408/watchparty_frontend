@@ -11,9 +11,14 @@ function Home() {
   const [alerterror, setError] = useState(null);
 
   useEffect(() => {
+    if(location?.state?.error)
+    setError(location?.state?.message);
+    else
     setAlert(location?.state?.message);
+
     const timeId = setTimeout(() => {
       setAlert(null);
+      setError(null);
     }, 3500);
     
     return () => {
