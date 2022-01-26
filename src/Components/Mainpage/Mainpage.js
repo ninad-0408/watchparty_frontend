@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import Tooltip from '@mui/material/Tooltip';
 import { getRoom, ytSearch } from "../../Api/index.js";
 import Chat from "./Chat";
 import People from "./People";
@@ -471,9 +472,11 @@ const Mainpage = ({ socket }) => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
+                    <Tooltip title="Clear">
                     <IconButton>
                       <ClearIcon onClick={() => setval("")} />
                     </IconButton>
+                    </Tooltip>
                   </InputAdornment>
                 ),
               }}
@@ -519,6 +522,7 @@ const Mainpage = ({ socket }) => {
                 </>
               ))}
             </Menu>
+            <Tooltip title="YouTube Search">
             <LoadingButton
               sx={{ width: "5vw", margin: "20px 4px" }}
               variant="contained"
@@ -530,6 +534,8 @@ const Mainpage = ({ socket }) => {
             >
               <YouTubeIcon />
             </LoadingButton>
+            </Tooltip>
+            <Tooltip title="Send URL">
             <LoadingButton
               onClick={sendUrl}
               loading={load}
@@ -539,6 +545,7 @@ const Mainpage = ({ socket }) => {
             >
               Send
             </LoadingButton>
+            </Tooltip>
             <Button>
               <IconButton color="inherit" onClick={toggleSidebar}>
                 <MenuIcon />

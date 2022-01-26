@@ -9,6 +9,7 @@ import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
+import Tooltip from '@mui/material/Tooltip';
 import { LoadingButton } from "@mui/lab";
 import CameraIndoorIcon from "@mui/icons-material/CameraIndoor";
 
@@ -63,24 +64,30 @@ const Cards = ({ user, currentuser, socket }) => {
             </Typography>
           </Grid>
           <Grid item>
+          <Tooltip title="Make Admin">
             <LoadingButton loading={load} onClick={handleAdmin}>
               <AdminPanelSettingsIcon
                 color={user.isAdmin ? "primary" : "disabled"}
               />
             </LoadingButton>
+          </Tooltip>
           </Grid>
 
           {currentuser.isHost ? (
             <Grid item>
+              <Tooltip title="Remove">
               <LoadingButton loading={load1} onClick={removeMember}>
                 <CancelPresentationIcon color='disabled' />
               </LoadingButton>
+              </Tooltip>
             </Grid>
           ) : user.isHost ? (
             <Grid item>
+              <Tooltip title="Remove">
               <LoadingButton>
                 <CameraIndoorIcon color="primary" />
               </LoadingButton>
+              </Tooltip>
             </Grid>
           ) : (
             <> </>
