@@ -7,7 +7,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Dialogs } from './Dialogs'
 import Tooltip from '@mui/material/Tooltip';
 
-const Setting = ({ room, currentuser, socket, handleCheckAdmin }) => {
+const Setting = ({ room, currentuser, socket, handleCheckAdmin, reqSync }) => {
   const [loading, setloading] = useState(false);
   const [loading1, setloading1] = useState(false);
   const [open,setOpen] = useState(false);
@@ -77,9 +77,14 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin }) => {
         </IconButton>
         </Tooltip>
       </Grid>
+      <Grid item sx={12}>
+        <LoadingButton color='primary' variant='contained' onClick={reqSync}>
+          Request Sync
+        </LoadingButton>
+      </Grid>
       {currentuser.isHost ? (
         <>
-          <Grid item sx={6} marginTop={2}>
+        <Grid item sx={6} >
           <Tooltip title="Close Room Now">
             <LoadingButton
               loading={loading}
@@ -91,7 +96,7 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin }) => {
             </LoadingButton>
           </Tooltip>
           </Grid>
-          <Grid item sx={6} marginTop={2}>
+         <Grid item sx={6} >
           <Tooltip title="Delete Room Now">
             <LoadingButton
               loading={loading1}
