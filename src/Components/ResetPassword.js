@@ -13,7 +13,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Link, useHistory } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Input from "./Input";
-import { login } from "../Api/index";
+import { Forgetpassword} from "../Api/index";
 import FormHelperText from '@mui/material/FormHelperText';
 
 import useStyles from "./styles";
@@ -43,7 +43,7 @@ const ResetPassword = () => {
 
     e.preventDefault();
     setprocessing(true);
-    login(formData)
+    Forgetpassword(formData)
       .then((data) => {
         if (data.err) {
           setAlert(data.err.message);
