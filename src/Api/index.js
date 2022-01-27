@@ -18,21 +18,21 @@ API.interceptors.request.use((req) => {
 export const signup = (formData) =>
   API.post("/user/signup", formData)
     .then((res) => {
-      Cookies.set('token', res.data.token, { expires: 1 });
-      Cookies.set('username', res.data.username, { expires: 1 });
-      Cookies.set('_id', res.data._id, { expires: 1 });
+      Cookies.set("token", res.data.token, { expires: 1 });
+      Cookies.set("username", res.data.username, { expires: 1 });
+      Cookies.set("_id", res.data._id, { expires: 1 });
       return res.data;
     })
     .catch((err) => {
       return err.response.data;
     });
 
-export const login = (formData) => 
+export const login = (formData) =>
   API.post("/user/login", formData)
     .then((res) => {
-      Cookies.set('token', res.data.token, { expires: 1 });
-      Cookies.set('username', res.data.username, { expires: 1 });
-      Cookies.set('_id', res.data._id, { expires: 1 });
+      Cookies.set("token", res.data.token, { expires: 1 });
+      Cookies.set("username", res.data.username, { expires: 1 });
+      Cookies.set("_id", res.data._id, { expires: 1 });
       return res.data;
     })
     .catch((err) => {
@@ -89,6 +89,23 @@ export const myRoom = () =>
   API.get("/user/myRoom")
     .then((res) => {
       return res.data.myrooms;
+    })
+    .catch((err) => {
+      console.log(err.response);
+    });
+
+export const Forgetpassword = (formData) =>
+  API.post("/user/forgetpassword", formData)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err.response);
+    });
+export const resetpassword = (formData, token) =>
+  API.post(`/user/resetpassword/${token}`, formData)
+    .then((res) => {
+      return res.data;
     })
     .catch((err) => {
       console.log(err.response);
