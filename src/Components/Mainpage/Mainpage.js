@@ -486,8 +486,7 @@ const Mainpage = ({ socket }) => {
             sx={{ width: "60vw", maxWidth: "800px", maxHeight: "600px" }}
           >
             {videolist?.map((vid) => (
-              <>
-                <MenuItem onClick={() => chooseVideo(vid)}>
+                <MenuItem key={vid.id.videoId} onClick={() => chooseVideo(vid)}>
                   <Card
                     sx={{
                       display: "flex",
@@ -511,9 +510,8 @@ const Mainpage = ({ socket }) => {
                       </Typography>
                     </CardContent>
                   </Card>
-                </MenuItem>
                 <Divider />
-              </>
+                </MenuItem>
             ))}
           </Menu>
           <Tooltip title="YouTube Search">
@@ -557,6 +555,8 @@ const Mainpage = ({ socket }) => {
               ref={player}
               onPause={pause}
               onPlay={play}
+              onClick={(e) => console.log('clicked', e)}
+              onStart={(e) => console.log('started', e)}
             />
           </Main>
           <Drawer
