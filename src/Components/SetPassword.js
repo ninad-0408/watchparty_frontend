@@ -10,18 +10,15 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory ,useParams} from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Input from "./Input";
-import { signup } from "../Api/index";
+import { resetpassword } from "../Api/index";
 
 import useStyles from "./styles";
 import Cookies from "js-cookie";
 
 const initialState = {
-  name: "",
-  username: "",
-  email: "",
   password: "",
   confirmPassword: "",
 };
@@ -35,7 +32,7 @@ const SetPassword = () => {
   const [processing, setprocessing] = useState(false);
 
   const handleShowPassword = () => setshowPassword((e) => !e);
-
+  const {token} = useParams();
   const user = Cookies.get()?.username;
 
   if(user)
@@ -48,7 +45,7 @@ const SetPassword = () => {
     console.log(formData);
     e.preventDefault();
     setprocessing(true);
-    signup(formData)
+    resetpassword(formData,token)
       .then((data) => {
         if (data.err) {
           setAlert(data.err.message);
