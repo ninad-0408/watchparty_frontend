@@ -6,22 +6,22 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import JoinRoom from "./JoinRoom";
 import MyRoom from "./MyRoom";
-import { useHistory } from "react-router-dom";
+import { Divider, Menu, MenuItem, Tooltip } from "@mui/material";
+import LogoutIcon from '@mui/icons-material/Logout';
 import Cookies from "js-cookie";
 
 function Navbar() {
-
   const username = Cookies.get()?.username;
-  const history = useHistory();
 
   const handleLogout = () => {
     Cookies.remove("_id");
     Cookies.remove("username");
     Cookies.remove("token");
-    history.push({
-      pathname: "/",
-      state: { message: "LoggedOut Successfully!" },
-    });
+  };
+
+  const handleMenu = (e) => {
+    if (!Boolean(anchorEl)) setanchorEl(e.currentTarget);
+    else setanchorEl(null);
   };
 
   const [open1, setOpen1] = useState(false);
@@ -30,6 +30,8 @@ function Navbar() {
   const handleOpen2 = () => setOpen2(!open2);
   const [open3, setOpen3] = useState(false);
   const handleOpen3 = () => setOpen3(!open3);
+  const [anchorEl, setanchorEl] = useState(null);
+  const open4 = Boolean(anchorEl);
 
   const style = {
     position: "absolute",
@@ -53,14 +55,17 @@ function Navbar() {
   };
 
   return (
-    <div >
+    <div>
       <nav
         className="navbar noselect navbar-expand-lg  text-uppercase fixed-top"
         id="mainNav"
-        style={{"background-color":"#14273a"}}
+        style={{ "background-color": "#14273a" }}
       >
-        <div className="container" >
-          <img src="favicon.ico" style={{height:"20px", marginRight:"3px"}}/>
+        <div className="container">
+          <img
+            src="favicon.ico"
+            style={{ height: "20px", marginRight: "3px" }}
+          />
           <Link className="navbar-brand" to="/">
             Watch<strong style={{ color: "#9CC3D5" }}>Party</strong>
           </Link>
@@ -86,15 +91,6 @@ function Navbar() {
             >
               {username ? (
                 <>
-                <li className="nav-item mx-0 mx-lg-1">
-                    <a
-                      className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                      href="#"
-                      style={{ color: "white" }}
-                    >
-                      Hi<img alt="gif" src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" style={{ height: "20px" }}/> {username}
-                    </a>
-                  </li>
                   <li className="nav-item mx-0 mx-lg-1">
                     <div>
                       <Link
@@ -105,7 +101,7 @@ function Navbar() {
                           "background-color": "transparent",
                           border: "none",
                         }}
-                        to='/'
+                        to="/"
                       >
                         CREATE ROOM
                       </Link>
@@ -127,7 +123,7 @@ function Navbar() {
                       onClick={handleOpen2}
                       className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
                       style={{ color: "white" }}
-                      to='/'
+                      to="/"
                     >
                       Join Room
                     </Link>
@@ -148,7 +144,7 @@ function Navbar() {
                       onClick={handleOpen3}
                       className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
                       style={{ color: "white" }}
-                      to='/'
+                      to="/"
                     >
                       My Rooms
                     </Link>
@@ -164,15 +160,58 @@ function Navbar() {
                       </Fade>
                     </Modal>
                   </li>
-                  <li className="nav-item mx-0 mx-lg-1">
-                    <Link
-                      className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                      onClick={handleLogout}
-                      style={{ color: "white" }}
-                      to='/'
+                  <li
+                    onClick={handleMenu}
+                    aria-controls={open4 ? "usermenu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open4 ? "true" : undefined}
+                    className="nav-item mx-0 mx-lg-1"
+                  >
+                    <Tooltip title="Your Account">
+                      <a
+                        className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                        href="#"
+                        style={{ color: "white" }}
+                      >
+                        Hi
+                        <img
+                          alt="gif"
+                          src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif"
+                          style={{ height: "20px" }}
+                        />{" "}
+                        {username}
+                      </a>
+                    </Tooltip>
+                    <Menu
+                      id="usermenu"
+                      anchorEl={anchorEl}
+                      open={open4}
+                      onClose={() => setanchorEl(null)}
+                      onClick={() => setanchorEl(null)}
+                      PaperProps={{
+                        sx: {
+                          bgcolor: "#14273a",
+                          color: "white"
+                        },
+                      }}
                     >
-                      Logout
-                    </Link>
+                      <MenuItem>
+                        <Link
+                        className='text-uppercase'
+                          onClick={handleLogout}
+                          style={{ color: "white", "font-family": "'Baloo Tammudu 2', cursive", textDecoration: 'none', "font-size": "16px" }}
+                          to={{
+                            pathname: "/",
+                            state: {
+                              message: "You are Loggedout successfully.",
+                            },
+                          }}
+                        >
+                        <LogoutIcon />{' '}
+                          Logout
+                        </Link>
+                      </MenuItem>
+                    </Menu>
                   </li>
                 </>
               ) : (
