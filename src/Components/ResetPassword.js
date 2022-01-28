@@ -141,7 +141,6 @@ const ResetPassword = () => {
                 handleChange={handleChange}
                 required
                 value={formData.email}
-                autoFocus
               />
             </Grid>
               <FormHelperText id="component-error-text">Reset password link will be sent to email</FormHelperText>

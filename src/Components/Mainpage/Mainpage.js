@@ -235,6 +235,7 @@ const Mainpage = ({ socket }) => {
       setAlert(msg);
       const timeId = setTimeout(() => {
         setAlert(null);
+        setError(null);
       }, 3500);
       return () => {
         clearTimeout(timeId);
