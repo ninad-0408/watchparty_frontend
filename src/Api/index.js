@@ -110,3 +110,12 @@ export const resetpassword = (formData, token) =>
     .catch((err) => {
       console.log(err.response);
     });
+
+export const changepassword = (formData) => 
+API.post(`/user/changepassword`, formData)
+.then((res) => {
+  return res.data;
+})
+.catch((err) => {
+  console.log(err.response);
+});

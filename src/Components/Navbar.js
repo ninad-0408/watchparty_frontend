@@ -7,7 +7,7 @@ import Fade from "@mui/material/Fade";
 import JoinRoom from "./JoinRoom";
 import MyRoom from "./MyRoom";
 import { Divider, Menu, MenuItem, Tooltip } from "@mui/material";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import Cookies from "js-cookie";
 
 function Navbar() {
@@ -191,15 +191,20 @@ function Navbar() {
                       PaperProps={{
                         sx: {
                           bgcolor: "#14273a",
-                          color: "white"
+                          color: "white",
                         },
                       }}
                     >
                       <MenuItem>
                         <Link
-                        className='text-uppercase'
+                          className="text-uppercase"
                           onClick={handleLogout}
-                          style={{ color: "white", "font-family": "'Baloo Tammudu 2', cursive", textDecoration: 'none', "font-size": "16px" }}
+                          style={{
+                            color: "white",
+                            "font-family": "'Baloo Tammudu 2', cursive",
+                            textDecoration: "none",
+                            "font-size": "16px",
+                          }}
                           to={{
                             pathname: "/",
                             state: {
@@ -207,8 +212,26 @@ function Navbar() {
                             },
                           }}
                         >
-                        <LogoutIcon />{' '}
-                          Logout
+                          <LogoutIcon /> Logout
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link
+                          className="text-uppercase"
+                          style={{
+                            color: "white",
+                            "font-family": "'Baloo Tammudu 2', cursive",
+                            textDecoration: "none",
+                            "font-size": "16px",
+                          }}
+                          to={{
+                            pathname: "/user/changepassword",
+                            state: {
+                              message: "You are Loggedout successfully.",
+                            },
+                          }}
+                        >
+                          <LogoutIcon /> Change Password
                         </Link>
                       </MenuItem>
                     </Menu>
