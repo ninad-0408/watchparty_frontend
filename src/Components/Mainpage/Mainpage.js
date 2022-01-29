@@ -601,7 +601,7 @@ const Mainpage = ({ socket }) => {
             <Divider />
             <Tabs value={value} onChange={handleChange}>
               <Tab value="1" sx={{ width: "33%" }} label="CHAT" />
-              <Tab value="2" sx={{ width: "33%" }} label="PEOPLE" />
+              <Tab value="2" sx={{ width: "33%" }} label={`PEOPLE (${members.length})`} />
               <Tab value="3" sx={{ width: "33%" }} label="SETTINGS" />
             </Tabs>
             {value === "1" ? (
