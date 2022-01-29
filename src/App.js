@@ -25,10 +25,10 @@ function App() {
           <Route path="/forgotpassword" exact>
             <ResetPassword />
           </Route>
-          <Route path="/user/resetpassword/:token" exact>
+          <Route path="/resetpassword/:token" exact>
             <SetPassword />
           </Route>
-          <Route path="/user/changepassword/" exact>
+          <Route path="/changepassword" exact>
             <Changepassword/>
           </Route>
           <Route path="/room/:roomId">

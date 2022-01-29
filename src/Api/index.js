@@ -45,7 +45,7 @@ export const CreateNewRoom = (formData) =>
       return res.data;
     })
     .catch((err) => {
-      console.log(err.response);
+      return err.response.data;
     });
 
 export const getRooms = () =>
@@ -54,7 +54,7 @@ export const getRooms = () =>
       return res.data.rooms;
     })
     .catch((err) => {
-      console.log(err.response);
+      return err.response.data;
     });
 
 export const getRoom = (roomId) =>
@@ -63,7 +63,7 @@ export const getRoom = (roomId) =>
       return res.data.room;
     })
     .catch((err) => {
-      console.log(err.response);
+      return err.response.data;
     });
 
 export const delRoom = (roomId) =>
@@ -78,11 +78,10 @@ export const delRoom = (roomId) =>
 export const ytSearch = (term) =>
   API.post(`/videoSearch`, term)
     .then((res) => {
-      // console.log(res.data);
       return res.data;
     })
     .catch((err) => {
-      console.log(err.response);
+      return err.response.data;
     });
 
 export const myRoom = () =>
@@ -91,7 +90,7 @@ export const myRoom = () =>
       return res.data.myrooms;
     })
     .catch((err) => {
-      console.log(err.response);
+      return err.response.data;
     });
 
 export const Forgetpassword = (formData) =>
@@ -100,7 +99,7 @@ export const Forgetpassword = (formData) =>
       return res.data;
     })
     .catch((err) => {
-      console.log(err.response);
+      return err.response.data;
     });
 export const resetpassword = (formData, token) =>
   API.post(`/user/resetpassword/${token}`, formData)
@@ -108,7 +107,7 @@ export const resetpassword = (formData, token) =>
       return res.data;
     })
     .catch((err) => {
-      console.log(err.response);
+      return err.response.data;
     });
 
 export const changepassword = (formData) => 
@@ -117,5 +116,5 @@ API.post(`/user/changepassword`, formData)
   return res.data;
 })
 .catch((err) => {
-  console.log(err.response);
+  return err.response.data;
 });
