@@ -5,7 +5,7 @@ import { Grid, IconButton } from "@mui/material";
 import { delRoom } from "../../Api";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Dialogs } from "./Dialogs";
-import {Share} from "./Share"
+import { Share } from "./Share";
 import Tooltip from "@mui/material/Tooltip";
 
 const Setting = ({ room, currentuser, socket, handleCheckAdmin, reqSync }) => {
@@ -15,8 +15,8 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin, reqSync }) => {
   const [flag, setflag] = useState(false);
   const [flag1, setflag1] = useState(false);
   const [msg, setmsg] = useState("");
-  const [op,setOp] = useState("");
-  
+  const [op, setOp] = useState("");
+
   const handleChange = () => {
     if (currentuser.isHost) {
       setloading(true);
@@ -50,9 +50,9 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin, reqSync }) => {
     setOpen(true);
     setmsg("Delete");
   };
-  const handleChange5 = () =>{
+  const handleChange5 = () => {
     setOp(true);
-  }
+  };
   useEffect(() => {
     if (open) handleChange();
   }, [flag]);
@@ -80,6 +80,19 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin, reqSync }) => {
           Request Sync
         </LoadingButton>
       </Grid>
+      <Grid item sx={6}>
+        <Tooltip title="Share Link">
+          <LoadingButton
+            loading={loading1}
+            color="success"
+            variant="contained"
+            onClick={handleChange5}
+            sx={{ width: "130px" }}
+          >
+            Share
+          </LoadingButton>
+        </Tooltip>
+      </Grid>
       {currentuser.isHost ? (
         <>
           <Grid item sx={6}>
@@ -106,19 +119,6 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin, reqSync }) => {
               </LoadingButton>
             </Tooltip>
           </Grid>
-          <Grid item sx={6}>
-            <Tooltip title="Share Link">
-              <LoadingButton
-                loading={loading1}
-                color="success"
-                variant="contained"
-                onClick={handleChange5}
-                sx={{width:"130px"}}
-              >
-                Share
-              </LoadingButton>
-            </Tooltip>
-          </Grid>
         </>
       ) : (
         <> </>
@@ -134,14 +134,7 @@ const Setting = ({ room, currentuser, socket, handleCheckAdmin, reqSync }) => {
       ) : (
         <div></div>
       )}
-      {op ? (
-        <Share
-          op={op}
-          setOp={setOp}
-        />
-      ) : (
-        <div></div>
-      )}
+      {op ? <Share op={op} setOp={setOp} /> : <div></div>}
     </Grid>
   );
 };

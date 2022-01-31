@@ -49,17 +49,19 @@ const SetPassword = () => {
       .then((data) => {
         if (data.err) {
           setAlert(data.err.message);
+
           const timeId = setTimeout(() => {
             setAlert(null);
           }, 3500);
+
           setformData(initialState);
           setprocessing(false);
+
           return () => {
             clearTimeout(timeId);
           };
         } else {
-          console.log(data.message);
-          history.push("/", {
+          history.push({
             pathname: "/",
             state: { message: data.message },
           });
@@ -70,7 +72,6 @@ const SetPassword = () => {
   const [passlen, setpasslen] = useState(false);
 
   const handleChange = (e) => {
-    console.log(e.target);
     if (e.target.name === "password") {
       if(e.target.value.length > 7 ){
         setpasslen(false);
