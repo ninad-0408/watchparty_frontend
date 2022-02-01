@@ -32,7 +32,6 @@ function Navbar() {
   const handleOpen3 = () => setOpen3(!open3);
   const [anchorEl, setanchorEl] = useState(null);
   const open4 = Boolean(anchorEl);
-  const [toggle, settoggle] = useState(null);
 
   const style = {
     position: "absolute",
