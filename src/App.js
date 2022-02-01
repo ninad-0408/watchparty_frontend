@@ -1,16 +1,20 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Login from "./Components/Login";
-import Signup from "./Components/Signup";
-import ResetPassword from "./Components/ResetPassword";
-import SetPassword from "./Components/SetPassword";
-import Changepassword from "./Components/Changepassword"
-import Room from "./Components/Mainpage/Mainpage";
+import {Suspense, lazy } from 'react';
+import Loader from './Components/Loader';
 import "./App.css";
-import Home from "./Components/Home";
+
+const Login = lazy(() => import("./Components/Login"));
+const Signup = lazy(() => import("./Components/Signup"));
+const Room = lazy(() => import("./Components/Mainpage/Mainpage"));
+const Home = lazy(() => import("./Components/Home"));
+const ResetPassword = lazy(() => import("./Components/ResetPassword"));
+const SetPassword = lazy(() => import("./Components/SetPassword"));
+const Changepassword = lazy(() => import("./Components/Changepassword"));
 
 function App() {
   return (
     <BrowserRouter>
+     <Suspense fallback={<div><Loader margin/></div>}>
       <div className="App">
         <Switch>
           <Route path="/" exact>
@@ -35,7 +39,9 @@ function App() {
             <Room />
           </Route>
         </Switch>
+        
       </div>
+      </Suspense>
     </BrowserRouter>
   );
 }

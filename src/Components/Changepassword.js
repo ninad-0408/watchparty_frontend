@@ -67,7 +67,7 @@ const Changepassword = () => {
 
   const handleChange = (e) => {
     console.log(e.target);
-    if (e.target.name === "password") {
+    if (e.target.name === "password" || e.target.name === "confirmPassword") {
       if (e.target.value.length > 7) {
         setpasslen(false);
         setformData({

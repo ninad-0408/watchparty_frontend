@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef ,lazy,Suspense} from "react";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -14,15 +14,12 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Tooltip from "@mui/material/Tooltip";
 import { getRoom, ytSearch } from "../../Api/index.js";
-import Chat from "./Chat";
-import People from "./People";
-import Setting from "./Setting";
+
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
 import Alert from "@mui/material/Alert";
 import {
-  Card,
   CardContent,
   CardMedia,
   CircularProgress,
@@ -31,6 +28,7 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
+import Card from '@mui/material/Card';
 import RoomPassword from "../RoomPassword.js";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Menu from "@mui/material/Menu";
@@ -39,6 +37,12 @@ import MicOffIcon from "@mui/icons-material/MicOff";
 import MicIcon from "@mui/icons-material/Mic";
 import ClearIcon from "@mui/icons-material/Clear";
 import Cookies from "js-cookie";
+import Loader from '../Loader';
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+
+const Chat= lazy(() => import("./Chat"));
+const People= lazy(() => import("./People"));
+const Setting= lazy(() => import("./Setting"));
 
 const Room = () => {
   const token = Cookies.get()?.token;
@@ -81,6 +85,12 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
 );
 
 const Mainpage = ({ socket }) => {
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
   const { roomId } = useParams();
   const [url, seturl] = useState("");
   const [val, setval] = useState("");
@@ -143,6 +153,10 @@ const Mainpage = ({ socket }) => {
       setval(e.target.value);
     } else handleCheckAdmin("Admin");
   };
+
+  useEffect(() => {
+    setval(transcript);
+  }, [transcript]);
 
   const toggleSidebar = () => {
     setopen(!open);
@@ -373,6 +387,10 @@ const Mainpage = ({ socket }) => {
     setError(`You are not ${field}`);
   }
 
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn't support speech recognition.</span>;
+  }
+
   return (
     <>
       <div className="App">
@@ -487,34 +505,41 @@ const Mainpage = ({ socket }) => {
             sx={{ width: "60vw", maxWidth: "800px", maxHeight: "600px" }}
           >
             {videolist?.map((vid) => (
-                <MenuItem key={vid.id.videoId} onClick={() => chooseVideo(vid)}>
-                  <Card
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      width: "100%",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      image={vid.snippet.thumbnails.url}
-                      alt="not found"
-                      sx={{ height: "100px", width: "156px" }}
-                    />
-                    <CardContent>
-                      <Typography variant="body2">{vid.title}</Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Duration: {vid.duration_raw}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Views: {vid.views}
-                      </Typography>
-                    </CardContent>
-                  </Card>
+              <MenuItem key={vid.id.videoId} onClick={() => chooseVideo(vid)}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    image={vid.snippet.thumbnails.url}
+                    alt="not found"
+                    sx={{ height: "100px", width: "156px" }}
+                  />
+                  <CardContent>
+                    <Typography variant="body2">{vid.title}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Duration: {vid.duration_raw}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Views: {vid.views}
+                    </Typography>
+                  </CardContent>
+                </Card>
                 <Divider />
-                </MenuItem>
+              </MenuItem>
             ))}
           </Menu>
+          <Button onClick={SpeechRecognition.startListening} >
+            {listening ? (
+              <MicIcon color="primary"  />
+            ) : (
+              <MicOffIcon color="disabled" />
+            )}
+          </Button>
           <Tooltip title="YouTube Search">
             <LoadingButton
               sx={{ width: "5vw", margin: "20px 4px" }}
@@ -539,6 +564,7 @@ const Mainpage = ({ socket }) => {
               Send
             </LoadingButton>
           </Tooltip>
+
           <Button>
             <IconButton color="inherit" onClick={toggleSidebar}>
               <MenuIcon />
@@ -556,8 +582,8 @@ const Mainpage = ({ socket }) => {
               ref={player}
               onPause={pause}
               onPlay={play}
-              onClick={(e) => console.log('clicked', e)}
-              onStart={(e) => console.log('started', e)}
+              onClick={(e) => console.log("clicked", e)}
+              onStart={(e) => console.log("started", e)}
             />
           </Main>
           <Drawer
@@ -601,9 +627,14 @@ const Mainpage = ({ socket }) => {
             <Divider />
             <Tabs value={value} onChange={handleChange}>
               <Tab value="1" sx={{ width: "33%" }} label="CHAT" />
-              <Tab value="2" sx={{ width: "33%" }} label={`PEOPLE (${members.length})`} />
+              <Tab
+                value="2"
+                sx={{ width: "33%" }}
+                label={`PEOPLE (${members.length})`}
+              />
               <Tab value="3" sx={{ width: "33%" }} label="SETTINGS" />
             </Tabs>
+            <Suspense fallback={<div><Loader margin/></div>}>
             {value === "1" ? (
               <Chat message={message} setMessage={setMessage} socket={socket} />
             ) : value === "2" ? (
@@ -621,6 +652,7 @@ const Mainpage = ({ socket }) => {
                 handleCheckAdmin={handleCheckAdmin}
               />
             )}
+            </Suspense>
           </Drawer>
         </Box>
       </Box>

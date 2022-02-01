@@ -72,7 +72,8 @@ const SetPassword = () => {
   const [passlen, setpasslen] = useState(false);
 
   const handleChange = (e) => {
-    if (e.target.name === "password") {
+    console.log(e.target);
+    if (e.target.name === "password" || e.target.name === "confirmPassword") {
       if(e.target.value.length > 7 ){
         setpasslen(false);
         setformData({ ...formData, [e.target.name]: e.target.value.replace(' ','') });
