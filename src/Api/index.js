@@ -15,12 +15,12 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-API.interceptors.response.use((res) => {
-    console.log('interceptor', res);
-    return res;
-}, (err) => {
-    return err;
-});
+// API.interceptors.response.use((res) => {
+//     console.log('interceptor', res);
+//     return res;
+// }, (err) => {
+//     return err;
+// });
 
 export const signup = (formData) =>
     API.post("/user/signup", formData)

@@ -92,7 +92,7 @@ function MyRoom() {
                     </Typography>
                   </Grid>
                   <Grid item xs={7} style={{ alignItems: "center" }}>
-                    <Link to={`./room/${room._id}`} target="_blank">
+                    <Link to={`./room/${room._id}`}>
                       <Button size="small" variant="contained">
                         Join
                       </Button>

@@ -57,7 +57,7 @@ function JoinRoom() {
                     </Typography>
                   </Grid>
                   <Grid item xs={4} style={{ alignItems: "center" }}>
-                    <Link to={`./room/${room._id}`} target="_blank">
+                    <Link to={`./room/${room._id}`}>
                       <Button color='primary' variant="contained" sx={{ marginTop: "15px" }}>
                         Join
                       </Button>
