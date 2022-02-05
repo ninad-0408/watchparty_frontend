@@ -99,7 +99,6 @@ const Auth = () => {
           width: "100%",
           "margin-top": "30px",
           position: "fixed",
-          marginLeft: '43%',
           zIndex: '10000'
         }}
       >

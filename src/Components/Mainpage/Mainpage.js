@@ -387,10 +387,6 @@ const Mainpage = ({ socket }) => {
     setError(`You are not ${field}`);
   }
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
-
   return (
     <>
       <div className="App">
@@ -533,13 +529,14 @@ const Mainpage = ({ socket }) => {
               </MenuItem>
             ))}
           </Menu>
-          <Button onClick={SpeechRecognition.startListening} >
+          {browserSupportsSpeechRecognition? <Button onClick={SpeechRecognition.startListening} >
             {listening ? (
               <MicIcon color="primary"  />
             ) : (
               <MicOffIcon color="disabled" />
             )}
-          </Button>
+          </Button>:console.log("This browser doesn't support Speech Recognition")
+          }
           <Tooltip title="YouTube Search">
             <LoadingButton
               sx={{ width: "5vw", margin: "20px 4px" }}
