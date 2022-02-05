@@ -7,21 +7,16 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CreateRoom from "./CreateRoom";
-// import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import JoinRoom from "./JoinRoom";
 import MyRoom from "./MyRoom";
-import { Divider } from "@mui/material";
-// import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Cookies from "js-cookie";
 
@@ -68,34 +63,19 @@ function Item(props) {
     );
 }
 
-
-// const pages = ['Login', 'Signup', 'Hi jay', 'Logout'];
-const pages = [{ name: "Jay", link: "/#" }, { name: "Jay1", link: "/" }, { name: "Jay2", link: "/" }, { name: "Jay3", link: "/" }, { name: "Jay4", link: "/" }]
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
+
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
     const username = Cookies.get()?.username;
-
-    
-
 
 
     return (
@@ -110,19 +90,19 @@ const Navbar = () => {
                     <Typography
                         variant="h6"
                         noWrap
-                        component="div"
-                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+                        component="div" className="noselect"
+                        sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, "font-family": "'Baloo Bhaijaan 2', cursive", "font-size":"28px" }}
                     >
-                        WATCH PARTY
+                        Watch Party
                     </Typography>
                     
                     <Typography
                         variant="h6"
                         noWrap
-                        component="div"
-                        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+                        component="div" className="noselect"
+                        sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, "font-family": "'Baloo Bhaijaan 2', cursive", "font-size":"28px"}}
                     >
-                        WATCH PARTY
+                        Watch Party
                     </Typography>
 
                     <Box
@@ -166,16 +146,10 @@ const Navbar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (<></>
-                                // <MenuItem key={page.name} onClick={handleCloseNavMenu} sx={{ 'width': '100vw' }}>
-                                //     <Typography /*textAlign="center" */ sx={{ 'width': '100%' }}>{page.name}</Typography>
-                                // </MenuItem>
-                            ))}
 
-            <MenuItem onClick={handleCloseNavMenu} sx={{ 'width': '100vw', backgroundColor:"pink" }}>
-                               
-                        <UserComponent username={username} sx={{flexDirection: 'column'}}/>
-            </MenuItem>
+                            <MenuItem onClick={handleCloseNavMenu} sx={{ 'width': '100vw', backgroundColor:"pink" }}>  
+                                        <UserComponent username={username} />
+                            </MenuItem>
 
                         </Menu>
                     </Box>
@@ -215,11 +189,13 @@ const UserComponent=({username})=>{
 
                                 <Link
                                     onClick={handleOpen1}
-                                    className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                    className="noselect"
                                     style={{
                                         color: "white",
                                         "background-color": "transparent",
                                         border: "none",
+                                        marginRight: "20px",
+                                        "font-size": "18px",
                                     }}
                                     to="/"
                                 >
@@ -240,8 +216,8 @@ const UserComponent=({username})=>{
 
                                 <Link
                                     onClick={handleOpen2}
-                                    className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                                    style={{ color: "white" }}
+                                    className="noselect"
+                                    style={{ color: "white" , marginRight: "20px", "font-size": "18px",}}
                                     to="/"
                                 >
                                     Join Room
@@ -260,8 +236,8 @@ const UserComponent=({username})=>{
 
                                 <Link
                                     onClick={handleOpen3}
-                                    className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-                                    style={{ color: "white" }}
+                                    className="noselect"
+                                    style={{ color: "white" , marginRight: "20px", "font-size": "18px",}}
                                     to="/"
                                 >
                                     My Rooms
@@ -280,9 +256,9 @@ const UserComponent=({username})=>{
 
                                 <Tooltip title="Your Account" onClick={handleMenu}>
                                     <a
-                                        className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                        className="noselect"
                                         href="#"
-                                        style={{ color: "white" }}
+                                        style={{ color: "white" , marginRight: "20px" , "font-size": "18px",}}
                                     >
                                         Hi
                                         <img
@@ -290,7 +266,7 @@ const UserComponent=({username})=>{
                                             src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif"
                                             style={{ height: "20px" }}
                                         />{" "}
-                                        {username}
+                                        {username.toUpperCase()}
                                     </a>
                                 </Tooltip>
                                 <Menu
@@ -308,13 +284,14 @@ const UserComponent=({username})=>{
                                 >
                                     <MenuItem>
                                         <Link
-                                            className="text-uppercase"
+                                            className="text-uppercase noselect"
                                             onClick={handleLogout}
                                             style={{
                                                 color: "white",
                                                 "font-family": "'Baloo Tammudu 2', cursive",
                                                 textDecoration: "none",
-                                                "font-size": "16px",
+                                                "font-size": "18px",
+                                                marginRight: "20px"
                                             }}
                                             to={{
                                                 pathname: "/",
@@ -328,12 +305,12 @@ const UserComponent=({username})=>{
                                     </MenuItem>
                                     <MenuItem>
                                         <Link
-                                            className="text-uppercase"
+                                            className="noselect"
                                             style={{
                                                 color: "white",
                                                 "font-family": "'Baloo Tammudu 2', cursive",
                                                 textDecoration: "none",
-                                                "font-size": "16px",
+                                                "font-size": "18px",
                                             }}
                                             to={{
                                                 pathname: "/user/changepassword",
@@ -352,17 +329,17 @@ const UserComponent=({username})=>{
                             <>
 
                                 <Link
-                                    className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                    className="noselect"
                                     to="/login"
-                                    style={{ color: "white" }}
+                                    style={{ color: "white" , "font-size": "18px",marginRight: "20px",}}
                                 >
                                     Login
                                 </Link>
 
                                 <Link
-                                    className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+                                    className="noselect"
                                     to="/signup"
-                                    style={{ color: "white" }}
+                                    style={{ color: "white" , "font-size": "18px",marginRight: "20px",}}
                                 >
                                     Sign Up
                                 </Link>
