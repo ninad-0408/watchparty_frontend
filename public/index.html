@@ -39,6 +39,13 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+       if (!navigator.serviceWorker.controller) {
+    navigator.serviceWorker.register("%PUBLIC_URL%/serviceworker.js").then(function(reg) {
+        console.log("Service worker has been registered for scope: " + reg.scope);
+    });
+}
+</script>
     
 </body>
 <!-- <link rel="preconnect" href="https://fonts.googleapis.com">   -->
@@ -56,6 +63,11 @@ crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
   crossorigin="anonymous"></script> -->
-  <script src="JQ-1.js"></script>
-  <script src="JQ-2.js"></script>
+  <!-- <script src="JQ-1.js"></script> -->
+  <!-- <script src="JQ-2.js"></script> -->
+  <script src="%PUBLIC_URL%/JQ-1.js" ></script>
+  <script src="%PUBLIC_URL%/JQ-2.js" ></script>
+ 
+  <!-- <link href="JQ-1.js" rel="script">
+  <link href="JQ-2.js" rel="script"> -->
 </html>

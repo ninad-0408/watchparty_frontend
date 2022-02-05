@@ -65,6 +65,7 @@ function Navbar() {
         <div className="container">
           <img
             src="favicon.ico"
+            alt="Watch Party"
             style={{ height: "20px", marginRight: "3px" }}
           />
           <Link className="navbar-brand" to="/">
