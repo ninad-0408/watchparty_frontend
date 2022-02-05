@@ -55,7 +55,7 @@ const Footer = () => {
       </footer>
       <div /*style={{marginTop:'10px'}}*/>
         <div
-          style={{ padding: "5px", backgroundColor: "rgba(45, 145, 132,1)" }}
+          style={{ padding: "5px", backgroundColor: "rgba(4, 43, 21,1)", color:"white" }}
         >
           &copy; 2022 Watch Party | All Rights Reserved | Terms of Service |
           Privacy | Developers &nbsp;
