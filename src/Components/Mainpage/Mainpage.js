@@ -14,16 +14,12 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Tooltip from "@mui/material/Tooltip";
 import { getRoom, ytSearch } from "../../Api/index.js";
-// import Chat from "./Chat";
 
-// import People from "./People";
-// import Setting from "./Setting";
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import { io } from "socket.io-client";
 import { baseUrl } from "../../Constants/baseUrl";
 import Alert from "@mui/material/Alert";
 import {
-  Card,
   CardContent,
   CardMedia,
   CircularProgress,
@@ -32,6 +28,7 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
+import Card from '@mui/material/Card';
 import RoomPassword from "../RoomPassword.js";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Menu from "@mui/material/Menu";
@@ -41,9 +38,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import ClearIcon from "@mui/icons-material/Clear";
 import Cookies from "js-cookie";
 import Loader from '../Loader';
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
 const Chat= lazy(() => import("./Chat"));
 const People= lazy(() => import("./People"));
@@ -254,6 +249,7 @@ const Mainpage = ({ socket }) => {
       setAlert(msg);
       const timeId = setTimeout(() => {
         setAlert(null);
+        setError(null);
       }, 3500);
       return () => {
         clearTimeout(timeId);

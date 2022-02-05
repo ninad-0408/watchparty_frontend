@@ -41,18 +41,21 @@ const Changepassword = () => {
     changepassword(formData)
       .then((data) => {
         if (data.err) {
+
           setAlert(data.err.message);
+
           const timeId = setTimeout(() => {
             setAlert(null);
           }, 3500);
+
           setformData(initialState);
           setprocessing(false);
+          
           return () => {
             clearTimeout(timeId);
           };
         } else {
-          console.log(data.message);
-          history.push("/", {
+          history.push({
             pathname: "/",
             state: { message: data.message },
           });

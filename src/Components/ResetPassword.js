@@ -19,17 +19,14 @@ import FormHelperText from '@mui/material/FormHelperText';
 import useStyles from "./styles";
 import Cookies from "js-cookie";
 
-const initialState = { username: "", password: "" };
+const initialState = { username: "", email: "" };
 
 const ResetPassword = () => {
   const classes = useStyles();
   const history = useHistory();
   const [alert, setAlert] = useState(null);
-  const [showPassword, setshowPassword] = useState(false);
   const [formData, setformData] = useState(initialState);
   const [processing, setprocessing] = useState(false);
-
-  const handleShowPassword = () => setshowPassword((e) => !e);
 
   const user = Cookies.get()?.username;
 
@@ -141,7 +138,6 @@ const ResetPassword = () => {
                 handleChange={handleChange}
                 required
                 value={formData.email}
-                autoFocus
               />
             </Grid>
               <FormHelperText id="component-error-text">Reset password link will be sent to email</FormHelperText>

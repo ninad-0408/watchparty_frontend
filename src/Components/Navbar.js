@@ -7,6 +7,7 @@ import Fade from "@mui/material/Fade";
 import JoinRoom from "./JoinRoom";
 import MyRoom from "./MyRoom";
 import { Divider, Menu, MenuItem, Tooltip } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Cookies from "js-cookie";
 
@@ -78,7 +79,8 @@ function Navbar() {
             aria-controls="navbarResponsive"
             aria-expanded="false"
             aria-label="Toggle navigation"
-          >≡
+          >
+            <MenuIcon />
           </button>
 
           <div className="collapse navbar-collapse" id="navbarResponsive">

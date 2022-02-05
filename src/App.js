@@ -2,7 +2,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import {Suspense, lazy } from 'react';
 import Loader from './Components/Loader';
 import "./App.css";
-// import Login from "./Components/Login";
+
 const Login = lazy(() => import("./Components/Login"));
 const Signup = lazy(() => import("./Components/Signup"));
 const Room = lazy(() => import("./Components/Mainpage/Mainpage"));
@@ -10,10 +10,6 @@ const Home = lazy(() => import("./Components/Home"));
 const ResetPassword = lazy(() => import("./Components/ResetPassword"));
 const SetPassword = lazy(() => import("./Components/SetPassword"));
 const Changepassword = lazy(() => import("./Components/Changepassword"));
-// import ResetPassword from "./Components/ResetPassword";
-// import SetPassword from "./Components/SetPassword";
-// import Changepassword from "./Components/Changepassword"
-
 
 function App() {
   return (
@@ -33,10 +29,10 @@ function App() {
           <Route path="/forgotpassword" exact>
             <ResetPassword />
           </Route>
-          <Route path="/user/resetpassword/:token" exact>
+          <Route path="/resetpassword/:token" exact>
             <SetPassword />
           </Route>
-          <Route path="/user/changepassword/" exact>
+          <Route path="/changepassword" exact>
             <Changepassword/>
           </Route>
           <Route path="/room/:roomId">

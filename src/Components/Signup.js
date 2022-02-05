@@ -109,7 +109,6 @@ const Auth = () => {
               margin: "auto",
               "justify-content": "center",
               "align-items": "center",
-              position: "absolute",
             }}
           >
             <Alert
