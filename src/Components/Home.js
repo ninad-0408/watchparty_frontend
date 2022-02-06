@@ -1,4 +1,5 @@
-import Navbar from "./Navbar";
+// import Navbar from "./Navbar";
+import Navbar from "./Navbar2";
 import Footer from "./Footer";
 import Alert from "@mui/material/Alert";
 import React, { useEffect, useState, useRef } from "react";
