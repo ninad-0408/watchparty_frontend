@@ -1,5 +1,5 @@
 // import Navbar from "./Navbar";
-import Navbar from "./Navbar2";
+import Navbar from "./Navbar3";
 import Footer from "./Footer";
 import Alert from "@mui/material/Alert";
 import React, { useEffect, useState, useRef } from "react";
@@ -31,7 +31,6 @@ function Home() {
   return (
     <div className="App">
       <Navbar />
-
       <div>
         <div
           class="bg-primary bg-gradient pt-5 pb-5 noselect"

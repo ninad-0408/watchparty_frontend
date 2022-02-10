@@ -39,7 +39,6 @@ function App() {
             <Room />
           </Route>
         </Switch>
-        
       </div>
       </Suspense>
     </BrowserRouter>
