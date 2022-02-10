@@ -4,9 +4,9 @@ nav {
     display: flex;
     position: fixed;
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    padding: 1em 6em;
+    /* padding: 1em 6em; */
     background-color: #14273a;
     height: 65px;
     transition: all 0.5s;
@@ -56,7 +56,7 @@ nav ul li {
 @media (max-width: 988px) {
 
     nav {
-        padding: 1em 3em;
+        padding-top: 1em;
     }
 
     .navdis {
@@ -74,10 +74,15 @@ nav ul li {
         padding-top: 10px;
         padding-left: 0;
         top: 50px;
+        transition: all 0.5s ease-in-out;
     }
 
     .ulhide {
-        display: none;
+        flex-direction: column;
+        position: fixed;
+        padding-top: 10px;
+        padding-left: 0;
+        top: -100%;
         transition: all 0.5s ease-in-out;
     }
 
