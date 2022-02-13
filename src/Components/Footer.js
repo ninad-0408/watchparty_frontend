@@ -25,7 +25,7 @@ const Footer = () => {
             <img
               src="mobile.png"
               alt="not found"
-              style={{ height: "100px" }}
+              style={{ height: "140px" }}
             />
             <p>Mobile</p>
           </Grid>
@@ -33,7 +33,7 @@ const Footer = () => {
             <img
               src="tablet.png"
               alt="not found"
-              style={{ height: "100px" }}
+              style={{ height: "140px" }}
             />
             <p>Tablet</p>
           </Grid>
@@ -41,7 +41,7 @@ const Footer = () => {
             <img
               src="laptop.png"
               alt="not found"
-              style={{ height: "100px" }}
+              style={{ height: "140px" }}
             />
             <p>Laptop</p>
           </Grid>
@@ -49,7 +49,7 @@ const Footer = () => {
             <img
               src="tv.png"
               alt="not found"
-              style={{ height: "100px" }}
+              style={{ height: "140px" }}
             />
             <p>Television</p>
           </Grid>

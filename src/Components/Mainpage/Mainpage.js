@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef , lazy, Suspense} from "react";
+import React, { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -40,9 +40,9 @@ import Cookies from "js-cookie";
 import Loader from '../Loader';
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
-const Chat= lazy(() => import("./Chat"));
-const People= lazy(() => import("./People"));
-const Setting= lazy(() => import("./Setting"));
+const Chat = lazy(() => import("./Chat"));
+const People = lazy(() => import("./People"));
+const Setting = lazy(() => import("./Setting"));
 
 const Room = () => {
   const token = Cookies.get()?.token;
@@ -113,12 +113,12 @@ const Mainpage = ({ socket }) => {
 
   const user = Cookies.get();
 
-  if(!user)
-  history.push({
-    pathname: '/',
-    state: { message: 'You are not logged in.', error: true },
-  });
-  
+  if (!user?.token)
+    history.push({
+      pathname: '/',
+      state: { message: 'You are not logged in.', error: true },
+    });
+
   const [currentuser, setcurrentuser] = useState(null);
   const [open2, setOpen2] = useState(false);
   const handleOpen = () => setOpen2(!open2);
@@ -199,9 +199,6 @@ const Mainpage = ({ socket }) => {
     setValue(newValue);
   };
 
-  // const [streaming, setStreaming] = useState();
-  // const myVideo = useRef();
-  // const userVideo = useRef();
   const [alert, setAlert] = useState(null);
   const [alerterror, setError] = useState(null);
 
@@ -285,13 +282,6 @@ const Mainpage = ({ socket }) => {
         });
     });
 
-    // socket.on("stream", (stream) => {
-    // 		myVideo.current.srcObject = stream;
-    // 	});
-
-    // socket.on("stream", (stream) => {
-    //   myVideo.current.srcObject = stream;
-    // });
   }, [socket]);
 
   useEffect(async () => {
@@ -396,276 +386,278 @@ const Mainpage = ({ socket }) => {
 
   return (
     <>
-      <div className="App">
-        <div
-          style={{
-            width: "100%",
-            "margin-top": "30px",
-            position: "fixed",
-            zIndex: "10000",
-          }}
-        >
-          {alert && (
-            <div
-              style={{
-                display: "flex",
-                margin: "auto",
-                "justify-content": "center",
-                "align-items": "center",
-              }}
-            >
-              <Alert
-                variant="filled"
-                severity="info"
-                sx={{ width: "300px" }}
-                onClose={() => setAlert(null)}
+      {
+        currentuser ? (
+          <>
+            <div className="App">
+              <div
+                style={{
+                  width: "100%",
+                  "margin-top": "30px",
+                  position: "fixed",
+                  zIndex: "10000",
+                }}
               >
-                {alert}
-              </Alert>
-            </div>
-          )}
-          {alerterror && (
-            <div
-              style={{
-                display: "flex",
-                margin: "auto",
-                "justify-content": "center",
-                "align-items": "center",
-              }}
-            >
-              <Alert
-                variant="filled"
-                severity="error"
-                sx={{ width: "300px" }}
-                onClose={() => setError(null)}
-              >
-                {alerterror}
-              </Alert>
-            </div>
-          )}
-        </div>
-      </div>
-      <Modal open={open2} closeAfterTransition>
-        <Fade in={open2}>
-          <Box sx={style}>
-            <RoomPassword
-              roomId={roomId}
-              socket={socket}
-              handleOpen={handleOpen}
-            />
-          </Box>
-        </Fade>
-      </Modal>
-      <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
-        <Box style={{ display: "flex" }}>
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            sx={{ margin: "20px 4px" }}
-          >
-            {room.name}
-          </Button>
-          <TextField
-            // label="Search or Paste Video Url"
-            placeholder={
-              currentuser?.isAdmin
-                ? "Search or Paste Video Url"
-                : "You can't change the url, contact admin if you want to"
-            }
-            size="small"
-            sx={{
-              width: "70vw",
-              margin: "20px 0px",
-              backgroundColor: "rgba(20,20,35,0.4)",
-            }}
-            variant="outlined"
-            onChange={onchange}
-            value={val}
-            aria-haspopup="true"
-            id="textfield"
-            ref={textfield}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Tooltip title="Clear">
-                    <IconButton>
-                      <ClearIcon onClick={() => setval("")} />
-                    </IconButton>
-                  </Tooltip>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Menu
-            id="basic-menu"
-            open={open3}
-            onClose={() => setanchorEl(null)}
-            anchorEl={anchorEl}
-            MenuListProps={{
-              "aria-labelledby": "textfield",
-            }}
-            sx={{ width: "60vw", maxWidth: "800px", maxHeight: "600px" }}
-          >
-            {videolist?.map((vid) => (
-              <MenuItem key={vid.id.videoId} onClick={() => chooseVideo(vid)}>
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%",
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    image={vid.snippet.thumbnails.url}
-                    alt="not found"
-                    sx={{ height: "100px", width: "156px" }}
-                  />
-                  <CardContent>
-                    <Typography variant="body2">{vid.title}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Duration: {vid.duration_raw}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Views: {vid.views}
-                    </Typography>
-                  </CardContent>
-                </Card>
-                <Divider />
-              </MenuItem>
-            ))}
-          </Menu>
-          {browserSupportsSpeechRecognition? <Button onClick={SpeechRecognition.startListening} >
-            {listening ? (
-              <MicIcon color="primary"  />
-            ) : (
-              <MicOffIcon color="disabled" />
-            )}
-          </Button>:console.log("This browser doesn't support Speech Recognition")
-          }
-          <Tooltip title="YouTube Search">
-            <LoadingButton
-              sx={{ width: "5vw", margin: "20px 4px" }}
-              variant="contained"
-              color="error"
-              loading={load2}
-              aria-controls={open3 ? "basic-menu" : undefined}
-              aria-expanded={open3 ? "true" : undefined}
-              onClick={handleSearch}
-            >
-              <YouTubeIcon />
-            </LoadingButton>
-          </Tooltip>
-          <Tooltip title="Send URL">
-            <LoadingButton
-              onClick={sendUrl}
-              loading={load}
-              loadingPosition="end"
-              variant="contained"
-              sx={{ width: "17vw", margin: "20px 4px" }}
-            >
-              Send
-            </LoadingButton>
-          </Tooltip>
-
-          <Button>
-            <IconButton color="inherit" onClick={toggleSidebar}>
-              <MenuIcon />
-            </IconButton>
-          </Button>
-        </Box>
-        <Box spacing={1}>
-          <Main open={open}>
-            <ReactPlayer
-              url={url}
-              height={"100%"}
-              width={"100%"}
-              playing={playing}
-              controls={true}
-              ref={player}
-              onPause={pause}
-              onPlay={play}
-              onClick={(e) => console.log("clicked", e)}
-              onStart={(e) => console.log("started", e)}
-            />
-          </Main>
-          <Drawer
-            sx={{
-              width: `${drawerWidth}px`,
-              flexShrink: 0,
-              "& .MuiDrawer-paper": {
-                overflowX: "hidden",
-                width: `${drawerWidth}px`,
-              },
-            }}
-            variant="persistent"
-            anchor="right"
-            open={open}
-          >
-            <Button onClick={() => setopen(false)}>
-              <IconButton>
-                <ChevronRightIcon />
-              </IconButton>
-            </Button>
-            <div
-              style={{
-                width: "95%",
-                margin: "10px",
-                backgroundColor: "white",
-                padding: "4px",
-                fontFamily: "'Baloo Tammudu 2', cursive",
-                fontSize: "1.3em",
-                fontWeight: 1000,
-              }}
-            >
-              {user.username}
-              <Button onClick={() => setmic(!mic)}>
-                {mic ? (
-                  <MicIcon color="primary" />
-                ) : (
-                  <MicOffIcon color="disabled" />
+                {alert && (
+                  <div
+                    style={{
+                      display: "flex",
+                      margin: "auto",
+                      "justify-content": "center",
+                      "align-items": "center",
+                    }}
+                  >
+                    <Alert
+                      variant="filled"
+                      severity="info"
+                      sx={{ width: "300px" }}
+                      onClose={() => setAlert(null)}
+                    >
+                      {alert}
+                    </Alert>
+                  </div>
                 )}
-              </Button>
+                {alerterror && (
+                  <div
+                    style={{
+                      display: "flex",
+                      margin: "auto",
+                      "justify-content": "center",
+                      "align-items": "center",
+                    }}
+                  >
+                    <Alert
+                      variant="filled"
+                      severity="error"
+                      sx={{ width: "300px" }}
+                      onClose={() => setError(null)}
+                    >
+                      {alerterror}
+                    </Alert>
+                  </div>
+                )}
+              </div>
             </div>
-            <Divider />
-            <Tabs value={value} onChange={handleChange}>
-              <Tab value="1" sx={{ width: "33%" }} label="CHAT" />
-              <Tab
-                value="2"
-                sx={{ width: "33%" }}
-                label={`PEOPLE (${members.length})`}
-              />
-              <Tab value="3" sx={{ width: "33%" }} label="SETTINGS" />
-            </Tabs>
-            <Suspense fallback={<div><Loader margin/></div>}>
-            {value === "1" ? (
-              <Chat message={message} setMessage={setMessage} socket={socket} />
-            ) : value === "2" ? (
-              <People
-                members={members}
-                currentuser={currentuser}
-                socket={socket}
-              />
-            ) : (
-              <Setting
-                room={room}
-                currentuser={currentuser}
-                socket={socket}
-                reqSync={reqSync}
-                handleCheckAdmin={handleCheckAdmin}
-              />
-            )}
-            </Suspense>
-          </Drawer>
-        </Box>
-      </Box>
-      {/* <Button onClick = {()=>mediastream()}>screen-share</Button>
-			<Button onClick = {()=>camstream()}>Camera</Button>
-			<input type="file" accept='video/*' id="myfile" onChange={upload} />
-			<video playsInline muted ref={myVideo} autoPlay  />
-			<video playsInline muted ref={userVideo} autoPlay /> */}
-      <audio src={"/tone.mp3"} style={{ display: "none" }} id="myAudio"></audio>
+            <Modal open={open2} closeAfterTransition>
+              <Fade in={open2}>
+                <Box sx={style}>
+                  <RoomPassword
+                    roomId={roomId}
+                    socket={socket}
+                    handleOpen={handleOpen}
+                  />
+                </Box>
+              </Fade>
+            </Modal>
+            <Box style={{ minHeight: "100vh", minWidth: "100vw" }}>
+              <Box style={{ display: "flex" }}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  sx={{ margin: "20px 4px" }}
+                >
+                  {room.name}
+                </Button>
+                <TextField
+                  // label="Search or Paste Video Url"
+                  placeholder={
+                    currentuser?.isAdmin
+                      ? "Search or Paste Video Url"
+                      : "You can't change the url, contact admin if you want to"
+                  }
+                  size="small"
+                  sx={{
+                    width: "70vw",
+                    margin: "20px 0px",
+                    backgroundColor: "rgba(20,20,35,0.4)",
+                  }}
+                  variant="outlined"
+                  onChange={onchange}
+                  value={val}
+                  aria-haspopup="true"
+                  id="textfield"
+                  ref={textfield}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Tooltip title="Clear">
+                          <IconButton>
+                            <ClearIcon onClick={() => setval("")} />
+                          </IconButton>
+                        </Tooltip>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Menu
+                  id="basic-menu"
+                  open={open3}
+                  onClose={() => setanchorEl(null)}
+                  anchorEl={anchorEl}
+                  MenuListProps={{
+                    "aria-labelledby": "textfield",
+                  }}
+                  sx={{ width: "60vw", maxWidth: "800px", maxHeight: "600px" }}
+                >
+                  {videolist?.map((vid) => (
+                    <MenuItem key={vid.id.videoId} onClick={() => chooseVideo(vid)}>
+                      <Card
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          width: "100%",
+                        }}
+                      >
+                        <CardMedia
+                          component="img"
+                          image={vid.snippet.thumbnails.url}
+                          alt="not found"
+                          sx={{ height: "100px", width: "156px" }}
+                        />
+                        <CardContent>
+                          <Typography variant="body2">{vid.title}</Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Duration: {vid.duration_raw}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Views: {vid.views}
+                          </Typography>
+                        </CardContent>
+                      </Card>
+                      <Divider />
+                    </MenuItem>
+                  ))}
+                </Menu>
+                {browserSupportsSpeechRecognition ? <Button onClick={SpeechRecognition.startListening} >
+                  {listening ? (
+                    <MicIcon color="primary" />
+                  ) : (
+                    <MicOffIcon color="disabled" />
+                  )}
+                </Button> : console.log("This browser doesn't support Speech Recognition")
+                }
+                <Tooltip title="YouTube Search">
+                  <LoadingButton
+                    sx={{ width: "5vw", margin: "20px 4px" }}
+                    variant="contained"
+                    color="error"
+                    loading={load2}
+                    aria-controls={open3 ? "basic-menu" : undefined}
+                    aria-expanded={open3 ? "true" : undefined}
+                    onClick={handleSearch}
+                  >
+                    <YouTubeIcon />
+                  </LoadingButton>
+                </Tooltip>
+                <Tooltip title="Send URL">
+                  <LoadingButton
+                    onClick={sendUrl}
+                    loading={load}
+                    loadingPosition="end"
+                    variant="contained"
+                    sx={{ width: "17vw", margin: "20px 4px" }}
+                  >
+                    Send
+                  </LoadingButton>
+                </Tooltip>
+
+                <Button>
+                  <IconButton color="inherit" onClick={toggleSidebar}>
+                    <MenuIcon />
+                  </IconButton>
+                </Button>
+              </Box>
+              <Box spacing={1}>
+                <Main open={open}>
+                  <ReactPlayer
+                    url={url}
+                    height={"100%"}
+                    width={"100%"}
+                    playing={playing}
+                    controls={true}
+                    ref={player}
+                    onPause={pause}
+                    onPlay={play}
+                    onClick={(e) => console.log("clicked", e)}
+                    onStart={(e) => console.log("started", e)}
+                  />
+                </Main>
+                <Drawer
+                  sx={{
+                    width: `${drawerWidth}px`,
+                    flexShrink: 0,
+                    "& .MuiDrawer-paper": {
+                      overflowX: "hidden",
+                      width: `${drawerWidth}px`,
+                    },
+                  }}
+                  variant="persistent"
+                  anchor="right"
+                  open={open}
+                >
+                  <Button onClick={() => setopen(false)}>
+                    <IconButton>
+                      <ChevronRightIcon />
+                    </IconButton>
+                  </Button>
+                  <div
+                    style={{
+                      width: "95%",
+                      margin: "10px",
+                      backgroundColor: "white",
+                      padding: "4px",
+                      fontFamily: "'Baloo Tammudu 2', cursive",
+                      fontSize: "1.3em",
+                      fontWeight: 1000,
+                    }}
+                  >
+                    {user.username}
+                    <Button onClick={() => setmic(!mic)}>
+                      {mic ? (
+                        <MicIcon color="primary" />
+                      ) : (
+                        <MicOffIcon color="disabled" />
+                      )}
+                    </Button>
+                  </div>
+                  <Divider />
+                  <Tabs value={value} onChange={handleChange}>
+                    <Tab value="1" sx={{ width: "33%" }} label="CHAT" />
+                    <Tab
+                      value="2"
+                      sx={{ width: "33%" }}
+                      label={`PEOPLE (${members.length})`}
+                    />
+                    <Tab value="3" sx={{ width: "33%" }} label="SETTINGS" />
+                  </Tabs>
+                  <Suspense fallback={<div><Loader margin /></div>}>
+                    {value === "1" ? (
+                      <Chat message={message} setMessage={setMessage} socket={socket} />
+                    ) : value === "2" ? (
+                      <People
+                        members={members}
+                        currentuser={currentuser}
+                        socket={socket}
+                      />
+                    ) : (
+                      <Setting
+                        room={room}
+                        currentuser={currentuser}
+                        socket={socket}
+                        reqSync={reqSync}
+                        handleCheckAdmin={handleCheckAdmin}
+                      />
+                    )}
+                  </Suspense>
+                </Drawer>
+              </Box>
+            </Box>
+            <audio src={"/tone.mp3"} style={{ display: "none" }} id="myAudio"></audio>
+          </>
+        ) : <Loader margin />
+      }
+
     </>
   );
 };

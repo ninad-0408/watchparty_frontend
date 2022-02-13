@@ -20,6 +20,7 @@ function Home() {
     const timeId = setTimeout(() => {
       setAlert(null);
       setError(null);
+      location.state = null;
     }, 3500);
 
     return () => {

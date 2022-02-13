@@ -3,7 +3,7 @@ import React from 'react';
 
 const Loader = ({ margin }) => {
     return (
-        <div style={margin ? {'marginTop': '20rem'} : {}}>
+        <div style={{ marginTop: '20em'}}>
             <CircularProgress />
         </div>
     )
