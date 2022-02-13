@@ -165,7 +165,6 @@ const Navbar = () => {
                             aria-controls={open4 ? "usermenu" : undefined}
                             aria-haspopup="true"
                             aria-expanded={open4 ? "true" : undefined}
-                            onClick={() => setnav(false)}
                         >
                             <Tooltip title="Your Account">
                                 <Link className='link' to='/' >

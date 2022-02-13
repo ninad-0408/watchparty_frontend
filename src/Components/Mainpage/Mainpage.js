@@ -467,7 +467,7 @@ const Mainpage = ({ socket }) => {
                   }
                   size="small"
                   sx={{
-                    width: "70vw",
+                    width: "72vw",
                     margin: "10px 0px",
                     backgroundColor: "rgba(20,20,35,0.4)",
                   }}
@@ -568,7 +568,7 @@ const Mainpage = ({ socket }) => {
                   </Button>
                 </Box>
               </Box>
-              <Box sx={{ display: { xs: 'flex', sm: 'none' }}} >
+              <Box sx={{ width: '100vw', display: { xs: 'flex', sm: 'none' }, justifyContent: 'flex-end' }} >
                 {browserSupportsSpeechRecognition ? <Button onClick={SpeechRecognition.startListening} >
                   {listening ? (
                     <MicIcon color="primary" />

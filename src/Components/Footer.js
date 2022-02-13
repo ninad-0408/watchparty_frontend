@@ -21,7 +21,7 @@ const Footer = () => {
           </h1>
         </div>
         <Grid container style={{ "margin-top": "20px", "margin-bottom": "20px", alignItems: 'center', justifyContent: 'space-evenly' }}>
-          <Grid item>
+          <Grid item margin={2}>
             <img
               src="mobile.png"
               alt="not found"
@@ -29,7 +29,7 @@ const Footer = () => {
             />
             <p>Mobile</p>
           </Grid>
-          <Grid item>
+          <Grid item margin={2}>
             <img
               src="tablet.png"
               alt="not found"
@@ -37,7 +37,7 @@ const Footer = () => {
             />
             <p>Tablet</p>
           </Grid>
-          <Grid item>
+          <Grid item margin={2}>
             <img
               src="laptop.png"
               alt="not found"
@@ -45,7 +45,7 @@ const Footer = () => {
             />
             <p>Laptop</p>
           </Grid>
-          <Grid item>
+          <Grid item margin={2}>
             <img
               src="tv.png"
               alt="not found"
