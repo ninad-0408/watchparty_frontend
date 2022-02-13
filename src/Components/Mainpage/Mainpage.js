@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef ,lazy,Suspense} from "react";
+import React, { useEffect, useState, useRef , lazy, Suspense} from "react";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -112,6 +112,13 @@ const Mainpage = ({ socket }) => {
   const player = useRef(null);
 
   const user = Cookies.get();
+
+  if(!user)
+  history.push({
+    pathname: '/',
+    state: { message: 'You are not logged in.', error: true },
+  });
+  
   const [currentuser, setcurrentuser] = useState(null);
   const [open2, setOpen2] = useState(false);
   const handleOpen = () => setOpen2(!open2);

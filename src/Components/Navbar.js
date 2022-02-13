@@ -58,161 +58,159 @@ const Navbar = () => {
     };
 
     return (
-        <div className='navdiv'>
-            <nav className={ nav ? 'navdis' : ''}>
-                <Link className='textselectno logo' to="/">
-                    <img
-                        src="favicon.ico"
-                        alt="Watch Party"
-                        style={{ height: "20px", marginRight: "3px" }}
-                    />
-                    Watch<span style={{ color: "#9CC3D5" }}>Party</span>
-                </Link>
-                <div className='menuicon' style={{ padding: 0, margin: 0}}>
-                    <IconButton onClick={() => setnav(!nav)}>
-                        <MenuIcon sx={{ color: 'white'}} />
-                    </IconButton>
-                </div>
-                <ul className={ nav ? 'uldisplay' : 'ulhide' }>
-                    {username ? (
-                        <>
-                            <li>
-                                <Link
-                                    className='link'
-                                    onClick={handleOpen1}
-                                    to="/"
-                                >
-                                    CREATE ROOM
-                                </Link>
-                                <Modal
-                                    open={open1}
-                                    onClose={handleOpen1}
-                                    closeAfterTransition
-                                >
-                                    <Fade in={open1}>
-                                        <Box sx={style}>
-                                            <CreateRoom />
-                                        </Box>
-                                    </Fade>
-                                </Modal>
-                            </li>
-                            <li>
-                                <Link
-                                    className='link'
-                                    onClick={handleOpen2}
-                                    to="/"
-                                >
-                                    Join Room
-                                </Link>
-                                <Modal
-                                    open={open2}
-                                    onClose={handleOpen2}
-                                    closeAfterTransition
-                                >
-                                    <Fade in={open2}>
-                                        <Box sx={style1}>
-                                            <JoinRoom />
-                                        </Box>
-                                    </Fade>
-                                </Modal>
-                            </li>
-                            <li>
-                                <Link
-                                    className='link'
-                                    onClick={handleOpen3}
-                                    to="/"
-                                >
-                                    My Rooms
-                                </Link>
-                                <Modal
-                                    open={open3}
-                                    onClose={handleOpen3}
-                                    closeAfterTransition
-                                >
-                                    <Fade in={open3}>
-                                        <Box sx={style1}>
-                                            <MyRoom />
-                                        </Box>
-                                    </Fade>
-                                </Modal>
-                            </li>
-                            <li
-                                onClick={handleMenu}
-                                aria-controls={open4 ? "usermenu" : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open4 ? "true" : undefined}
+        <nav className={nav ? 'navdis' : ''}>
+            <Link className='textselectno logo' to="/">
+                <img
+                    src="favicon.ico"
+                    alt="Watch Party"
+                    style={{ height: "20px", marginRight: "3px" }}
+                />
+                <span style={{ color: "#0d6efd" }}>Watch</span><span style={{ color: "#9CC3D5" }}>Party</span>
+            </Link>
+            <div className='menuicon'>
+                <IconButton onClick={() => setnav(!nav)}>
+                    <MenuIcon sx={{ color: 'white' }} />
+                </IconButton>
+            </div>
+            <ul className={nav ? 'uldisplay' : 'ulhide'}>
+                {username ? (
+                    <>
+                        <li>
+                            <Link
+                                className='link'
+                                onClick={handleOpen1}
+                                to="/"
                             >
-                                <Tooltip title="Your Account">
-                                    <Link className='link' to='/' >
-                                        Hi
-                                        <img
-                                            alt="gif"
-                                            src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif"
-                                            style={{ height: "20px" }}
-                                        />{" "}
-                                        {username}
+                                CREATE ROOM
+                            </Link>
+                            <Modal
+                                open={open1}
+                                onClose={handleOpen1}
+                                closeAfterTransition
+                            >
+                                <Fade in={open1}>
+                                    <Box sx={style}>
+                                        <CreateRoom />
+                                    </Box>
+                                </Fade>
+                            </Modal>
+                        </li>
+                        <li>
+                            <Link
+                                className='link'
+                                onClick={handleOpen2}
+                                to="/"
+                            >
+                                Join Room
+                            </Link>
+                            <Modal
+                                open={open2}
+                                onClose={handleOpen2}
+                                closeAfterTransition
+                            >
+                                <Fade in={open2}>
+                                    <Box sx={style1}>
+                                        <JoinRoom />
+                                    </Box>
+                                </Fade>
+                            </Modal>
+                        </li>
+                        <li>
+                            <Link
+                                className='link'
+                                onClick={handleOpen3}
+                                to="/"
+                            >
+                                My Rooms
+                            </Link>
+                            <Modal
+                                open={open3}
+                                onClose={handleOpen3}
+                                closeAfterTransition
+                            >
+                                <Fade in={open3}>
+                                    <Box sx={style1}>
+                                        <MyRoom />
+                                    </Box>
+                                </Fade>
+                            </Modal>
+                        </li>
+                        <li
+                            onClick={handleMenu}
+                            aria-controls={open4 ? "usermenu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open4 ? "true" : undefined}
+                        >
+                            <Tooltip title="Your Account">
+                                <Link className='link' to='/' >
+                                    Hi
+                                    <img
+                                        alt="gif"
+                                        src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif"
+                                        style={{ height: "20px" }}
+                                    />{" "}
+                                    {username}
+                                </Link>
+                            </Tooltip>
+                            <Menu
+                                id="usermenu"
+                                anchorEl={anchorEl}
+                                open={open4}
+                                onClose={() => setanchorEl(null)}
+                                onClick={() => setanchorEl(null)}
+                                PaperProps={{
+                                    sx: {
+                                        bgcolor: "#14273a",
+                                        color: "white",
+                                    },
+                                }}
+                            >
+                                <MenuItem>
+                                    <Link
+                                        className='link'
+                                        onClick={handleLogout}
+                                        to={{
+                                            pathname: "/",
+                                            state: {
+                                                message: "You are Loggedout successfully.",
+                                            },
+                                        }}
+                                    >
+                                        <LogoutIcon /> Logout
                                     </Link>
-                                </Tooltip>
-                                <Menu
-                                    id="usermenu"
-                                    anchorEl={anchorEl}
-                                    open={open4}
-                                    onClose={() => setanchorEl(null)}
-                                    onClick={() => setanchorEl(null)}
-                                    PaperProps={{
-                                        sx: {
-                                            bgcolor: "#14273a",
-                                            color: "white",
-                                        },
-                                    }}
-                                >
-                                    <MenuItem>
-                                        <Link
-                                            className='link'
-                                            onClick={handleLogout}
-                                            to={{
-                                                pathname: "/",
-                                                state: {
-                                                    message: "You are Loggedout successfully.",
-                                                },
-                                            }}
-                                        >
-                                            <LogoutIcon /> Logout
-                                        </Link>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <Link
-                                            className='link'
-                                            to={{
-                                                pathname: "/user/changepassword",
-                                                state: {
-                                                    message: "You are Loggedout successfully.",
-                                                },
-                                            }}
-                                        >
-                                            <LogoutIcon /> Change Password
-                                        </Link>
-                                    </MenuItem>
-                                </Menu>
-                            </li>
-                        </>
-                    ) : (
-                        <>
-                            <li>
-                                <Link className='link' to="/login">
-                                    Login
-                                </Link>
-                            </li>
-                            <li>
-                                <Link className='link' to="/signup">
-                                    Sign Up
-                                </Link>
-                            </li>
-                        </>
-                    )}
-                </ul>
-            </nav>
-        </div>
+                                </MenuItem>
+                                <MenuItem>
+                                    <Link
+                                        className='link'
+                                        to={{
+                                            pathname: "/user/changepassword",
+                                            state: {
+                                                message: "You are Loggedout successfully.",
+                                            },
+                                        }}
+                                    >
+                                        <LogoutIcon /> Change Password
+                                    </Link>
+                                </MenuItem>
+                            </Menu>
+                        </li>
+                    </>
+                ) : (
+                    <>
+                        <li>
+                            <Link className='link' to="/login">
+                                Login
+                            </Link>
+                        </li>
+                        <li>
+                            <Link className='link' to="/signup">
+                                Sign Up
+                            </Link>
+                        </li>
+                    </>
+                )}
+            </ul>
+        </nav>
     );
 };
 

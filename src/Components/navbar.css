@@ -3,10 +3,9 @@ nav {
     text-decoration: none;
     display: flex;
     position: fixed;
-    width: 100%;
+    width: 100vw;
     justify-content: space-around;
     align-items: center;
-    /* padding: 1em 6em; */
     background-color: #14273a;
     height: 65px;
     transition: all 0.5s;
@@ -20,11 +19,13 @@ nav {
 .logo {
     font-size: 21px;
     font-weight: 600;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    user-select: none;
 }
 
 .ulhide, .uldisplay {
     list-style-type: none;
-    padding-top: 20px;
+    padding-top: 10px;
     display: flex;
     align-items: center;
     transition: all 0.5s;
@@ -57,6 +58,7 @@ nav ul li {
 
     nav {
         padding-top: 1em;
+        height: 50px;
     }
 
     .navdis {
