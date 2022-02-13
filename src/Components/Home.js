@@ -1,7 +1,7 @@
-// import Navbar from "./Navbar";
-import Navbar from "./Navbar2";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 import Alert from "@mui/material/Alert";
+import Grid from "@mui/material/Grid";
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import "./home.css";
@@ -12,16 +12,17 @@ function Home() {
   const [alerterror, setError] = useState(null);
 
   useEffect(() => {
-    if(location?.state?.error)
-    setError(location?.state?.message);
+    if (location?.state?.error)
+      setError(location?.state?.message);
     else
-    setAlert(location?.state?.message);
+      setAlert(location?.state?.message);
 
     const timeId = setTimeout(() => {
       setAlert(null);
       setError(null);
+      location.state = null;
     }, 3500);
-    
+
     return () => {
       location.state = null;
       clearTimeout(timeId);
@@ -31,17 +32,15 @@ function Home() {
   return (
     <div className="App">
       <Navbar />
-
-      <div>
         <div
-          class="bg-primary bg-gradient pt-5 pb-5 noselect"
           style={{
             "background-image": "url('back_image-2.jpg')",
             "background-repeat": "no-repeat",
             "background-attachment": "fixed",
             "background-size": "100% 100%",
-          }}
-        >
+            userSelect: 'none',
+            padding: '3rem 0',
+          }}>
           <div
             style={{
               width: "100%",
@@ -89,10 +88,15 @@ function Home() {
               </div>
             )}
           </div>
-          <div class="container d-flex-row d-md-flex align-items-center justify-content-between mt-5">
-            <div class="col-12 col-md-8">
+          <Grid container
+            style={{
+              marginTop: '3rem',
+              minHeight: '70vh',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+            <Grid item md={7}>
               <h1
-                class="masthead-heading mb-0 text-dark"
                 style={{
                   "font-family": "'Baloo Bhaijaan 2', cursive",
                   "font-size": "100px",
@@ -101,28 +105,31 @@ function Home() {
                 Watch Party
               </h1>
               <p
-                class="pre-wrap masthead-subheading font-weight-light mb-0"
                 style={{
                   "font-family": "'Baloo Bhaijaan 2', cursive",
                   "font-size": "28px",
                 }}
               >
-                Best place to chill and enjoy with friends.<br></br> Watch
+                Best place to chill and enjoy with friends.<br /> Watch
                 Youtube, Facebook videos with friends.
               </p>
-            </div>
-            <div class="pb-5 mt-3 d-flex align-items-center justify-content-center">
-              {/* <div class="card" style={{ width: "18rem" }}> */}
-              <div className="posters">
+            </Grid>
+            <Grid item md={3} style={{
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <div className="posters" style={{
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
                 <img src="cubicles.jpg" alt="" className="img_card_1" />
                 <img src="dindora.jpg" alt="" className="img_card_1" />
                 <img src="aspirants.jpg" alt="" className="img_card_1" />
                 <img src="kota-factory.jpg" alt="" className="img_card_1" />
               </div>
-            </div>
-          </div>
+            </Grid>
+          </Grid>
         </div>
-      </div>
       <Footer />
     </div>
   );

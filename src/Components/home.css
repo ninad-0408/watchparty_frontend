@@ -53,27 +53,27 @@
   .posters img:nth-of-type(4) {
     animation-delay: 15s;
   }
+  .img_card_1 {
+    height: auto;
+    max-height: 80%;
+    opacity: 0;
+    max-width: 90%;
+    object-fit: scale-down;
+    grid-column-start: 1;
+    grid-row-start: 1;
+  }
   
-  @media (max-width: 720px) {
+  @media (max-width: 899px) {
     .img_card_1 {
+      min-width: 50%;
         max-width: 100%;
         justify-self: center;
       }
     .posters {
-      min-width: 90%;
       max-width: 90%;
     }
     .text_1 {
       min-width: 90%;
       max-width: 90%;
     }
-  }
-  .img_card_1 {
-    width: 90%;
-    height: auto;
-    opacity: 0;
-    max-width: 90%;
-    object-fit: scale-down;
-    grid-column-start: 1;
-    grid-row-start: 1;
   }
