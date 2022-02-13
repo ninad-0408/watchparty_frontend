@@ -64,7 +64,6 @@ function MyRoom() {
     <Container component="main" maxWidth="xs">
       <LoadingButton
         loading={loading}
-        loadingPosition="start"
         variant="outlined"
         sx={{width:"100%"}}
       >

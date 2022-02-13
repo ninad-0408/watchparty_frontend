@@ -100,6 +100,7 @@ function Home() {
                 style={{
                   "font-family": "'Baloo Bhaijaan 2', cursive",
                   "font-size": "100px",
+                  lineHeight: '100px'
                 }}
               >
                 Watch Party

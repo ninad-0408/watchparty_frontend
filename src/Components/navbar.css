@@ -61,11 +61,6 @@ nav ul li {
         height: 50px;
     }
 
-    .navdis {
-        height: 300px;
-        transition: all 0.5s ease-in-out;
-    }
-
     .logo {
         align-self: flex-start;
     }

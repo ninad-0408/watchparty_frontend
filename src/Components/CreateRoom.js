@@ -9,8 +9,6 @@ import {
   Switch,
 } from "@mui/material";
 import VideocamIcon from "@mui/icons-material/Videocam";
-// import AddIcon from "@mui/icons-material/Add";
-// import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useHistory } from "react-router-dom";
 

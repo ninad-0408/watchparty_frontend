@@ -9,6 +9,7 @@ import MyRoom from "./MyRoom";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
+import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import Cookies from "js-cookie";
 import './navbar.css';
 
@@ -41,7 +42,7 @@ const Navbar = () => {
         top: "30%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: 400,
+        width: '325px',
         boxShadow: 24,
         p: 4,
     };
@@ -51,14 +52,38 @@ const Navbar = () => {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: 450,
+        width: '35vw',
+        minWidth: '300px',
+        maxWidth: '400px',
         bgcolor: "background.paper",
         boxShadow: 24,
         p: 4,
     };
 
+    const navstyle = () => {
+        if (nav) {
+            if (username) {
+                return {
+                    height: '300px',
+                    transition: 'all 0.5s ease-in-out'
+                };
+            }
+            else {
+                return {
+                    height: '180px',
+                    transition: 'all 0.5s ease-in-out'
+                };
+            }
+        }
+        else {
+            return {};
+        }
+    }
+
+    const temp = navstyle();
+
     return (
-        <nav className={nav ? 'navdis' : ''}>
+        <nav style={temp}>
             <Link className='textselectno logo' to="/">
                 <img
                     src="favicon.ico"
@@ -75,7 +100,7 @@ const Navbar = () => {
             <ul className={nav ? 'uldisplay' : 'ulhide'}>
                 {username ? (
                     <>
-                        <li>
+                        <li onClick={() => setnav(false)}>
                             <Link
                                 className='link'
                                 onClick={handleOpen1}
@@ -95,7 +120,7 @@ const Navbar = () => {
                                 </Fade>
                             </Modal>
                         </li>
-                        <li>
+                        <li onClick={() => setnav(false)}>
                             <Link
                                 className='link'
                                 onClick={handleOpen2}
@@ -115,7 +140,7 @@ const Navbar = () => {
                                 </Fade>
                             </Modal>
                         </li>
-                        <li>
+                        <li onClick={() => setnav(false)}>
                             <Link
                                 className='link'
                                 onClick={handleOpen3}
@@ -140,6 +165,7 @@ const Navbar = () => {
                             aria-controls={open4 ? "usermenu" : undefined}
                             aria-haspopup="true"
                             aria-expanded={open4 ? "true" : undefined}
+                            onClick={() => setnav(false)}
                         >
                             <Tooltip title="Your Account">
                                 <Link className='link' to='/' >
@@ -168,6 +194,19 @@ const Navbar = () => {
                                 <MenuItem>
                                     <Link
                                         className='link'
+                                        to={{
+                                            pathname: "/user/changepassword",
+                                            state: {
+                                                message: "You are Loggedout successfully.",
+                                            },
+                                        }}
+                                    >
+                                        <VpnKeyOutlinedIcon /> Change Password
+                                    </Link>
+                                </MenuItem>
+                                <MenuItem>
+                                    <Link
+                                        className='link'
                                         onClick={handleLogout}
                                         to={{
                                             pathname: "/",
@@ -179,30 +218,17 @@ const Navbar = () => {
                                         <LogoutIcon /> Logout
                                     </Link>
                                 </MenuItem>
-                                <MenuItem>
-                                    <Link
-                                        className='link'
-                                        to={{
-                                            pathname: "/user/changepassword",
-                                            state: {
-                                                message: "You are Loggedout successfully.",
-                                            },
-                                        }}
-                                    >
-                                        <LogoutIcon /> Change Password
-                                    </Link>
-                                </MenuItem>
                             </Menu>
                         </li>
                     </>
                 ) : (
                     <>
-                        <li>
+                        <li onClick={() => setnav(false)}>
                             <Link className='link' to="/login">
                                 Login
                             </Link>
                         </li>
-                        <li>
+                        <li onClick={() => setnav(false)}>
                             <Link className='link' to="/signup">
                                 Sign Up
                             </Link>
