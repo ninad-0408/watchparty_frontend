@@ -2,7 +2,7 @@
 
 ### Hosted Website URL: [ Watch Party](https://watch-party-project.web.app/)
 
-## About this website: 
+## Project Description:
 A fully functional Progressive Web App (PWA) in which users can watch synchronized online videos with their friends. This website allows the users to create/join a room and invite their friends by share the link of their room, so that other people can also join the room. 
 
 Their can be open rooms, where anyone can join that room. On the other hand, user can also make password protected room, where the host can share the password and link of a particular room and other user can enter the room by the link and correct password.
@@ -19,6 +19,21 @@ The creater of the room is host and admin and other users in a room are members.
  - Any of the user can send audio message to all members.
  - The host have access to close and delete the room. 
 
+# Technologies/Libraries/Packages Used:
+ - MongoDB
+ - React.js
+ - Node.js
+ - Express.js
+ - Socket.io
+ - Material UI
+
+# Team Members
+ - Akshat Gupta(2019IMT-011)
+ - Jay Raykhere(2019IMT-044)
+ - Ninad Kalanke(2019IMT-042)
+
+# Backend Repository URL:
+[https://github.com/ninad-0408/watchparty_server](https://github.com/ninad-0408/watchparty_server)
 ## Installation: 
 
 ### `npm install`
