@@ -14,7 +14,7 @@ const Changepassword = lazy(() => import("./Components/Changepassword"));
 function App() {
   return (
     <BrowserRouter>
-     <Suspense fallback={<div><Loader margin/></div>}>
+     <Suspense fallback={<div className='App'><Loader margin/></div>}>
       <div className="App">
         <Switch>
           <Route path="/" exact>

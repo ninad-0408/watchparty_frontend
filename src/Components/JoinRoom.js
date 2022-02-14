@@ -25,8 +25,6 @@ function JoinRoom() {
     <Container component="main" maxWidth="xs">
       <LoadingButton
         loading={loading}
-        loadingPosition="start"
-        // startIcon={<SaveIcon />}
         variant="outlined"
         sx={{width:"100%"}}
       >

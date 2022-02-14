@@ -130,7 +130,7 @@ const Mainpage = ({ socket }) => {
     top: "20%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: '325px',
     boxShadow: 24,
     p: 4,
   };
@@ -455,12 +455,11 @@ const Mainpage = ({ socket }) => {
                   variant="contained"
                   size="small"
                   color="primary"
-                  sx={{ margin: "20px 4px" }}
+                  sx={{ margin: "10px 4px" }}
                 >
                   {room.name}
                 </Button>
                 <TextField
-                  // label="Search or Paste Video Url"
                   placeholder={
                     currentuser?.isAdmin
                       ? "Search or Paste Video Url"
@@ -468,8 +467,8 @@ const Mainpage = ({ socket }) => {
                   }
                   size="small"
                   sx={{
-                    width: "70vw",
-                    margin: "20px 0px",
+                    width: "72vw",
+                    margin: "10px 0px",
                     backgroundColor: "rgba(20,20,35,0.4)",
                   }}
                   variant="outlined"
@@ -498,7 +497,7 @@ const Mainpage = ({ socket }) => {
                   MenuListProps={{
                     "aria-labelledby": "textfield",
                   }}
-                  sx={{ width: "60vw", maxWidth: "800px", maxHeight: "600px" }}
+                  sx={{ width: "60vw", minWidth: '400px', maxWidth: "800px", maxHeight: "600px" }}
                 >
                   {videolist?.map((vid) => (
                     <MenuItem key={vid.id.videoId} onClick={() => chooseVideo(vid)}>
@@ -529,6 +528,47 @@ const Mainpage = ({ socket }) => {
                     </MenuItem>
                   ))}
                 </Menu>
+                <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+                  {browserSupportsSpeechRecognition ? <Button onClick={SpeechRecognition.startListening} >
+                    {listening ? (
+                      <MicIcon color="primary" />
+                    ) : (
+                      <MicOffIcon color="disabled" />
+                    )}
+                  </Button> : console.log("This browser doesn't support Speech Recognition")
+                  }
+                  <Tooltip title="YouTube Search">
+                    <LoadingButton
+                      sx={{ width: "5vw", margin: "10px 4px" }}
+                      variant="contained"
+                      color="error"
+                      loading={load2}
+                      aria-controls={open3 ? "basic-menu" : undefined}
+                      aria-expanded={open3 ? "true" : undefined}
+                      onClick={handleSearch}
+                    >
+                      <YouTubeIcon />
+                    </LoadingButton>
+                  </Tooltip>
+                  <Tooltip title="Send URL">
+                    <LoadingButton
+                      onClick={sendUrl}
+                      loading={load}
+                      variant="contained"
+                      sx={{ width: "17vw", margin: "10px 4px" }}
+                    >
+                      Send
+                    </LoadingButton>
+                  </Tooltip>
+
+                  <Button>
+                    <IconButton color="inherit" onClick={toggleSidebar}>
+                      <MenuIcon />
+                    </IconButton>
+                  </Button>
+                </Box>
+              </Box>
+              <Box sx={{ width: '100vw', display: { xs: 'flex', sm: 'none' }, justifyContent: 'flex-end' }} >
                 {browserSupportsSpeechRecognition ? <Button onClick={SpeechRecognition.startListening} >
                   {listening ? (
                     <MicIcon color="primary" />
@@ -539,7 +579,7 @@ const Mainpage = ({ socket }) => {
                 }
                 <Tooltip title="YouTube Search">
                   <LoadingButton
-                    sx={{ width: "5vw", margin: "20px 4px" }}
+                    sx={{ width: "5vw", margin: "10px 4px" }}
                     variant="contained"
                     color="error"
                     loading={load2}
@@ -554,9 +594,8 @@ const Mainpage = ({ socket }) => {
                   <LoadingButton
                     onClick={sendUrl}
                     loading={load}
-                    loadingPosition="end"
                     variant="contained"
-                    sx={{ width: "17vw", margin: "20px 4px" }}
+                    sx={{ width: "17vw", margin: "10px 4px" }}
                   >
                     Send
                   </LoadingButton>
