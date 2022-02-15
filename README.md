@@ -1,6 +1,6 @@
 <h1> <img alt="Website Logo" src="https://www.linkpicture.com/q/favicon_20.png" height="30px" width="40px"/> Watch Party </h1> 
 
-### Hosted Website URL: [ Watch Party](https://watch-party-project.web.app/)
+### Hosted Website URL: [https://watch-party-project.web.app](https://watch-party-project.web.app/)
 
 ## Project Description:
 A fully functional Progressive Web App (PWA) in which users can watch synchronized online videos with their friends. This website allows the users to create/join a room and invite their friends by share the link of their room, so that other people can also join the room. 
@@ -27,10 +27,32 @@ The creater of the room is host and admin and other users in a room are members.
  - Socket.io
  - Material UI
 
+# Features Implemented
+<b>FRONTEND</b>
+ - Authorised users using JWT Token and Cookies.
+ - Password Recovery Feature
+ - Integrated YouTube Search with Voice Recognition 
+ - Real Time Audio and Voice Chat 
+<b>BACKEND</b>
+
 # Team Members
- - Akshat Gupta(2019IMT-011)
- - Jay Raykhere(2019IMT-044)
- - Ninad Kalanke(2019IMT-042)
+ <p align="center">
+<a href="https://github.com/akshat45">
+	<img src="https://github.com/akshat45.png" width="60px">
+</a>
+
+<a href="https://github.com/jayraikhere">
+	<img src="https://github.com/jayraikhere.png" width="60px">
+</a>
+<a href="https://github.com/ninad-0408/">
+	<img src="https://github.com/ninad-0408.png" width="60px">
+</a>
+</p>
+<p align="center">
+		<a href="https://github.com/akshat45">Akshat Gupta(2019IMT-011)</a> •
+		<a href="https://github.com/jayraikhere">Jay Raikhere(2019IMT-044)</a> •
+     <a href="https://github.com/ninad-0408/">Ninad Kalanke(2019IMG-042)</a> 
+</p>
 
 # Backend Repository URL:
 [https://github.com/ninad-0408/watchparty_server](https://github.com/ninad-0408/watchparty_server)
