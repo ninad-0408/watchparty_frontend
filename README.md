@@ -63,11 +63,17 @@ Their can be open rooms, where anyone can join that room. On the other hand, use
 
 ## Instructions for local setup:
 
+Clone this repo using
+```bash
+git clone https://github.com/ninad-0408/watchparty_frontend.git
+cd watchparty_frontend
+```
+For installing all Modules and Packages
 ```javascript
 npm install
 ```
 
-Install node modules.\
+Install node modules.
 
 ```javascript
 npm start
