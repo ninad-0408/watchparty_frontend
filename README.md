@@ -29,7 +29,11 @@ Their can be open rooms, where anyone can join that room. On the other hand, use
 ## Main Features Implemented
 
 ### Frontend
-
+- Made it a **Progressive Web App (PWA)**
+- Implemented a **Catching Policy** for all the images elements.
+- Implemented **Code Splitting** and different techniques to optimize various performance metrics of the website. 
+- The Web App is fully **Responsive**. 
+- The Platform plays videos in a fully **Synchronized** manner.
 - #### User Functionality
   - Authorised users using **JWT Token and Cookies**
   - **Password Recovery** Feature
@@ -56,11 +60,11 @@ Their can be open rooms, where anyone can join that room. On the other hand, use
 - React.js
 - Node.js
 - Express.js
-- Socket.io
+- Socket.io (Web Sockets)
 - Material UI
 
 ## Thought behind the project:
-
+This Project helps to connect people to each other even if they are at different locations.
 ## Instructions for local setup:
 
 Clone this repo using
