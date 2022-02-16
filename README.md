@@ -8,6 +8,7 @@
 - [Tech stack and concepts used](#Tech-stack-and-concepts-used)
 - [Thought behind the project](#Thought-behind-the-project)
 - [Further Improvements](#Further-Improvements)
+- [Hosted Link](#Hosted-Link)
 - [Instructions for local setup](#Instructions-for-local-setup)
 
 ## Title of the Project
@@ -48,7 +49,6 @@
 - Made it a **Progressive Web App (PWA)** <img src="https://img.icons8.com/cotton/15/000000/web-apps.png"/>. You can install web app in mobile and desktop.
 - Implemented a **Caching Policy** <img src="https://img.icons8.com/external-filled-outline-geotatah/15/000000/external-policy-reverse-logistics-filled-outline-filled-outline-geotatah.png"/> for all the images elements.
 - Implemented **Code Splitting** <img src="https://img.icons8.com/office/15/000000/code.png"/> and different techniques to optimize various performance metrics of the website.
-
 - #### **User Functionality**
   - Authorised users using **JWT Token and Cookies**
   - **Password Recovery** and **Change Password** Feature
@@ -70,7 +70,7 @@
 - #### **Frontend**
   - React.js
   - Material UI
-   - Socket.io Client
+  - Socket.io Client
   - React-Player
   - Firebase Deployment  
     <img title="Reactjs" src="https://img.icons8.com/color/40/000000/react-native.png"/>
@@ -101,7 +101,10 @@
 ## Further Improvements
 - We are planing to integrate a real-time video chat with help of **Web-RTC**
 
-- We will implement **Streaming through local file**.
+- We will implement **Streaming through local file** feature.
+
+## Hosted Link 
+https://watch-party-project.web.app/
 ## Instructions for local setup
 
 Clone this repo using
