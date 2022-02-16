@@ -49,11 +49,11 @@
 - Made it a **Progressive Web App (PWA)** <img src="https://img.icons8.com/cotton/15/000000/web-apps.png"/>. You can install web app in mobile and desktop.
 - Implemented a **Caching Policy** <img src="https://img.icons8.com/external-filled-outline-geotatah/15/000000/external-policy-reverse-logistics-filled-outline-filled-outline-geotatah.png"/> for all the images elements.
 - Implemented **Code Splitting** <img src="https://img.icons8.com/office/15/000000/code.png"/> and different techniques to optimize various performance metrics of the website.
-- #### **User Functionality**
+- #### **User Functionalities**
   - Authorised users using **JWT Token and Cookies**
   - **Password Recovery** and **Change Password** Feature
   - **Joining, Creating and Deleting Room**
-- #### **Room Functionality**
+- #### **Room Functionalities**
   - Integrated **YouTube search** with **Voice Recognition**
   - **Real-time text** and **Voice Chat**
   - **Private Room** secured with password
@@ -65,6 +65,7 @@
   - **Lock** room, **Close** room and **Delete** room
 - #### **Admin Privilages**
   - **Change video url**
+  - **Control video** playback
 
 ## Tech stack and concepts used
 - #### **Frontend**
@@ -105,6 +106,8 @@
 
 ## Hosted Link 
 https://watch-party-project.web.app/
+
+Link to Backend Repo: https://github.com/ninad-0408/watchparty_server
 ## Instructions for local setup
 
 Clone this repo using
