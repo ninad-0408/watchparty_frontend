@@ -27,9 +27,6 @@ A fully functional Progressive Web App (PWA) in which users can watch synchroniz
 Their can be open rooms, where anyone can join that room. On the other hand, user can also make password protected room, where the host can share the password and link of a particular room and other user can enter the room by the link and correct password.
 
 ## Main Features Implemented
-
-### Frontend
-
 - #### User Functionality
   - Authorised users using **JWT Token and Cookies**
   - **Password Recovery** Feature
@@ -47,17 +44,14 @@ Their can be open rooms, where anyone can join that room. On the other hand, use
 - #### Admin Privilages
 	- **Change video url**
 
-
-
-### Backend
-
 ## Tech stack and concepts used:
-- MongoDB
-- React.js
-- Node.js
-- Express.js
-- Socket.io
-- Material UI
+- #### Frontend
+	- MongoDB
+	- React.js
+	- Node.js
+	- Express.js
+	- Socket.io
+	- Material UI
 
 ## Thought behind the project:
 
