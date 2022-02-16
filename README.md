@@ -1,6 +1,6 @@
-<h1> <img alt="Website Logo" src="https://www.linkpicture.com/q/favicon_20.png" height="30px" width="40px"/> Watch Party </h1>
+<h1> <img alt="Website Logo" src="https://www.linkpicture.com/q/favicon_20.png" height="30px" width="40px"/> Watch Party </h1>  <img src="https://media1.giphy.com/media/2irERnrC80bV4breHc/giphy.gif" width="120" height="80" />
 
-## Title of the Project: WATCHPARTY <iframe src="https://drive.google.com/file/d/1Ox-rtoeeRkDg9ib_RaxRlQQ7zur86O_Z/preview" width="320" height="240" allow="autoplay"></iframe>
+## Title of the Project: WATCHPARTY
 ## Team Members:
 
 <p align="center">
