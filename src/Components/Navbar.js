@@ -194,7 +194,7 @@ const Navbar = () => {
                                     <Link
                                         className='link'
                                         to={{
-                                            pathname: "/user/changepassword",
+                                            pathname: "/changepassword",
                                             state: {
                                                 message: "You are Loggedout successfully.",
                                             },

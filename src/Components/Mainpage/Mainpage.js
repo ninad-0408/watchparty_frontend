@@ -387,7 +387,7 @@ const Mainpage = ({ socket }) => {
   return (
     <>
       {
-        currentuser ? (
+        currentuser || open2 ? (
           <>
             <div className="App">
               <div
