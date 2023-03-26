@@ -24,7 +24,7 @@ const Footer = () => {
           <Grid item margin={2}>
             <img
               src="mobile.png"
-              alt="not found"
+              alt="mobile"
               style={{ height: "140px" }}
             />
             <p>Mobile</p>
@@ -32,7 +32,7 @@ const Footer = () => {
           <Grid item margin={2}>
             <img
               src="tablet.png"
-              alt="not found"
+              alt="tablet"
               style={{ height: "140px" }}
             />
             <p>Tablet</p>
@@ -40,7 +40,7 @@ const Footer = () => {
           <Grid item margin={2}>
             <img
               src="laptop.png"
-              alt="not found"
+              alt="laptop"
               style={{ height: "140px" }}
             />
             <p>Laptop</p>
@@ -48,7 +48,7 @@ const Footer = () => {
           <Grid item margin={2}>
             <img
               src="tv.png"
-              alt="not found"
+              alt="TV"
               style={{ height: "140px" }}
             />
             <p>Television</p>
@@ -67,8 +67,8 @@ const Footer = () => {
               style={{ textDecoration: "none" }}
             >
               <img
-                src="https://media-exp1.licdn.com/dms/image/C4E03AQFEoFdqTo8enQ/profile-displayphoto-shrink_400_400/0/1596357503028?e=1648684800&v=beta&t=ddg3tD40VljFSZU8opYz45pZNAvzYaO--3nAQbGHTbw"
-                alt="not found"
+                src="https://media.licdn.com/dms/image/C4D03AQG4OHR8wNZA_g/profile-displayphoto-shrink_200_200/0/1652351099850?e=1684972800&v=beta&t=Y2UieTIb0OPu-LaMWCjEBtOm8HUFwDS1CTefY0M3j68"
+                alt="Ninad Kalanke"
                 style={{ height: "40px", borderRadius: "50%" }}
               />
             </a>
@@ -81,8 +81,8 @@ const Footer = () => {
               style={{ textDecoration: "none" }}
             >
               <img
-                src="https://media-exp1.licdn.com/dms/image/C5603AQEu-kq_mwz1Ow/profile-displayphoto-shrink_400_400/0/1596693382015?e=1648684800&v=beta&t=6O7ButqsPvjR9yynkCWK6O4Oc4OJ9kRhTvF0XXQ0RQU"
-                alt="not found"
+                src="https://media.licdn.com/dms/image/D4D03AQGrZokbfi6n1Q/profile-displayphoto-shrink_200_200/0/1678420215253?e=1684972800&v=beta&t=0w7o1A2rM3YLXQhGTXafuQhmzODNred6KiccTeIdpQE"
+                alt="Jay Raikhere"
                 style={{ height: "40px", borderRadius: "50%" }}
               />
             </a>
@@ -95,8 +95,8 @@ const Footer = () => {
               style={{ textDecoration: "none" }}
             >
               <img
-                src="https://media-exp1.licdn.com/dms/image/C5103AQHlTa6GiSE4Mw/profile-displayphoto-shrink_400_400/0/1565549307257?e=1648684800&v=beta&t=jsvcw6IjZjmJ7au4wu2Fm5K8BCh6ZPzB_OKAxyzymKk"
-                alt="not found"
+                src="https://media.licdn.com/dms/image/D4D35AQFCVYa4MOM3DA/profile-framedphoto-shrink_200_200/0/1660980648466?e=1680339600&v=beta&t=A091wDw2p_iIYtM6IoK16ipK_Ab9syA3eb_Gbdb4EQ8"
+                alt="Akshat Gupta"
                 style={{ height: "40px", borderRadius: "50%" }}
               />
             </a>
